@@ -1,6 +1,7 @@
 ---
 tag: _meta/folder_page 
 alias: _dataview-views-and-macros
+GIT_SYNC: manual
 ---
 * #_todo/a-musing/on-meta-filename-syncing
     * [ ] Alias or aliases do not change when folder change.
@@ -14,5 +15,7 @@ The code stays off the primary note but the transcluded preview is available. Th
 
 The reason for the folder is to cordon off the universe. The folder ==`= split(this.file.path,"/")[0]`== will be primarily used for candidate features. 
 
-
+> [!note]
+> This folder is git synced
+> 
 
