@@ -15,15 +15,11 @@ if (!dv?.fig?.should) {
 
 function boostrap(main) {
 
-    if (!dv?.fig) {
+    if (!this?.fig) {
         main();
         this.fig = Object.assign({}, {
             should: true,
         })
-    } else {
-        // this.container.lastChild.remove()
-        
-        // main()
     }
 }
 
