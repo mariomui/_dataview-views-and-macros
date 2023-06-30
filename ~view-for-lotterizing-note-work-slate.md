@@ -11,7 +11,7 @@ task where file.name = this.file.name and !completed
 ## About
 
 See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo]] for details
-This partial view is 
+
 
 # =
 
