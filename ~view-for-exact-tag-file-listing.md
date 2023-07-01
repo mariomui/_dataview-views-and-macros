@@ -18,7 +18,7 @@ function main() {
     const {frontmatter} = this.app
         .metadataCache.getCache(path);
     const alias = frontmatter?.Aliases?.[0]
-    console.log(this.marioConfig, "MM")
+
     if (!this.marioConfig) {
         this.marioConfig = {
             ...this.marioConfig, 
@@ -64,7 +64,7 @@ function createDashboard(alias = "#_") {
             )
         ) as umbrellaTags
         WHERE length(umbrellaTags) = 0
-        sort file.ctime desc
+        SORT file.ctime desc
     `)
 } 
 ```
