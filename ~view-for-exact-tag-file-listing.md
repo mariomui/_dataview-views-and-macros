@@ -71,6 +71,52 @@ function createDashboard(alias = "#_") {
 
 ---
 # ---Transient Sandbox
+## v?.?.? CREATION_DATE: 2023-06-04 
+
+- [ ] Check if the following codelet  is a duplicate of v1.0.0
+  - There are slight differences that require folliwng up such as the inline dv query in js. 🤔 Might not be that important to register.
+  - Consider scavenging for techniques then archive/commit then version. Then delete?
+    
+```js
+~~~dataviewjs
+const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
+
+if (!this.marioConfig) {
+    this.marioConfig = {
+        ...this.marioConfig, 
+        dvel:dv.el("button", "Refresh"),
+        handle: () => new obs.Notice('', 7000)
+    }
+    this.marioConfig.dvel.addEventListener(
+        'click',
+        this.marioConfig.handle
+    );
+    
+    const alias = dv.current?.().aliases?.[0];
+    if (alias) createDashboard(alias);
+} else if (this.marioConfig.dvel && this.marioConfig.handle) {
+    this.marioConfig.dvel
+        .removeListener(this.marioConfig.handle)
+
+}
+
+
+function createDashboard(alias = "#_") {
+    dv.execute(`
+        table join(file.etags,"") as tags
+        from ${alias}
+        FLATTEN join(
+            filter(
+                file.etags , 
+                (x) => startswith(x,alias)
+            )
+        ) as maps
+        WHERE length(maps) = 0
+        sort file.ctime desc
+    `)
+} 
+~~~
+```
 
 ## v1.0.0
 * Desc:
