@@ -3,8 +3,8 @@ MUID: MUID-698
 PARTIAL_PARAM_CONFIG: 
   IS_LOGGING_SILENT: false
 ---
-# -
 
+# -
 
 ```dataview
 TASK WHERE file.name = this.file.name AND !completed
@@ -15,36 +15,36 @@ TASK WHERE file.name = this.file.name AND completed
 ```
 
 ## About
+
+- [ ] move logger out into one ring plugin
 - [ ] Devise a more contained method for logging silent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
 * ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs#=]]
 
-This partial view is transcluded when one needs to see a progress bar over all the tasks of the current file. 
+This partial view is transcluded when one needs to see a progress bar over all the tasks of the current file.
 
 * Note:
-    * The progress will show,
-        * the count for all completed tasks as the first number.
-        * the count for all tasks as the second number.
-    * The tasks will only be for the parent task node.
+  * The progress will show,
+    * the count for all completed tasks as the first number.
+    * the count for all tasks as the second number.
+  * The tasks will only be for the parent task node.
 
 * 💣 Logic  
   * v1.0.2 has a a bug identifying root subtasks.
   * Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
-  * 🤔 
-    * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task. 
-  * [ ] Create DFS 
+  * 🤔
+    * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
+  * [ ] Create DFS
   * [ ] ignoreme: This second task does not register because it has the same parent id as "Create DFS"
-
 
 # =
 
 ~~~dataviewjs
 // instance
 const PARTIAL_VERION = "v1.0.2";
-const { default: obs } =
-  this.app.plugins.plugins["templater-obsidian"].templater
-    .current_functions_object.obsidian;
+
+
 
 // knobs
 let isLogSilent = false;
@@ -61,16 +61,21 @@ if (config && config?.IS_LOGGING_SILENT) {
 } else if (!config) {
   isLogSilent = true;
 }
-const logg = createLogg.call(
-    this,
-    {silent: isLogSilent}
-);
+
 
 this.app.workspace.onLayoutReady(main.bind(this));
 
 function main() {
+  const logg = createLogg.call(
+      this,
+      {isSilent: isLogSilent}
+  );
+  const { default: obs } =
+    this.app.plugins.plugins["templater-obsidian"].templater
+      .current_functions_object.obsidian;
 
   const listItems = cmData?.listItems?.filter((task) => task?.task);
+  if (!listItems?.length) return;
   const uniques = unique(listItems);
 
   logg({
@@ -79,6 +84,17 @@ function main() {
     },
     20000
   );
+
+  this.fig = {    
+    silent: isLogSilent,
+  };
+
+  if (!this.fig) {
+    this.fig = {
+      ...this.fig,
+    };
+    this.fig.silent = false;
+  }
   
   function findFirstsInSet(uniques, listItems) {
     let k = 0;
@@ -112,21 +128,36 @@ function main() {
     }
     return parents;
   }
-  this.fig = {
-    silent: isLogSilent,
-  };
 
-  if (!this.fig) {
-    this.fig = {
-      ...this.fig,
-    };
-    this.fig.silent = false;
-  }
+
 
   const currentTasks = dv.page(page_path).file.tasks;
   const progressionInfo = calculateProgressionInfo.call(this, currentTasks);
 
   renderProgressionInfo.call(this, progressionInfo);
+
+  function createLogg(config = {isSilent: false}) {
+    const self = this;
+    const LogStyle = {
+      background: "var(--material-color-red-700)",
+      padding: "1em 1em",
+    };
+    const style = serializeStyle(LogStyle);
+    return function logger(text, time = 5000, isBypass = false) {
+      const isSilent = self?.fig?.silent === true || config.isSilent;
+      if (isSilent && !isBypass) {
+        return;
+      }
+      const _text = typeof text === "string" ? text : JSON.stringify(text);
+      const $span = self.container.createDiv({
+        text: `logger:${_text}`,
+        attr: {
+          style,
+        },
+      });
+      new obs.Notice($span, time);
+    };
+  }
 }
 function calculateProgressionInfo(currentTasks) {
   const uniqueListIdCheckingContext = {};
@@ -187,7 +218,6 @@ function calculateProgressionInfo(currentTasks) {
 }
 
 function renderProgressionInfo(progressionInfo) {
-  logg(progressionInfo, 3000);
 
   const { percentage, totalTaskCnt, unfinishedTaskCnt, completedTaskCnt } =
     progressionInfo;
@@ -224,28 +254,7 @@ function serializeStyle(style) {
   }, "");
 }
 
-function createLogg(config = {isSilent: false}) {
-  const self = this;
-  const LogStyle = {
-    background: "var(--material-color-red-700)",
-    padding: "1em 1em",
-  };
-  const style = serializeStyle(LogStyle);
-  return function logger(text, time = 5000, isBypass = false) {
-    const isSilent = self?.fig?.silent === true || config.isSilent;
-    if (isSilent && !isBypass) {
-      return;
-    }
-    const _text = typeof text === "string" ? text : JSON.stringify(text);
-    const $span = self.container.createDiv({
-      text: `logger:${_text}`,
-      attr: {
-        style,
-      },
-    });
-    new obs.Notice($span, time);
-  };
-}
+
 
 function manuProgressionInfo(progressionInfo = {}) {
   return {
@@ -263,9 +272,9 @@ function manuProgressionInfo(progressionInfo = {}) {
 ---
 
 # ---Transient Sandbox
-* Passing context into the logger to only allow logging in the 2nd pbar
-    * 🤔doesn't work, this is shared.
 
+* Passing context into the logger to only allow logging in the 2nd pbar
+  * 🤔doesn't work, this is shared.
 
 ## v0.0.0
 
@@ -448,15 +457,19 @@ function createLogg(fig, config = manuCreateLoggConfig()) {
 ```
 
 ## Non JS code
+
 ```
 const progress_html = `<progress value="${String(percentage)}" max="100"></progress><span style="font-size:smaller;color:white">${percentage} % | ${unfinishedTaskCnt} left of ${totalTaskCnt} </span>`
 
 logg(progress_html, 3000)
 ```
 
-### v0.0.0-dovos 
-* 🐦📝 [Discord](https://discord.com/channels/686053708261228577/710585052769157141/1124438998245453847)
+### v0.0.0-dovos
 
+* 🐦📝 [Discord](https://discord.com/channels/686053708261228577/710585052769157141/1124438998245453847)
+  * 💁
+    * This particular code is from dovos.
+    * I translated it into js.
 ```js
 ~~~dataviewjs
 
