@@ -5,7 +5,6 @@ PARTIAL_VERSION: v1.5.1
 
 ## Types
 
-
 The following schema should be placed as a child of the metadata
 ```ts
 type Tuple = type Array[number, number]
@@ -36,7 +35,8 @@ const VERSION = "v1.5.1";
 const plugin = this.app.plugins.plugins["obsidian-echarts"]; //echart-instance
 const vf = this.app.workspace.getActiveFile();
 const MAX_SCORE = 100;
-
+const WIDTH = 420,
+      HEIGHT = 420;
 //data
 const {frontmatter} = this.app.metadataCache.getFileCache(vf);
 const radarChartTitle = ` ${vf.basename}'s' Personality Chart ${VERSION}`;
@@ -77,7 +77,7 @@ function createRendererForChart(config) {
   const radarDatums = [
     {
       scoreTuple: C,
-      indicatorTuple: makeTraitTuple("Conscientous", "chaotic"),
+      indicatorTuple: makeTraitTuple("Conscientious", "chaotic"),
     },
     {
       scoreTuple: A,
@@ -147,8 +147,8 @@ function populateRadarOptionConfig(
     areaStyle: {},
   },
   stableConfig = {
-    width: 600,
-    height: 400,
+    width: WIDTH,
+    height: HEIGHT,
     tooltip: {
       trigger: "item",
     },
@@ -270,6 +270,7 @@ function makeIndicatorsScoresTuple(
   return [indicators.flat(), scores.flat()];
 }
 ~~~
+
 # ---Transient Sandbox
 
 ## v1.5.0
@@ -430,8 +431,8 @@ const option = {
     },
     width: 600,
     height: 400,
-	title: {
-    	text: radarChartTitle
+    title: {
+      text: radarChartTitle
     },
     radar: {
         indicator: _indicators.map((indicator) => {
@@ -498,9 +499,6 @@ function manufactureIndicator(
 }
 ~~~
 ```
-
-
-
 
 ## v1.2
 
@@ -652,8 +650,8 @@ const option = {
     },
     width: WIDTH,
     height: HEIGHT,
-	title: {
-    	text: 'prototype radar'
+ title: {
+     text: 'prototype radar'
     },
     radar: {
         indicator: _indicators,
