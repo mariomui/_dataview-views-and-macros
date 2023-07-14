@@ -1,8 +1,13 @@
 ---
-tag: _meta 
+tag: _meta
 PARTIAL_VERSION: v1.0.2
 ---
-
+# -
+v1.0.2 prefixed the underscore
+- [ ] Write down the pseudo code and the exact dependencies. 
+  - This code seems to break for [[_nts-v1]]
+    - Oh, that's silly, that's cuz there ARE NO files that are just tagged `_nts-v1`
+    - In any case, i should write down the dependencies as well as show a message stating that there are no files tagged such.
 # =
 
 ```dataviewjs
@@ -71,7 +76,7 @@ function createDashboard(alias = "#_") {
 
 ---
 # ---Transient Sandbox
-## v?.?.? CREATION_DATE: 2023-06-04 
+## vCREATION_DATE: 2023-06-04 
 
 - [ ] Check if the following codelet  is a duplicate of v1.0.0
   - There are slight differences that require folliwng up such as the inline dv query in js. 🤔 Might not be that important to register.
