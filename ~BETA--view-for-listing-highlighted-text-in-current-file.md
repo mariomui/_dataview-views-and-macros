@@ -1,10 +1,13 @@
 ---
 tag: _wip 
+PARTIAL_VERSION: v0.01
 ---
 # -
+
 ```dataview
 task where file.name = this.file.name
 ```
+
 # =
 
 **BETA**
