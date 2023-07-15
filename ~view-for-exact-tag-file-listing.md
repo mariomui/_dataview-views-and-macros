@@ -1,20 +1,35 @@
 ---
 tag: _meta
-PARTIAL_VERSION: v1.0.2
+PARTIAL_VERSION: v1.0.3
 ---
 # -
-v1.0.2 prefixed the underscore
-- [ ] Write down the pseudo code and the exact dependencies. 
-  - This code seems to break for [[_nts-v1]]
-    - Oh, that's silly, that's cuz there ARE NO files that are just tagged `_nts-v1`
-    - In any case, i should write down the dependencies as well as show a message stating that there are no files tagged such.
+
+![[~view-for-local-tasks-using-a-progress-bar#=|nlk]]
+
+```dataview
+task where file.name = this.file.name and !completed
+```
+
+```dataview
+task where file.name = this.file.name and completed
+```
+
+## About
+
+- [ ] Consider removing [[cf]] from [[Partial-dataview,c.f-mario-mui]] because i do not see another person use the term partial dataview.
+
+This note is a [[Partial-dataview,c.f-mario-mui#=]].  This [[partial]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+
 # =
 
 ```dataviewjs
+
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
 const PARTIAL_VERSION = "v1.0.2";
+const {vault} = this.app
+const {name: codelet_name} = vault.adapter.path.parse(this.currentFilePath)
 
-const BUTTON_TITLE = `Refresh ${PARTIAL_VERSION}` 
+const BUTTON_TITLE = `Refresh ${PARTIAL_VERSION} ${codelet_name}` 
 
 main.call(this);
 
@@ -75,13 +90,15 @@ function createDashboard(alias = "#_") {
 ```
 
 ---
+
 # ---Transient Sandbox
-## vCREATION_DATE: 2023-06-04 
+
+## vCREATION_DATE: 2023-06-04
 
 - [ ] Check if the following codelet  is a duplicate of v1.0.0
   - There are slight differences that require folliwng up such as the inline dv query in js. 🤔 Might not be that important to register.
   - Consider scavenging for techniques then archive/commit then version. Then delete?
-    
+
 ```js
 ~~~dataviewjs
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
@@ -124,10 +141,11 @@ function createDashboard(alias = "#_") {
 ```
 
 ## v1.0.0
+
 * Desc:
-    * A prototype showcasing code generating the transclusion-ready view
+  * A prototype showcasing code generating the transclusion-ready view
 * Features:
-    * Refresh button
+  * Refresh button
 
 ```js
 ~~~dataviewjs
@@ -192,15 +210,13 @@ function createDashboard(alias = "#_") {
 ~~~
 ```
 
-
-
-
 ## v0.0.1
-- [ ] list all types of stub note naming in Andy's note taking system #_todo/to-research-note-naming 
+
+- [ ] list all types of stub note naming in Andy's note taking system #_todo/to-research-note-naming
 * 💣
-    * FROM clause input is hard coded
-    * Utilizing `this.file.name` to obtain the tag name is not dynamic enough
-        * When the tag page changes, the file name that is associated to the tag does not change. 👀 [[tag-wrangler-plugin-for-obsidianmd]] Only the Aliases does.
+  * FROM clause input is hard coded
+  * Utilizing `this.file.name` to obtain the tag name is not dynamic enough
+    * When the tag page changes, the file name that is associated to the tag does not change. 👀 [[tag-wrangler-plugin-for-obsidianmd]] Only the Aliases does.
 
 ```js
 ~~~dataview
@@ -220,7 +236,6 @@ sort file.ctime desc
 ```
 
 ## v0.0.0
-
 
 ```js
 ~~~dataview
