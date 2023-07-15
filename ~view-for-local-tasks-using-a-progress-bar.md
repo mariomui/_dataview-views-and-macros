@@ -18,6 +18,7 @@ TASK WHERE file.name = this.file.name AND completed
 
 - [ ] move logger out into one ring plugin
 - [ ] Devise a more contained method for logging silent.
+- [ ] Make the main function a module so the [[arity#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
 * ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs#=]]
@@ -42,30 +43,31 @@ This partial view is transcluded when one needs to see a progress bar over all t
 
 ~~~dataviewjs
 // instance
-const PARTIAL_VERION = "v1.0.2";
-
+const PARTIAL_VERSION = "v1.0.3";
+// v1.0.3 see if i can get the loading problem padding to stop being anal. shoving more stuff into main.
 
 
 // knobs
 let isLogSilent = false;
 
-const vf = this.app.workspace.getActiveFile();
-const page_path = vf.path;
-const cmData = this.app.metadataCache.getFileCache(vf);
-
-const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
-const config = cmData?.frontmatter?.[PARTIAL_PARAM_CONFIG];
-
-if (config && config?.IS_LOGGING_SILENT) {
-  isLogSilent = config.IS_LOGGING_SILENT;
-} else if (!config) {
-  isLogSilent = true;
-}
 
 
 this.app.workspace.onLayoutReady(main.bind(this));
 
 function main() {
+  const vf = this.app.workspace.getActiveFile();
+  const page_path = vf.path;
+  const cmData = this.app.metadataCache.getFileCache(vf);
+  
+  const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
+  const config = cmData?.frontmatter?.[PARTIAL_PARAM_CONFIG];
+  
+  if (config && config?.IS_LOGGING_SILENT) {
+    isLogSilent = config.IS_LOGGING_SILENT;
+  } else if (!config) {
+    isLogSilent = true;
+  }
+
   const logg = createLogg.call(
       this,
       {isSilent: isLogSilent}
@@ -265,11 +267,7 @@ function manuProgressionInfo(progressionInfo = {}) {
     ...progressionInfo,
   };
 }
-
-
 ~~~
-
----
 
 # ---Transient Sandbox
 
