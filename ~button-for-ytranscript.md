@@ -1,9 +1,12 @@
 ---
-tag: meta
+tag: _meta
+VERSION: v1.0.0
+ID: 
+SHORT_NAME: cta-button-to-open-ytranscript-text
 ---
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar-TCODEID-2#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -13,8 +16,9 @@ task where file.name = this.file.name and !completed
 task where file.name = this.file.name and completed
 ```
 - [ ] Prettify unformatted code.
-
-🤔 No notes use this partial. 
+- [ ] Conform function names to mario standard.
+- [ ] Consider deleting
+  - 🤔 No notes use this partial. 
 
 # =
 
