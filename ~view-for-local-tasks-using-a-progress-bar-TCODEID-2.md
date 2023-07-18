@@ -1,7 +1,10 @@
 ---
 MUID: MUID-698
+ID: TCODEID-2
+VERSION: v1.0.0
 PARTIAL_PARAM_CONFIG: 
   IS_LOGGING_SILENT: false
+SHORT_NAME: see-progress-of-local-tasks-via-ui-bar
 ---
 
 # -
@@ -15,9 +18,16 @@ TASK WHERE file.name = this.file.name AND completed
 ```
 
 ## About
-
-- [ ] move logger out into one ring plugin
+- [ ] #_todo/high_priority/to-design-a-dashboard/on-todos/regarding-the-prioritization-of-frequency
+  - Some tasks are low priority but require steady chipping.
+  - Such as switching from MUID to ID.
+- [ ] Document all the Incremental IDs. What is Plateid? #_todo/meta 
+- [ ] Move logger out into one ring plugin
+- [ ] 
 - [ ] Devise a more contained method for logging silent.
+  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
+- [ ] What is an example of a [[practice-note]]?
+  - An example [[practice-note]] in the [[note-taking-system-designed-by-andy-matuschak]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note]] so it may be that 
 - [ ] Make the main function a module so the [[arity#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
@@ -43,21 +53,35 @@ This partial view is transcluded when one needs to see a progress bar over all t
 
 ~~~dataviewjs
 // instance
+
 const PARTIAL_VERSION = "v1.0.3";
 // v1.0.3 see if i can get the loading problem padding to stop being anal. shoving more stuff into main.
-
-
+const {workspace, metadataCache, plugins} = this.app
+let obsModule = plugins?.plugins['templater-obsidian']?.templater?.current_functions_object?.obsidian
 // knobs
 let isLogSilent = false;
 
-
-
-this.app.workspace.onLayoutReady(main.bind(this));
+const OBSIDIAN_COLD_START_TIME = 20000; //20s startup
+let obs = null;
+if (obsModule) {
+  obs = obsModule.default;
+  workspace.onLayoutReady(main.bind(this));
+} else {
+  setTimeout(main.bind(this), 40000)
+}
 
 function main() {
-  const vf = this.app.workspace.getActiveFile();
+  if (!obs) {
+    obs = plugins?.plugins['templater-obsidian']?.templater?.current_functions_object?.obsidian
+  }
+  if (!obs) {
+    window.alert('dang')
+    return;
+  }
+
+  const vf = workspace.getActiveFile();
   const page_path = vf.path;
-  const cmData = this.app.metadataCache.getFileCache(vf);
+  const cmData = metadataCache.getFileCache(vf);
   
   const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
   const config = cmData?.frontmatter?.[PARTIAL_PARAM_CONFIG];
@@ -72,9 +96,7 @@ function main() {
       this,
       {isSilent: isLogSilent}
   );
-  const { default: obs } =
-    this.app.plugins.plugins["templater-obsidian"].templater
-      .current_functions_object.obsidian;
+
 
   const listItems = cmData?.listItems?.filter((task) => task?.task);
   if (!listItems?.length) return;
