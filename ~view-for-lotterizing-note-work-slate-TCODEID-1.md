@@ -1,5 +1,9 @@
 ---
 tag: _meta partial
+VERSION: v1.00
+ID: TCODEID-1
+SHORT_NAME: garden-note-by-lottery
+UMID: 
 ---
 # -
 
@@ -8,9 +12,13 @@ task where file.name = this.file.name and !completed
 ```
 
 - [x] Add pending results?  
+- [ ] Update demo with new content, and create warning service for staleness.
+  - Old demo are not stampdated and thereby exposed to drift.
+  - Is it worth the time to create a syncing solution whereby code on this document creates a stale alert automatically?
+    - The [[~view-for-note-strength-alert]] codelet is 50% of the way there...
 ## About
 
-See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo]] for details
+See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for details
 
 
 # =
@@ -19,14 +27,24 @@ See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo]] for detail
 
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
 
+const {workspace, vault, metadataCache} = this.app;
+const sourceVirtualFile = vault.getAbstractFileByPath(
+  this.currentFilePath
+);
+const sourceFrontmatter = metadataCache.getFileCache(
+  sourceVirtualFile
+);
+
+const {VERSION, SHORT_NAME} = sourceFrontmatter.frontmatter
+const _SHORT_NAME = SHORT_NAME ? (SHORT_NAME || '').toUpperCase().at(0) + SHORT_NAME.slice(1) : "";
 // # data
 const folder_names = [
     "B_churn_box",
-    "📂A_sources",
+    "A_sources",
     "B_seeds",
     "/"
 ];
-const button_title = "Lottery!";
+const button_title = `${_SHORT_NAME} ${VERSION}`;
 const click_text = "Obsidian Powered text";
 const time = 700;
 
@@ -41,26 +59,29 @@ const createGetter = (fig = {}) => (key, fallback) => {
 const getFolderAlias = createGetter(folderAliasFig);
 
 // # bootup
-main.call(
-    this,
-    button_title, 
-    function hc() {
-        if (!this?.fig) {
-            const el = 
-                generateTable(this.app,folder_names);
-            this.fig = Object.assign({}, {
-                should: false,
-                el,
-            })
-            return el;
-        } else {
-            this.container.lastChild.remove()
-            const nel = generateTable(
-                this.app, folder_names
-            ); 
-        }
-    }.bind(this)
-);
+workspace.onLayoutReady(bootstrap.bind(this))
+function bootstrap() {
+  main.call(
+      this,
+      button_title, 
+      function hc() {
+          if (!this?.fig) {
+              const el = 
+                  generateTable(this.app,folder_names);
+              this.fig = Object.assign({}, {
+                  should: false,
+                  el,
+              })
+              return el;
+          } else {
+              this.container.lastChild.remove()
+              const nel = generateTable(
+                  this.app, folder_names
+              ); 
+          }
+      }.bind(this)
+  );
+}
 
 // # business logic
  function main(
