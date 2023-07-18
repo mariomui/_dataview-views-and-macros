@@ -1,10 +1,10 @@
 ---
 tag: _meta
-PARTIAL_VERSION: v1.0.3
+VERSION: v1.0.3
 ---
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar-TCODEID-2#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
