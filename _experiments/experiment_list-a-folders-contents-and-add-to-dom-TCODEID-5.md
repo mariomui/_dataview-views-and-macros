@@ -1,6 +1,6 @@
 ---
-tag: _wip 
-VERSION: v0.0.1
+tag: _wip
+VERSION: v0.0.1-TCODEID-5
 ---
 
 # -
@@ -12,6 +12,13 @@ genListAsDomV2 and customRenderFiles are extraneous middleman.
 genRenderValue is the recursive ui impl which has the same implementation as dataview only stripped down to list components.
 
 ⚠ There is a refreshing bug that happens.
+
+> [!warning] Requires obsidian apis from templater 
+> https://github.com/SilentVoid13/Templater/blob/487805b5ad1fd7fbc145040ed82b4c41fc2c48e2/src/core/Templater.ts#L79C14-L79C14
+> * **TLINE**: *Populate Startup Template with dummy file in order to access obs api through templater plugin even when within the dataviewjs environ.*
+>   * parse_template populates current_functions_object with the obs module
+>   * Startup Templates is the ui setting that calls parse template
+>   * ![[experiment_list-a-folders-contents-and-add-to-dom-1692346851509.jpeg]]
 
 # =
 
@@ -28,15 +35,18 @@ function main() {
   // const vf = workspace.getActiveFile()
   // const folder_path = vf?.parent?.path
   const folder_path = vault
-  .getAbstractFileByPath(current_file_path).parent?.path;
+    .getAbstractFileByPath(
+      current_file_path
+    ).parent?.path;
+
   if (!folder_path) return;
 
   //workhorse
   (async function(ctx, genRenderVfs) {
-    // start scope 
+    // start scope
     { var _files = [],
-          recursedVfs = []; 
-      
+          recursedVfs = [];
+
       try {
         var recursedVfs = await getRecursiveList(folder_path)
 
@@ -45,15 +55,15 @@ function main() {
         );
         var _files = _files.concat(files)
       } catch(err) {
-        console.error(err);
+
         return err;
       }
       await genRenderVfs(recursedVfs)
     } // end scope
-    
+
     return;
   })(
-    this, 
+    this,
     genRenderVfs.bind(this),
   );
 }
@@ -65,36 +75,39 @@ async function genRenderVfs(vfs) {
 
     if (vf.hasOwnProperty("children")) {
       const {files} = await genListByFolderPath(vf.path)
+      const file_paths = files;
 
-      await genListAsDomV2.call(this, vf.name, files)
+      await genRenderListTuple.call(
+        this,[vf.name, file_paths]
+      );
     }
   }
   return;
 }
 
-async function genListAsDomV2(header,datums) {
-  await customRenderFiles.call(this,[header,datums])
-}
+
+
 
 /**
 @param val{string|Array}
-@param 
+@param
 @return void
 **/
-async function customRenderFiles(file_paths) {
+async function genRenderListTuple(listTuple) {
   const $frag = document.createDocumentFragment();
   await genRenderValue.call(this,
-    file_paths, 
+    listTuple,
     $frag,
     true,
     "list",
     0,
-    new obs.Component()
+    this.component
   )
   return this.container.append($frag)
 }
+
 function renderFiles(file_paths) {
- 
+
   const links = file_paths
     .map((file_path) => {
       const vf = vault.getAbstractFileByPath(
@@ -119,18 +132,11 @@ async function getRecursiveList(path) {
   const tfolder = vault.getAbstractFileByPath(path)
   const reclist = await obs.Vault.recurseChildren(tfolder, cb)
   return vfs;
-  
+
   function cb(vf) {
     vfs.push(vf);
   }
 }
-
-function getFileNameFromPath(file_path) {
-  const {name} = vault.adapter.path.parse(filepath)
-  return name;
-}
-
-
 
 function isArray(candidate) {
   return Object.prototype.toString.call(candidate) === '[object Array]';
@@ -140,7 +146,7 @@ function isArray(candidate) {
 ///////
 
 /**
-        child, //value 
+        child, //value
         li,  // container
         isExpandList, // alwways expand list really
         "list", // context
@@ -149,8 +155,8 @@ function isArray(candidate) {
 async function genRenderValue(
   val,
   container,
-  isExpandList, 
-  context, 
+  isExpandList,
+  context,
   depth,
   component
 ) {
@@ -162,13 +168,13 @@ async function genRenderValue(
       "",
       component
     )
-    return; 
+    return;
   }
-  
+
   if (isArray(val)) {
-  
+
     const clss = context === "list" ?
-      "dataview-result-list-ul" : 
+      "dataview-result-list-ul" :
       "dataview-result-list-root-ul";
     const cls = {
       cls: [
@@ -178,16 +184,23 @@ async function genRenderValue(
       ]
     }
     let list = container.createEl(
-      "ul", 
-      {cls}
+      "ul",
+      cls
     );
     for (let child of val) {
-      let li = list.createEl("li", manuLiCss());
+      const rootStyle = {
+        attr: {
+          style: "list-style-type: none"
+        }
+      };
+      const style = isArray(child) ? rootStyle : {};
+      let li = list.createEl("li", manuLiCss(style));
+      const context = isArray(child) ? "list" : "";
       await genRenderValue(
-        child, //value 
+        child, //value
         li,  // container
         isExpandList, // is rest of list
-        "list", // context
+        context,
         depth + 1, // escape hatch
         component
       );
@@ -195,8 +208,11 @@ async function genRenderValue(
   }
 }
 
-function manuLiCss() {
- return { cls: "dataview-result-list-li" }
+function manuLiCss(config = {}) {
+ return {
+   cls: "dataview-result-list-li",
+   ...config
+ }
 }
 
 // i hate this fucntion.
@@ -210,15 +226,48 @@ async function genRenderCompactMarkdown(
   await obs.MarkdownRenderer.renderMarkdown(
     markdown, subcontainer, sourcePath, component
   );
-  
+
 }
 ```
-
 
 # ---Transient
 
 ![[#Figure 1 Lists all files recursively of containing folder|nlk]]
+
+```js
+function getFileNameFromPath(file_path) {
+  const { name } = vault.adapter.path.parse(filepath);
+  return name;
+}
+```
+
+# ---Transient Scrap Paper
+
+       value: any,
+        container: HTMLElement,
+        component: Component,
+        filePath: string,
+        inline: boolean = false
+
+```dataviewjs
+const file_path = dv.currentFilePath;
+DataviewAPI.renderValue(
+  [
+    " * [ ] hi",
+    [
+      " * [ ] ![[experiment_list-a-folders-contents-and-add-to-dom]]",
+      [
+        " * [ ] a",
+        [
+          " * [ ] d"," * [ ] e"
+        ]
+      ]
+    ]
+  ], this.container, this.component, file_path, true)
+```
+
 # ---Transient Local Resources
 
 ## Figure 1: Lists all files recursively of containing folder
+
 ![[experiment_list-a-folders-contents-and-add-to-dom-1692136016163.jpeg]]
