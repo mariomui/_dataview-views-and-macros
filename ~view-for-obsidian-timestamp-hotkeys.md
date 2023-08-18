@@ -1,7 +1,14 @@
 ---
 tag: _meta 
 ---
+# -
 
+## About
+
+- [ ]  How is this code different from [[~view-for-custom-hot-keys-for-timestamper-plugin]]?
+
+
+# =
 ```dataviewjs
 const keyToSymbolMap = {
   'Mod': '⌘',
