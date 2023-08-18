@@ -16,9 +16,9 @@ task where file.name = this.file.name and completed
 
 ## About
 
-- [ ] Consider removing [[cf]] from [[Partial-dataview,c.f-mario-mui]] because i do not see another person use the term partial dataview.
+- [ ] Consider removing [[cf]] from [[Partial-dataview]] because i do not see another person use the term partial dataview.
 
-This note is a [[Partial-dataview,c.f-mario-mui#=]].  This [[partial]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+This note is a [[Partial-dataview#=]].  This [[partial]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
 
 # =
 
@@ -91,9 +91,9 @@ function createDashboard(alias = "#_") {
 
 ---
 
-# ---Transient Sandbox
+# ---Transient
 
-## vCREATION_DATE: 2023-06-04
+## CEATION_DATE: 2023-06-04
 
 - [ ] Check if the following codelet  is a duplicate of v1.0.0
   - There are slight differences that require folliwng up such as the inline dv query in js. 🤔 Might not be that important to register.
@@ -212,7 +212,7 @@ function createDashboard(alias = "#_") {
 
 ## v0.0.1
 
-- [ ] list all types of stub note naming in Andy's note taking system #_todo/to-research-note-naming
+- [ ] list all types of stub note naming in Andy's note taking system #_todo/to-differential/on-note-naming
 * 💣
   * FROM clause input is hard coded
   * Utilizing `this.file.name` to obtain the tag name is not dynamic enough

@@ -1,4 +1,10 @@
 
+# -
+
+- [ ] Update this to javascript
+
+# =
+
 ```dataview
 TABLE length(rows)
 FLATTEN string(join(list(length(file.inlinks), length(file.outlinks)) , [""])) as "inlinks_outlinks"

@@ -1,17 +1,111 @@
 ---
 tag: _meta
+VERSION: v1.0.1
 ---
 
 # -
 
-Uses the randomizing alogirthim found in  [Randomly order rows in a Dataview query - Share & showcase - Obsidian Forum](https://forum.obsidian.md/t/randomly-order-rows-in-a-dataview-query/46989?u=oirammui) to create a 100 sample set, where each file's calculated [[IO-composite-key]] represents a file's inactivity with resepcts to input and output link ratio.
+~~Uses the randomizing alogirthim found in  [Randomly order rows in a Dataview query - Share & showcase - Obsidian Forum](https://forum.obsidian.md/t/randomly-order-rows-in-a-dataview-query/46989?u=oirammui) to~~  create a 100 sample set, where each file's calculated [[IO-composite-key]] represents a file's inactivity with resepcts to input and output link ratio.
 
 Unfortunately, i have no caching process to draw upon, and the filter on all notes in the system using dvjs has performance issues. 
-- [ ] Make a javascript version of this so I can use caches.
+- [x] Make a javascript version of this so I can use caches.
+- [ ] Give the dataview the ability to use  [[custom-transclusion-parameters]]
 
 # =
 
-```dataview
+```dataviewjs
+const limit = 50;
+const current_filepath = dv.currentFilePath;
+const { default: obs } =
+  this.app.plugins.plugins["templater-obsidian"].templater
+    .current_functions_object.obsidian;
+const { workspace, metadataCache, vault, fileManager} = this.app;
+
+workspace.onLayoutReady(main.bind(this));
+function main() {
+  (function (genWorkhorse) {
+    genWorkhorse();
+  })(genWorkhorse.bind(this));
+}
+function genWorkhorse() {
+
+  const statusMap = {
+    "00": "Orphan",
+    10: "Unused",
+    "01": "Orphan+",
+  };
+
+  const shuffled = dv.pages("#_wip").file
+    .sort(() => 0.5 - Math.random())
+    .limit(limit)
+    .map((file) => {
+      const outlinksCount = file.outlinks.length;
+      const inlinksCount = file.inlinks.length;
+      const compositeIOKey = createCompositeKey({
+        outlinksCount,
+        inlinksCount,
+      });
+      const link = generateMarkdownLinkByFileName(file.name);
+      console.log({link})
+      if (outlinksCount < 8 && inlinksCount < 8) {
+        return {
+          name: link || file,
+          status: statusMap[compositeIOKey] || null,
+        };
+      }
+      return null;
+    })
+    .filter(Boolean)
+    .filter(({status}) => status)
+    .sort(file => file.status)
+
+  const vf = vault.getAbstractFileByPath(
+    current_filepath
+  );
+  const {
+    frontmatter: {
+      VERSION 
+    }
+  } = metadataCache.getFileCache(vf)
+  const headers = [`FILE (${VERSION})`, "STATUS"]
+  renderTable.call(this, headers, shuffled.values);
+}
+
+function generateMarkdownLinkByFileName(file_basename) {
+  const vf = metadataCache
+    .getFirstLinkpathDest(file_basename, "");
+
+  return fileManager.generateMarkdownLink(vf, "")
+}
+function renderTable(headers, data) {
+  const transes = data.map(datum => {
+    return Object.values(datum);
+  })
+
+  dv.table(headers, transes)
+}
+
+function manuCompositeKey() {
+  return {
+    inlinksCount: 0,
+    outlinksCount: 0,
+  };
+}
+function createCompositeKey(config) {
+  const { inlinksCount, outlinksCount } = config;
+  return leftPad(`${inlinksCount}${outlinksCount}`, 2);
+}
+
+function leftPad(text, places, filler = "0") {
+  const leftPlaces = Math.abs(text.length - places);
+  return Array(leftPlaces).fill(filler).concat(text).join("");
+}
+
+```
+
+# ---Transient
+
+```sql
 TABLE 
 	io, 
 	file.frontmatter.MUID as "MUID-####", 
@@ -75,11 +169,7 @@ SORT file.mtime desc, io asc, file.name asc
 LIMIT 40
 ```
 
-# ---Transient Sandbox
-
-
 ~~~sql
-
 ```dataview
 TABLE 
 	io, 

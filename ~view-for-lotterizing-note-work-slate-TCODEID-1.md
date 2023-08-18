@@ -1,5 +1,5 @@
 ---
-tag: _meta partial
+tag: _meta _coding/partial
 VERSION: v1.00
 ID: TCODEID-1
 SHORT_NAME: garden-note-by-lottery
@@ -16,9 +16,10 @@ task where file.name = this.file.name and !completed
   - Old demo are not stampdated and thereby exposed to drift.
   - Is it worth the time to create a syncing solution whereby code on this document creates a stale alert automatically?
     - The [[~view-for-note-strength-alert]] codelet is 50% of the way there...
+- [ ] Instead of shaping the data so that it is transposed, i should think about it in terms of data. It should be in rows. The UI, well, that should be taken care of by UI transformations.
 ## About
 
-See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for details
+See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for details on usage.
 
 
 # =
@@ -139,7 +140,7 @@ function generateTable(app,folder_names) {
     const mdt = dv.markdownTable(
         headers, [els, _fls[0], _fls[1]]
     );
-    return dv.paragraph(mdt);
+   return dv.paragraph(mdt);
 }
 
 function prepam(vault, folder_name) {
@@ -184,8 +185,4 @@ function renderLink(link) {
 
 
 ```
-# ---Transient Sandbox
-
-
-
-## Ω
+# ---Transient

@@ -2,11 +2,11 @@
 tag: _meta 
 ID: TCODEID-3
 SHORT_NAME: view-old-files
+VERSION: 1.0.0
 ---
 
 # -
 
-- [ ] Can i hook into any data attributes?
 
 This codelet is the prototype for "transclusion parameters". The ability to source code from an external markddown and provide it dynamic parameters means you can theoretically have dynamic views. 
 
@@ -14,6 +14,7 @@ This codelet is the prototype for "transclusion parameters". The ability to sour
 * `[[addAToB| -a 10 -b 20]]` for another note would show `30`
 
 # =
+
 ```dataviewjs
 
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
@@ -94,6 +95,7 @@ function main(
 * to obtain the transcluded alias which we will turn into
 * makeshiftposition arguments.
 **/
+
 function extractTargetEmbed(
   embed_name, embeds
 ) {
@@ -106,10 +108,10 @@ function extractTargetEmbed(
   });
   return embed;
 }
+
 function convertEmbedDisplayTextToArgMap(embed, config = {
   n: 5
 }) {
-  console.log({embrud: embed})
   const {displayText} = embed;
   if (!displayText) return { n: HISTORY_TO_KEEP_CNT };
   return parseStringToMap(displayText)
@@ -164,7 +166,7 @@ function convertEpochTimeToDateString(epochTime) {
 }
 // ## ui helper
 function renderEpochTimeToDate(epochTime) {
-// timestamp representing the number of milliseconds since the Unix epoch (January 1, 1970).
+  // timestamp representing the number of milliseconds since the Unix epoch (January 1, 1970).
   const dateString = convertEpochTimeToDateString(
     epochTime
   );

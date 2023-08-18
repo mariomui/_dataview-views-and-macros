@@ -15,7 +15,7 @@ This partial view uses my weighted score algorithm to mathematically ascertain m
     * Use this view to make sure you don't overly work on one area of your studies
 
 * [ ] Resolve performance in query. 
-    * Symptoms include laggy UI behavior #_todo/high-priority/to-improve-meta-qol 
+    * Symptoms include laggy UI behavior #_todo/priority-high/to-improve-meta-qol 
 
 * Core Fields Legend: 
     * *File* links to entire file
