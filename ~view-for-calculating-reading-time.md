@@ -56,9 +56,7 @@ function renderContent(
 }
 ~~~
 
-# ---Transient Sandbox
-
-v0.0.0
+# ---Transient
 
 - [ ] Rename the partial views folder to something more appropriate
   - #\_todo/a-musing/on-naming-transcluded-codelets

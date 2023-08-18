@@ -1,21 +1,27 @@
 ---
 tag: _meta
-PARTIAL_VERSION: v1.0.2
+VERSION: v1.0.2
 ---
 
 # -
 
 ## About
+> [!warning] Code breaks if you add new extra lines pre/post to the reference target
+> ⚠ I dont like how shitty this code is. Overengineer the next version with codemirror stuff
 
 This note contains a partial view that displays a converted reference.
 The reference is automatically parsed from the active file, from the last item inside any markdown header named "Reference".
 
-- Why use this partial view?
+- ~~Why use this partial view?~~
   - Because
     - 📁 _Aliases are troublesome dependencies_
-      - Compare [[🔉-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate#=]] to [[🔉-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
-      - When the alias changes in this source note, obsidian does not rename the links whereas the note title propagates the changes.
-    - 📁 _Overuse of [[Domain-specific-language#=|DSL]] such as [[Dataview-plugin-for-ObsidianMD#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]_ \*
+      - Compare
+        -  [[π-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate#=]]
+          -  to
+        -  [[π-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
+      - ~~When the alias changes in this source note, obsidian does not rename the links whereas the note title propagates the changes.~~
+        - 🤔 I dont use aliases anymore, so the example is rendered moot. 
+    - 📁 _Overuse of [[Domain-specific-language#=|DSL]] such as [[Dataview-plugin,b.t.-ObsidianMD#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
 
 _Details_
 This dvjs view converts the last item inside of a header named Reference into a standard obsidian title, removing:
@@ -26,7 +32,7 @@ This dvjs view converts the last item inside of a header named Reference into a 
 With such a contract in place, downwind API consumers (mentions,backlinks) can refer to 🔉
 
 ### Reference
-
+![[~view-for-referencing-current-jumpid#=|nlk]]
 - † 🔉 [207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)
 
 # =
@@ -34,93 +40,84 @@ With such a contract in place, downwind API consumers (mentions,backlinks) can r
 ## = Normalized Reference
 
 ```dataviewjs
-// PARTIAL_VERSION: v1.0.1
-const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
+// PARTIAL_VERSION: v1.0.2
+const {
+  plugins, 
+  workspace, 
+  vault, 
+  metadataCache
+} = this.app;
+
+const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
+
 
 // data
 const button_title = "♻",
-    click_text = "♻",
-    time = 700;
+      click_text = "♻",
+      container = this.container;
 
-// higher order data dependencies
-const createClickHandler = (data_text, doExtractLink) => {
-    return () => {
-        doExtractLink()
-    }
+// entry
+workspace
+  .onLayoutReady(bootstrap.bind(this));
+
+// entry capsule
+
+function bootstrap() {
+  // ui
+  new obs
+    .ButtonComponent(container)
+    .setButtonText(button_title)
+    .onClick(doExtractLink.bind(this))
+
+  // workhorse
+  mainer.call(
+    this,
+    doExtractLink.bind(this)
+  )
 }
-const clickHandler = createClickHandler(
-  click_text,
-  doExtractLink.bind(this)
-);
 
-// main
-this.app.workspace.onLayoutReady(
-    () => mainer.call(
-        this,
-        button_title,
-        click_text,
-        clickHandler
-    )
-);
-
-// ui render
+// workhorse
 function mainer(
-    button_title,
-    click_text,
-    clickHandler
+    doMain
 ) {
-    if (!this.marioInjectionfig?.refreshRefTextBtn) {
-        this.app.workspace.onLayoutReady(
-            timeoutHandler.bind(this)
-        );
-    }
-
-}
-
-function timeoutHandler() {
-    this.marioInjectionfig = {
-        ...this.marioInjectionfig
-    }
-    this.marioInjectionfig
-        .refreshRefTextBtn = true;
-    const container = this.container;
-    new obs
-        .ButtonComponent(container)
-        .setButtonText(button_title)
-        .onClick(clickHandler.bind(this))
-
-    doExtractLink.call(this);
+  doMain.call(this);
 }
 
 function doExtractLink() {
-    const abf = this.app.workspace.getActiveFile();
-    const {headings} = this.app
-        .metadataCache
-        .getCache(abf.path);
-
-
+    const abf = workspace.getActiveFile();
+    const {headings} = metadataCache
+        .getFileCache(abf);
     const markers = [];
+    
+    if (!headings) return;
+    
     let toggle = false;
+    
     for (const heading of headings) {
 
-        if (heading.display === "Reference" || toggle === true) {
+        if (
+          heading.heading === "Reference" || 
+          toggle === true
+        ) {
             toggle = !toggle;
             markers.push(heading);
         }
 
     }
-    const [start,end] = markers
 
-    void (async function t(app) {
-        const read = await app.vault.cachedRead(abf)
+    const [start,end] = markers;
+
+    ((async function t(app) {
+        const read = await vault.cachedRead(abf)
         const reads = read.split('\n')
+        console.log({reads, start, end})
         const title =
             reads
                 .slice(
                     start
                         .position
                         .start
-                        .line,
+                        .line + 2,
                      end
                          .position
                          .start
@@ -136,14 +133,16 @@ function doExtractLink() {
             .replaceAll("-_-", "-")
             console.log({modifiedString})
             dv.paragraph(" " + modifiedString);
-    })(this.app)
+    }).bind(this))(this.app)
 
 }
 
 
 ```
 
-# ---Transient Sandbox
+---
+
+# ---Transient
 
 ## Archived Versions
 

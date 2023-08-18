@@ -1,21 +1,33 @@
 ---
 tag: _wip 
-PARTIAL_VERSION: v0.01
+VERSION: v0.0.1
+cssClasses: cards, cards-cover, cards-2-3, table-max
 ---
 # -
 
 ```dataview
 task where file.name = this.file.name
 ```
+## About
+
+This [[Partial-dataview]] scrapes the entire document for highlighted text and displays it with a checkbox.
+
+Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc,b.t.-Obsidianmd]]. 
+
+I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
+### Mocks
+
+==Testing==
 
 # =
 
-**BETA**
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app
-const vf = workspace.getActiveFile()
+const vf = workspace.getActiveFile();
 
-this.app.workspace.onLayoutReady(main.bind(this));
+workspace.onLayoutReady(
+  main.bind(this)
+);
 
 function main() {
 

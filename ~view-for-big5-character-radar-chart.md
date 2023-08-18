@@ -271,9 +271,7 @@ function makeIndicatorsScoresTuple(
 }
 ~~~
 
-# ---Transient Sandbox
-
-## v1.5.0
+# ---Transient5.0
 
 ```js
 ~~~dataviewjs

@@ -18,16 +18,15 @@ TASK WHERE file.name = this.file.name AND completed
 ```
 
 ## About
-- [ ] #_todo/high_priority/to-design-a-dashboard/on-todos/regarding-the-prioritization-of-frequency
+- [ ] #_todo/priority-high/to-design/on-todos/regarding-the-prioritization-of-frequency
   - Some tasks are low priority but require steady chipping.
   - Such as switching from MUID to ID.
-- [ ] Document all the Incremental IDs. What is Plateid? #_todo/meta 
+- [ ] Document all the Incremental IDs. What is Plateid? #_todo/to-process/on/regarding-todo-naming 
 - [ ] Move logger out into one ring plugin
-- [ ] 
 - [ ] Devise a more contained method for logging silent.
   - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
 - [ ] What is an example of a [[practice-note]]?
-  - An example [[practice-note]] in the [[note-taking-system-designed-by-andy-matuschak]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note]] so it may be that 
+  - An example [[practice-note]] in the [[wip_How does the note-taking-system,cf.-Andy-Matuschak, work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,et-alia]] so it may be that 
 - [ ] Make the main function a module so the [[arity#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
@@ -47,38 +46,31 @@ This partial view is transcluded when one needs to see a progress bar over all t
   * 🤔
     * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
   * [ ] Create DFS
-  * [ ] ignoreme: This second task does not register because it has the same parent id as "Create DFS"
+  * [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
 
 # =
 
 ~~~dataviewjs
 // instance
+const {workspace, metadataCache, plugins} = this.app;
+const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
+
+
 
 const PARTIAL_VERSION = "v1.0.3";
 // v1.0.3 see if i can get the loading problem padding to stop being anal. shoving more stuff into main.
-const {workspace, metadataCache, plugins} = this.app
-let obsModule = plugins?.plugins['templater-obsidian']?.templater?.current_functions_object?.obsidian
+
+
 // knobs
 let isLogSilent = false;
 
 const OBSIDIAN_COLD_START_TIME = 20000; //20s startup
-let obs = null;
-if (obsModule) {
-  obs = obsModule.default;
-  workspace.onLayoutReady(main.bind(this));
-} else {
-  setTimeout(main.bind(this), 40000)
-}
+
+workspace.onLayoutReady(main.bind(this));
 
 function main() {
-  if (!obs) {
-    obs = plugins?.plugins['templater-obsidian']?.templater?.current_functions_object?.obsidian
-  }
-  if (!obs) {
-    window.alert('dang')
-    return;
-  }
 
+  if (!obs) return;
   const vf = workspace.getActiveFile();
   const page_path = vf.path;
   const cmData = metadataCache.getFileCache(vf);
@@ -291,7 +283,7 @@ function manuProgressionInfo(progressionInfo = {}) {
 }
 ~~~
 
-# ---Transient Sandbox
+# ---Transient
 
 * Passing context into the logger to only allow logging in the 2nd pbar
   * 🤔doesn't work, this is shared.
