@@ -20,18 +20,18 @@ AND !completed
 ## About
 
 ### Reference
+
 ![[~view-for-referencing-current-jumpid#=|nlk]]
 * †
 
 # =
 
 ## = Dashboard top 30 inactive note orphans
+
 *`= this.file.name`*
 
 USAGE: Find the top 30 most **INACTIVE** notes, 
 REASON: Prioritize untouched notes
 ![[~view-for-inactive-note-collection#=]]
-
-
 
 # ---Transient
