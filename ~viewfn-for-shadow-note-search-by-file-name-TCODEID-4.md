@@ -5,8 +5,8 @@ CREATION_DATE: 2023-08-04
 tag: _wip 
 UMID: 
 VERSION: v1.0.3-shadow-note-search-TCODEID-4
-
 ---
+
 # -
 
 ```dataview
@@ -17,7 +17,7 @@ AND !completed
 
 ## About
 
-This is a [[Partial-dataview]] designed to search [[shadow-note]]s for a specific term using regex.
+This is a [[Partial-dataview,vis-Noteshippo]] designed to search [[shadow-note]]s for a specific term using regex.
 
 * Rough structure is ⤵
 ```ts
@@ -58,7 +58,9 @@ const {
   workspace, metadataCache, vault
 } = this.app;
 const {adapter} = vault;
+
 const getCFP = () => this.currentFilePath;
+
 workspace.onLayoutReady(main.call(this))
 
 function main() {
