@@ -3,7 +3,15 @@ tag: _meta
 VERSION: v1.0.0
 ---
 # -
+
+This [[Partial-dataview,vis-Noteshippo]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-keywords,ad-finem-MnoteCompanion#~viewfn]]). 
+
+- [ ] What is the difference between an [[experiment-note]] and a [[,aka-workboard-note]]? #_todo/to-muse/on-note-taking/regarding-note-type 
+
 # =
+
+> [!info] This partial uses args. 
+> Usage: (-n 10 to grab 10 entries) 
 
 ```dataviewjs
 const { plugins, workspace, vault, metadataCache, fileManager } =
