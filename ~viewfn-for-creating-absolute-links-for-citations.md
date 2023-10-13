@@ -88,7 +88,7 @@ function gatherEmbedTexts(avf = null,mdc=null) {
   let isReadFlag = false;
   const embed_texts = []
   let ct = 0;
-  const mdcMarkdownLinks = mdc.links.map(({original}) => original) || [];
+  const mdcMarkdownLinks = mdc?.links?.map(({original}) => original) || [];
   for (let mdcHeading of mdc.headings) {
     const {level,heading} = mdcHeading;
 
@@ -108,7 +108,10 @@ function gatherEmbedTexts(avf = null,mdc=null) {
           avf.basename + embed_text,
           heading
         )
-      const isMentioned = mdcMarkdownLinks.includes(mdlink)
+      const parsedLink = obs.parseLinktext(mdlink);
+      const _mdlink = parsedLink.path + parsedLink.subpath.split('|').first()
+      console.log({mdcMarkdownLinks,_mdlink})
+      const isMentioned = mdcMarkdownLinks.some((a) => a.startsWith(_mdlink))
       if (!isMentioned) {
         embed_texts.push(
           "`* " + mdlink + "`" + "\n"
@@ -133,7 +136,7 @@ function renderRefreshAndCopyButton(main,cmd) {
   }
   new obs
     .ButtonComponent(this.container)
-    .setButtonText('Refresh')
+    .setButtonText('Refresh and Copy')
     .onClick(handleClick.bind(this))
 }
 function renderUI(embed_texts,cmd) {
