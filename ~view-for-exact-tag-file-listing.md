@@ -4,7 +4,7 @@ VERSION: v1.0.3
 ---
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-TCODEID-2#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -16,9 +16,11 @@ task where file.name = this.file.name and completed
 
 ## About
 
-- [ ] Consider removing [[cf]] from [[Partial-dataview]] because i do not see another person use the term partial dataview.
+- [ ] Consider removing [[cf]] from [[Partial-dataview,vis-Noteshippo]] because i do not see another person use the term partial dataview.
 
-This note is a [[Partial-dataview#=]].  This [[partial]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+This note is a [[Partial-dataview,vis-Noteshippo]].  This [[partial,et-alia]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+
+> [!info] This [[Partial-dataview,vis-Noteshippo]] has replaced the need for [[deprecating_tag-page-template]]
 
 # =
 
