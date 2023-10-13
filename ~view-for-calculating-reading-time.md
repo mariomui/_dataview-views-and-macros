@@ -7,7 +7,7 @@ SHORT_NAME: view-for-reading-time
 
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-TCODEID-2#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -18,7 +18,6 @@ task where file.name = this.file.name and completed
 ```
 # About: 
 
-* [ ] Fix separation of concerns
 
 # =
 
