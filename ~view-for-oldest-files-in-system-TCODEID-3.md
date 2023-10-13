@@ -102,6 +102,7 @@ function extractTargetEmbed(
     const parsed = obs.parseLinktext(
       embed.link
     );
+    console.log(embed.link, parsed)
     return parsed.path === embed_name;
   });
   return embed;
