@@ -6,10 +6,10 @@ tag: _nts-v1/structural-note
 
 # -
 
-This [[folder-page]]'s goal is to provide dashboard views to help maintain the purpose of this folder.
+This [[folder-page,vis-Noteshippo,]]'s goal is to provide dashboard views to help maintain the purpose of this folder.
 
-- [ ] Design a schema for [[folder-page]].
-  - Should it have a [[anchor-heading-api]]?
+- [ ] Design a schema for [[folder-page,vis-Noteshippo,]].
+  - Should it have a [[anchor-heading-api,vis-Noteshippo]]?
 
 # = 
 
