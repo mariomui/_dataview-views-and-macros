@@ -30,7 +30,8 @@ This partial view uses my weighted score algorithm to mathematically ascertain m
 
 # =
 
-* Outlinks are valued more heavily than inlinks when creating the Score.
+* ℹ Outlinks are valued more heavily than inlinks when creating the Score.
+* ⚙ DATAVIEW DQL POWERED
 ```dataview
 TABLE file_link_path as "Public API", weighted as Score, file.frontmatter.MUID as MUID, length(file.inlinks) as "inlinks#", length(file.outlinks) as "outlinks#"
 FLATTEN (
