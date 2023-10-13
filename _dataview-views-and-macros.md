@@ -62,11 +62,6 @@ The code stays off the primary note but the transcluded preview is available. Th
 
 %% End Waypoint %%
 
-```query
-path: (~view OR ~viewfn)
-```
-
-
 - [ ] Extract ⤵ to learnings from listing files
 ```dataviewjs
 const vf = this.app.vault.getAbstractFileByPath(dv.currentFilePath)
