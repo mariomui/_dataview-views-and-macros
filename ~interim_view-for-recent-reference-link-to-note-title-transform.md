@@ -16,12 +16,12 @@ The reference is automatically parsed from the active file, from the last item i
   - Because
     - 📁 _Aliases are troublesome dependencies_
       - Compare
-        -  [[π-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate#=]]
+        -  [[🔉-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate#=]]
           -  to
-        -  [[π-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
+        -  [[🔉-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
       - ~~When the alias changes in this source note, obsidian does not rename the links whereas the note title propagates the changes.~~
         - 🤔 I dont use aliases anymore, so the example is rendered moot. 
-    - 📁 _Overuse of [[Domain-specific-language#=|DSL]] such as [[Dataview-plugin,b.t.-ObsidianMD#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
+    - 📁 _Overuse of [[Domain-specific-language,#=|DSL]] such as [[Dataview-plugin,b.t.-ObsidianMD#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
 
 _Details_
 This dvjs view converts the last item inside of a header named Reference into a standard obsidian title, removing:
@@ -32,12 +32,13 @@ This dvjs view converts the last item inside of a header named Reference into a 
 With such a contract in place, downwind API consumers (mentions,backlinks) can refer to 🔉
 
 ### Reference
+
 ![[~view-for-referencing-current-jumpid#=|nlk]]
 - † 🔉 [207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)
 
 # =
 
-## = Normalized Reference
+## Normalized Reference
 
 ```dataviewjs
 // PARTIAL_VERSION: v1.0.2
@@ -151,7 +152,7 @@ function doExtractLink() {
 Setting buttons requires the document being ready before placing on the page. The [[engineering-style-differential-report-regarding-button-creation-in-obsidianmd]] using dataviewjs states that the document must be ready before dom insertion.
 
 - ℹ
-  - v1.0.0 chose to use setTimeout to achieve documents.addEventListener("DOMContentReady") because the author(me) worried about cleanup. The nature of blackbox Obisdianmd programming means I cannot reliably ascertain the rules for memory clean up so I opted for setTimeout. (🤔 [[Leaky-abstraction]] rears its ugly head again!)
+  - v1.0.0 chose to use setTimeout to achieve documents.addEventListener("DOMContentReady") because the author(me) worried about cleanup. The nature of blackbox Obisdianmd programming means I cannot reliably ascertain the rules for memory clean up so I opted for setTimeout. (🤔 [[Leaky-abstraction,ad-finem-Coding,]] rears its ugly head again!)
 
 Eventually, this folder, containing all my dataview-powered partials, shall be handed over to a [[version-control-system]], the more appropriate tool edifying change-log and code-related meta-tasks. To spur myself to quicken the migration, I've set the following rule:
 
