@@ -55,11 +55,17 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-top-active-notes-using-weighted-score]]
 - [[~view-for-top-inactive-notes-using-io-index]]
 - [[~view-for-unused-MUIDs]]
+- [[~viewfn-for-creating-absolute-links-for-citations]]
 - [[~viewfn-for-pending-notes]]
 - [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
 - **projects**
 
 %% End Waypoint %%
+
+```query
+path: (~view OR ~viewfn)
+```
+
 
 - [ ] Extract ⤵ to learnings from listing files
 ```dataviewjs
