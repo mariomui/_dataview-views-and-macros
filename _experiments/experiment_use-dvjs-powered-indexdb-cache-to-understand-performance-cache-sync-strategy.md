@@ -8,7 +8,7 @@ UMID:
 
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-TCODEID-2#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -22,10 +22,10 @@ task where file.name = this.file.name and completed
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
-    * [[interim_reference-note,et-alia]] -> [[Stub-note]] -> [[Library-note]] -> [[claim-note,et-alia]]
+    * [[interim_reference-note,et-alia]] -> [[stub-note,et-alia]] -> [[Library-note]] -> [[claim-note,et-alia]]
   * 🔚
     * What happens when the [[interim_reference-note,et-alia]] also requires coding?
-    * TLINE:  Use [[interim_Question-note,cf.-Mario-Mui]] instead of workboard-note to hold code and learnings.
+    * TLINE:  Use [[question-spec,ad-finem-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
       * [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy-1691247592373.jpeg]]
 
 ### Reference
@@ -86,10 +86,14 @@ function bootstrap() {
       }
     }
 
-    //console.log(await getAll(fileStore))
+
+    // console.log({pops, metadataStore});
+    console.log(await metadataStore.getAll())
   })(this)
   
 }
+
+// # UI renderer
 function renderList(pops) {
   const md = dv.markdownList.call(this, pops);
   workspace.onLayoutReady(() => {
@@ -97,6 +101,7 @@ function renderList(pops) {
   })
 }
 
+// # UTIL
 async function iterateStore(
   store, 
   count,
@@ -105,14 +110,11 @@ async function iterateStore(
     const cursor = await store
       .openCursor()    
     
-    const all = await getAll(
-       store
-    );
     let i = count;
     for (const field in cursor.value) {  
       cb({
         field, 
-        data:cursor.value[field]
+        data: cursor.value[field]
       });  
       i--;
     }
@@ -132,7 +134,10 @@ function getReadOnlyIDBStore(
     .objectStore(store_name);  
   return store;
 }
-async function getAll(store) {
+
+// they took out the get all function this doesnt work to get all data from store.
+async function genGetAll(store) {
+  if (!store?.getAll) return Promise.resolve();
   return await store.getAll();
 }
 ```
@@ -151,3 +156,37 @@ async function getAll(store) {
   * Resources
     * [Working with IndexedDB](https://web.dev/indexeddb/)
       * example code
+
+# Transient Shareable version
+
+```dataviewjs
+const {
+  workspace, vault, metadataCache
+} = this.app;
+
+workspace.onLayoutReady(bootstrap.bind(this))
+
+function bootstrap() {
+  (async function(ctx) {
+    const {db} = metadataCache;
+    const metadataStore = getReadOnlyIDBStore(
+      db, 'metadata'
+    );
+    const fileStore = getReadOnlyIDBStore(
+      db, 'file'
+    );
+    console.log("getall",await metadataStore.getAll())
+  })(this) 
+}
+
+function getReadOnlyIDBStore(
+  db, store_name
+) {
+  const tx = db.transaction(
+      store_name, 'readonly'
+  );  
+  const store = tx
+    .objectStore(store_name);  
+  return store;
+}
+```
