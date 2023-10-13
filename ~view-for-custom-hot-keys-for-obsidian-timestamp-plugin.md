@@ -1,15 +1,23 @@
 ---
-
+CREATION_DATE: 2023-06-08
+DOC_VERSION: v0.0.0
+MUID: MUID-701
+tag: _wip 
+TEMPLATE_VERSION: v1.0.1-blank-template
 ---
+
 # - 
+
 This partial shows the hot keys for the timestamper plugin
 * ⚖
     * Dependencies
         * Requires knowledge of the plugin name 
 
-* ℹ To create similar hotkey views for another plugin, use [[helpercode-to-recall-hot-key]] on a new note.
+* ℹ To create similar hotkey views for another plugin, use [[wip_viewfn-to-recall-hot-key]] on a new note.
 
 # =
+
+`=this.file.name`
 ```dataviewjs
 const keyToSymbolMap = {
   'Mod': '⌘',
