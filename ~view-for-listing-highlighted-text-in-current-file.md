@@ -10,7 +10,7 @@ task where file.name = this.file.name
 ```
 ## About
 
-This [[Partial-dataview]] scrapes the entire document for highlighted text and displays it with a checkbox.
+This [[Partial-dataview,vis-Noteshippo]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
 Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,ad-finem-ObsidianMD]]. 
 
@@ -34,11 +34,15 @@ function main() {
   genRun(this)
   
   async function genRun(ctx) {
+    // you have line, end ,start, after
     const parsedHighlights = await genParse(vf);
     const lines = parsedHighlights.map(
       (parsedHighlight) => [parsedHighlight.line]
     );
-    const transposedMatrix = await transpose(ctx, lines)
+    const postFixes = parsedHighlights.map(
+      (parsedHighlight) => parsedHighlight.postFix
+    );
+    const transposedMatrix = await transpose(ctx, lines, postFixes)
 
     const mdt = dv.markdownTable(
       createColumnHeaders(), 
@@ -51,9 +55,10 @@ function main() {
 // # helpers
 
 // ## business helpers
-async function transpose(ctx, matrix) {
+async function transpose(ctx, matrix, postFixes) {
 
   const transposedItems = [];
+  let i = 0;
   for (const [rowIdx, row] of Object.entries(matrix)) {
     for (const item of row) {
       const {
@@ -63,12 +68,15 @@ async function transpose(ctx, matrix) {
         ctx, {text: item}
       );
       const container = await genCreateDiv(ctx);
+
+      const checkedAffix = postFixes[i++].includes("^") ? {checked: true} : {};
       const $box = window.createEl(
         'input', 
         {
           attr: {
             type: "checkbox",
             parent: $frag,
+            ...checkedAffix,
             style: "\
             border-radius:0px;\
             border: 1px solid darkgoldenrod;\
@@ -111,7 +119,9 @@ async function genParse(vf) {
   while ( (match = regex.exec(input) ) !== null) {
     const start = match.index + match[0].indexOf(match[1]);
     const end = start + match[1].length;
-    matches.push({ line: match[1], start, end });
+    const postFix = (input.slice(end, end + 13))
+    console.log({postFix})
+    matches.push({ line: match[1], start, end, postFix});
   }
   return matches;
 }
