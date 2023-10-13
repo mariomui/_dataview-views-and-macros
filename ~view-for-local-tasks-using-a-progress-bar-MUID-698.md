@@ -1,14 +1,15 @@
 ---
 MUID: MUID-698
-ID: TCODEID-2
-VERSION: v1.0.0
-PARTIAL_PARAM_CONFIG: 
-  IS_LOGGING_SILENT: false
-SHORT_NAME: see-progress-of-local-tasks-via-ui-bar
+DOC_VERSION: v1.0.3
+PARTIAL_PARAM_CONFIG:
+  IS_LOGGING_SILENT: true
+CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 ---
 
 # -
-
+- [ ] Gradually remove TCODEID and replace with MUID #_todo/long-term ➕ 2023-10-03
+- [ ] Make a common js tools i use like this logger thing.
+  - The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
 TASK WHERE file.name = this.file.name AND !completed
 ```
@@ -24,13 +25,14 @@ TASK WHERE file.name = this.file.name AND completed
 - [ ] Document all the Incremental IDs. What is Plateid? #_todo/to-process/on/regarding-todo-naming 
 - [ ] Move logger out into one ring plugin
 - [ ] Devise a more contained method for logging silent.
-  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
+  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
 - [ ] What is an example of a [[practice-note]]?
-  - An example [[practice-note]] in the [[wip_How does the note-taking-system,cf.-Andy-Matuschak, work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,et-alia]] so it may be that 
+  - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,et-alia]] so it may be that 
 - [ ] Make the main function a module so the [[arity#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
 * ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs#=]]
+* [ ] DEPRECATE PARTIAL_VERSION in current file's dvjs code.
 
 This partial view is transcluded when one needs to see a progress bar over all the tasks of the current file.
 
@@ -64,7 +66,7 @@ const PARTIAL_VERSION = "v1.0.3";
 // knobs
 let isLogSilent = false;
 
-const OBSIDIAN_COLD_START_TIME = 20000; //20s startup
+const OBSIDIAN_COLD_START_TIME = 5000; //5s startup
 
 workspace.onLayoutReady(main.bind(this));
 
@@ -588,3 +590,6 @@ function renderEl(progress_html) {
     $p.innerHTML = progress_html;
 }
 ~~~
+
+- [ ] Can i delete my progress bar code and allow the progress bar plugin to replace it? #_todo/priority-low/to-muse 
+
