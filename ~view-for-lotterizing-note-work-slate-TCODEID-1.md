@@ -1,8 +1,8 @@
 ---
 tag: _meta _coding/partial
-VERSION: v1.00
+VERSION: v1.0.1
 ID: TCODEID-1
-SHORT_NAME: garden-note-by-lottery
+CODELET_SHORTNAME: garden-note-by-lottery
 UMID: 
 ---
 # -
@@ -33,13 +33,13 @@ const sourceVirtualFile = vault.getAbstractFileByPath(
 const sourceFrontmatter =
   metadataCache.getFileCache(sourceVirtualFile);
 
-const { VERSION, SHORT_NAME } = sourceFrontmatter.frontmatter;
-const _SHORT_NAME = SHORT_NAME
-  ? (SHORT_NAME || "").toUpperCase().at(0) + SHORT_NAME.slice(1)
+const { VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
+const _CODELET_SHORTNAME = CODELET_SHORTNAME
+  ? (CODELET_SHORTNAME || "").toUpperCase().at(0) + CODELET_SHORTNAME.slice(1)
   : "";
 // # data
 const folder_names = ["B_churn_box", "A_sources", "B_seeds", "/"];
-const button_title = `${_SHORT_NAME} ${VERSION}`;
+const button_title = `${_CODELET_SHORTNAME} ${VERSION}`;
 const click_text = "Obsidian Powered text";
 const time = 700;
 
@@ -74,7 +74,7 @@ function bootstrap() {
         return el;
       } else {
         this.container.lastChild.remove();
-        const nel = generateTable(this.app, folder_names);
+        // const nel = generateTable(this.app, folder_names);
       }
     }.bind(this),
   );
@@ -158,6 +158,7 @@ function renderLink(link) {
 
 # ---Transient Sandbox
 
+v1.0.0
 ```dataviewjs
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
@@ -170,13 +171,13 @@ const sourceVirtualFile = vault.getAbstractFileByPath(
 const sourceFrontmatter =
   metadataCache.getFileCache(sourceVirtualFile);
 
-const { VERSION, SHORT_NAME } = sourceFrontmatter.frontmatter;
-const _SHORT_NAME = SHORT_NAME
-  ? (SHORT_NAME || "").toUpperCase().at(0) + SHORT_NAME.slice(1)
+const { VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
+const _CODELET_SHORTNAME = CODELET_SHORTNAME
+  ? (CODELET_SHORTNAME || "").toUpperCase().at(0) + CODELET_SHORTNAME.slice(1)
   : "";
 // # data
 const folder_names = ["B_projects"];
-const button_title = `${_SHORT_NAME} ${VERSION}`;
+const button_title = `${_CODELET_SHORTNAME} ${VERSION}`;
 const click_text = "Obsidian Powered text";
 const time = 700;
 
