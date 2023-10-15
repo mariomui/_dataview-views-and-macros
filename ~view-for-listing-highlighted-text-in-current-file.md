@@ -68,8 +68,7 @@ async function transpose(ctx, matrix, postFixes) {
         ctx, {text: item}
       );
       const container = await genCreateDiv(ctx);
-
-      const checkedAffix = postFixes[i++].includes("^") ? {checked: true} : {};
+      const checkedAffix = item.startsWith("^") ? {checked: true} : {};
       const $box = window.createEl(
         'input', 
         {
