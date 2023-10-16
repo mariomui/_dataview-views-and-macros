@@ -1,6 +1,6 @@
 ---
 tag: _wip 
-VERSION: v0.0.1
+DOC_VERSION: v0.0.2
 cssClasses: cards, cards-cover, cards-2-3, table-max
 ---
 # -
@@ -24,17 +24,45 @@ I've added a little checkbox but any mutations are not permanent, id est, a mark
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app
 const vf = workspace.getActiveFile();
+const { default: obs } =
+  this.app.plugins.plugins["templater-obsidian"].templater
+    .current_functions_object.obsidian;
+
+// button data
+const button_title = "Please Wait For Document To Parse...";;
+const time = 4000;
+
+// higher order data dependencies
+const createClickHandler = (cb) => {
+  return (e) => {
+    cb(e);
+  };
+}
+const clickHandler = createClickHandler(() => {
+    new obs.Notice(button_title, time)
+    main.call(this);
+    this.container?.lastChild?.remove();
+});
+
+// main
 
 workspace.onLayoutReady(
-  main.bind(this)
+  bootstrap.bind(this)
 );
-
+function bootstrap() {
+  createButton.call(this, button_title, clickHandler);
+  setTimeout(() => {
+    main.call(this);
+  })
+}
 function main() {
-
+  
+  
   genRun(this)
   
   async function genRun(ctx) {
     // you have line, end ,start, after
+
     const parsedHighlights = await genParse(vf);
     const lines = parsedHighlights.map(
       (parsedHighlight) => [parsedHighlight.line]
@@ -112,10 +140,12 @@ function createColumnHeaders(
 }
 async function genParse(vf) {
   const input = await vault.cachedRead(vf)
-  const regex = /==([^=]+)==/g; 
+  // const regex = /==([^=]+)==/g; 
+  const regex = /==([^=].+)==/g
   let match = ""
   const matches = [];
   while ( (match = regex.exec(input) ) !== null) {
+  console.log({match})
     const start = match.index + match[0].indexOf(match[1]);
     const end = start + match[1].length;
     const postFix = (input.slice(end, end + 13))
@@ -169,4 +199,22 @@ async function genCreateDiv(ctx, config = {text: ''}) {
   })
 }
 
+// BUTTONS
+
+// ui render
+function createButton(button_title, clickHandler) {
+  new obs.ButtonComponent(
+    this.container,
+  )
+  .setButtonText(button_title)
+  .onClick(clickHandler.bind(this));
+}
+
+
 ```
+
+# ---Transient Doc Log
+
+
+* v0.0.2 Add Refresh button
+  * The button fakes adds a delay so that it seems like the update is happening really fast. What it really does is that it wipes the last element and replaces with the updated content. The act of deleting an element causes a refresh cycle.
