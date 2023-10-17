@@ -76,8 +76,16 @@ function main() {
       createColumnHeaders(), 
       transposedMatrix
     );
-    await dv.paragraph(mdt)
+    await genRenderParagraph(mdt, {
+      attr: {
+        style: "width: 100%;"
+      }
+    })
   }
+}
+
+async function genRenderParagraph(mdt,option = {}) {
+    await dv.paragraph(mdt, option)
 }
 
 // # helpers
