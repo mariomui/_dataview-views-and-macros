@@ -6,7 +6,7 @@ VERSION: v1.0.0
 
 This [[Partial-dataview,vis-Noteshippo]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-keywords,ad-finem-MnoteCompanion#~viewfn]]). 
 
-- [ ] What is the difference between an [[experiment-note]] and a [[,aka-workboard-note]]? #_todo/to-muse/on-note-taking/regarding-note-type 
+- [ ] What is the difference between an [[experiment-note]] and a [[,aka-workboard-note]]? #_todo/to-muse/on-noteshippo/regarding-note-type 
 
 # =
 

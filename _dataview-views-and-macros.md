@@ -9,11 +9,11 @@ alias: _dataview-views-and-macros
 - [ ] Replace all mentions of Note-Taking with MNote Taking System and create a note pertaining to that.
   - convert all files named `[[Note-taking-system,cf.-Mario-Mui,]]` into [[,aka-Note-taking-system,cf.-Mario-Mui]]
 - [ ] Add a versioning comment for every [[Partial-dataview,vis-Noteshippo]] housed in this folder
-* #_todo/to-muse/on-meta-filename-syncing
+* #_todo/to-muse/on-noteshippo
   * [ ] Alias or aliases do not change when folder change.
   * [ ] Folder pages change with the folder renaming 
 
-* #_todo/to-muse/on-naming-a-meta-note
+* #_todo/to-muse/on-noteshippo/regarding-meta-note-naming-rules
   - [ ] All tag pages and folder pages aside from the top level  A_ B_ C_ D_...Z_ will be prefixed with an underscore. 
 - [ ] Insert media detailing usage of Partial dataview into each [[Partial-dataview,vis-Noteshippo]]'s [[private-header,b.t.-Anchor-heading-api]][[,aka-private-H1,ad-finem-Note-Taking]]
 
@@ -42,14 +42,13 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-calculating-reading-time]]
 - [[~view-for-creating-absolute-links-for-citations]]
 - [[~view-for-custom-hot-keys-for-code-block-from-selection-plugin]]
-- [[~view-for-custom-hot-keys-for-obsidian-timestamp-plugin]]
+- [[~view-for-custom-hot-keys-for-obsidian-timestamp-plugin-MUID-701]]
 - [[~view-for-exact-tag-file-listing]]
 - [[~view-for-inactive-note-collection]]
 - [[~view-for-inactive-notes-count]]
 - [[~view-for-listing-highlighted-text-in-current-file]]
 - [[~view-for-local-tasks-using-a-progress-bar-MUID-698]]
 - [[~view-for-lotterizing-note-work-slate-TCODEID-1]]
-- [[~view-for-obsidian-timestamp-hotkeys]]
 - [[~view-for-oldest-files-in-system-TCODEID-3]]
 - [[~view-for-referencing-current-jumpid]]
 - [[~view-for-top-active-notes-using-weighted-score]]

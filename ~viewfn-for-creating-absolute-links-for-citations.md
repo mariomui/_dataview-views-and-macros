@@ -258,7 +258,7 @@ function extractParams(
 # ---Transient Local Citations
 
 
-# ---Transient CommitLog
+# ---Transient Commit Log
 
 * v0.0.2 Begin work to remove already linked texts from Sorted Citations
 * v0.0.1 Add button for refreshing
