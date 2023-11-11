@@ -29,7 +29,7 @@ task where file.name = this.file.name and completed
 
 *`= this.file.name`*
 
-* The following code scans For The Closest ---Transient Citations and transforms the [[anchor-heading,et-alia]]s into bulletpoints.⤵
+* The following code scans For The Closest ---Transient Citations and transforms the [[anchor-heading,etc]]s into bulletpoints.⤵
 ```dataviewjs
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater

@@ -7,7 +7,7 @@ CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 ---
 
 # -
-- [ ] Gradually remove TCODEID and replace with MUID #_todo/long-term ➕ 2023-10-03
+
 - [ ] Make a common js tools i use like this logger thing.
   - The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
@@ -28,7 +28,7 @@ TASK WHERE file.name = this.file.name AND completed
   - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
 - [ ] What is an example of a [[practice-note]]?
   - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,et-alia]] so it may be that 
-- [ ] Make the main function a module so the [[arity#=]] is more apparent.
+- [ ] Make the main function a module so the [[arity,vis-Coding,#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
 * ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs#=]]
@@ -64,13 +64,13 @@ const PARTIAL_VERSION = "v1.0.3";
 
 
 // knobs
-let isLogSilent = false;
 
 const OBSIDIAN_COLD_START_TIME = 5000; //5s startup
 
 workspace.onLayoutReady(main.bind(this));
 
 function main() {
+  let isLogSilent = false;
 
   if (!obs) return;
   const vf = workspace.getActiveFile();
@@ -90,66 +90,9 @@ function main() {
       this,
       {isSilent: isLogSilent}
   );
-
-
-  const listItems = cmData?.listItems?.filter((task) => task?.task);
-  if (!listItems?.length) return;
-  const uniques = unique(listItems);
-
-  logg({
-      logName: "findFirstsInSet",
-      data: findFirstsInSet(uniques, cmData?.listItems)
-    },
-    20000
-  );
-
-  this.fig = {    
-    silent: isLogSilent,
-  };
-
-  if (!this.fig) {
-    this.fig = {
-      ...this.fig,
-    };
-    this.fig.silent = false;
-  }
   
-  function findFirstsInSet(uniques, listItems) {
-    let k = 0;
-    let remember = uniques[k];
-    let set = [];
 
-    for (const [idx, li] of cmData.listItems.entries()) {
-
-      if (!remember) {
-        return set;
-      }
-      const isParentsMatch = li.parent === remember.parent;
-
-      if (isParentsMatch && li?.task) {
-        set.push(li);
-        remember = uniques[++k];
-      }
-    }
-    return set;
-  }
-
-  function unique(listItems) {
-    const parents = [];
-    let rememberParent = null;
-    for (const listItem of listItems) {
-      const parent = listItem.parent;
-      if (rememberParent !== parent) {
-        parents.push(parent);
-        rememberParent = parent;
-      }
-    }
-    return parents;
-  }
-
-
-
-  const currentTasks = dv.page(page_path).file.tasks;
+  const currentTasks = dv.page(page_path)?.file?.tasks?.values || [];
   const progressionInfo = calculateProgressionInfo.call(this, currentTasks);
 
   renderProgressionInfo.call(this, progressionInfo);
@@ -177,34 +120,38 @@ function main() {
     };
   }
 }
-function calculateProgressionInfo(currentTasks) {
+
+function getTaskCounts(tasks) {
+  let rootTasksCount = 0;
+  let completedRootTasks = 0;
+
+  tasks.forEach(task => {
+    if (!task.parent) {
+      rootTasksCount++;
+      if (task.fullyCompleted) {
+        completedRootTasks++;
+      }
+    }
+  });
+
+  return [
+    rootTasksCount,
+    completedRootTasks,
+  ]
+}
+
+
+function calculateProgressionInfo(currentTasks = []) {
   const uniqueListIdCheckingContext = {};
 
   const uniqueTasks = [];
-  let totalTaskCnt = 0;
-  let completedTaskCnt = 0;
 
-  // get first of the ids.
-  for (const currentTask of currentTasks) {
-    const { list: listId, text } = currentTask;
-
-    if (!uniqueListIdCheckingContext[listId]) {
-      uniqueListIdCheckingContext[listId] = true;
-      uniqueTasks.push(currentTask);
-      totalTaskCnt++;
-    }
-  }
-
-  for (const uniqueTask of uniqueTasks) {
-    const { completed } = uniqueTask;
-    if (completed) {
-      completedTaskCnt++;
-    }
-  }
+  const [totalTaskCnt, completedTaskCnt] = getTaskCounts(currentTasks)
 
   // business domaind derived
+  
   const raw_percentage = (completedTaskCnt / totalTaskCnt).toFixed(2) * 100;
-  const percentage = Math.round(raw_percentage);
+  const percentage = Math.round(raw_percentage) || 0;
 
   const unfinishedTaskCnt = totalTaskCnt - completedTaskCnt;
 
@@ -214,25 +161,6 @@ function calculateProgressionInfo(currentTasks) {
     totalTaskCnt,
     unfinishedTaskCnt,
   });
-
-  function checkIsTaskCompleted(task) {
-    return task.completed;
-  }
-  function checkIsRootTask(task) {
-    const isParentATask = checkIsParentATask(listIds, task);
-
-    if (task.parent && !isParentATask) {
-      return true;
-    }
-    if (!task.parent) {
-      return true;
-    }
-    return false;
-
-    function checkIsParentATask(listIds, task) {
-      return listIds.includes(task.parent);
-    }
-  }
 }
 
 function renderProgressionInfo(progressionInfo) {
@@ -285,311 +213,11 @@ function manuProgressionInfo(progressionInfo = {}) {
 }
 ~~~
 
-# ---Transient
+# ---Transient Local Archive
+
+
+## LA--archive--old version of MUID-698
 
 * Passing context into the logger to only allow logging in the 2nd pbar
   * 🤔doesn't work, this is shared.
-
-## v0.0.0
-
-```js
-~~~dataviewjs
-// instance
-const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
-
-//virtual file
-const vf = this.app.workspace.getActiveFile();
-
-const page_path = vf.path;
-
-const manuProgressionInfo = (progressionInfo = {}) => {
-    return ({
-        completedTaskCnt:0, 
-        unfinishedTaskCnt:0,
-        totalTaskCnt:0,
-        percentage: 0,
-        ...progressionInfo
-    });    
-}
-
-this.container.fig = {
-    silent: true
-}
-const logg = createLogg.call(
-    this, 
-    this.container.fig,
-    {
-        silent: false
-    }
-)
-
-
-this.app.workspace.onLayoutReady(main.bind(this))
-
-function main() {
-    if (!this.container.fig) {
-        this.container.fig = {
-            ...this.containerfig
-        };
-        this.container.fig.silent = false;
-    }
-        
-    const currentTasks = dv.page(page_path).file.tasks;
-    const progressionInfo = calculateProgressionInfo
-        .call(this, currentTasks);
-    
-    renderProgressionInfo
-        .call(this, progressionInfo);
-    
-}
-function calculateProgressionInfo(currentTasks) {
-    const uniqueListIdCheckingContext = {};
-
-    const uniqueTasks = []
-    let totalTaskCnt = 0;
-    let completedTaskCnt = 0;
-
-    // get first of the ids.
-    for (const currentTask of currentTasks) {
-         const {list: listId, text} = currentTask;
-    
-        if (!uniqueListIdCheckingContext[listId]) {
-            uniqueListIdCheckingContext[listId] = true;
-            uniqueTasks.push(currentTask)
-            totalTaskCnt++;
-        }
-    }
-
-    for (const uniqueTask of uniqueTasks) {
-         const {completed} = uniqueTask;
-         if (completed) {
-             completedTaskCnt++;
-         }
-    }
-
-  
-    // business domaind derived
-    const raw_percentage = (completedTaskCnt / totalTaskCnt)
-        .toFixed(2)  * 100;
-    const percentage = Math.round(raw_percentage)
-
-    const unfinishedTaskCnt = totalTaskCnt - completedTaskCnt;
-
-    return manuProgressionInfo({
-        completedTaskCnt,
-        percentage,
-        totalTaskCnt,
-        unfinishedTaskCnt
-    });
-
-    function checkIsTaskCompleted(task) {
-        return task.completed
-    }
-    function checkIsRootTask(task) {
-        const isParentATask = checkIsParentATask(listIds, task);
-        
-        if (task.parent && !isParentATask) {
-            return true;
-        }
-        if (!task.parent) {
-            return true;
-        }
-        return false;
-        
-        function checkIsParentATask(listIds, task) {
-            return listIds.includes(task.parent);
-        }
-    }
-}
-
-function renderProgressionInfo(progressionInfo) {
- 
-
-    const {
-        percentage,
-        totalTaskCnt, 
-        unfinishedTaskCnt,
-        completedTaskCnt
-    } = progressionInfo;
-
-    const attributeConfig = {
-        value: percentage,
-        max: 100,
-        appearance: "none"
-    }
-
-    this.container.createEl(
-        "progress",
-        {
-            text: "hi",
-            attr: attributeConfig,
-            cls: "mario-progress"
-        }, 
-        ($p) => {
-            const style = (
-                `font-size: smaller`
-            );
-            const span = this.container.createSpan(
-                {
-                    text: `${percentage} % | ${completedTaskCnt} of ${totalTaskCnt}`,
-                    attr: {
-                        style
-                    }
-                }
-            )
-            span.style.color = "var(--accent)"
-        }
-    )
-}
-
-const manuCreateLoggConfig = () => ({ silent: false })
-function createLogg(fig, config = manuCreateLoggConfig()) {
-    const _config {
-        ...manuCreateLoggConfig(),
-        ...config;
-    }
-    return function logger(
-        text, 
-        time = 5000, 
-        config = {..._config}
-    ) {
-        const __config = {
-            ...config,
-            ..._config
-        }
-        const isSilent = __config.silent === true;
-        if (isSilent && !__config.silent) {
-           return;
-        }
-        const _text = typeof text === "string" 
-            ? text 
-            : JSON.stringify(text);
-        new obs.Notice(_text, time)
-    }
-}
-~~~
-```
-
-## Non JS code
-
-```
-const progress_html = `<progress value="${String(percentage)}" max="100"></progress><span style="font-size:smaller;color:white">${percentage} % | ${unfinishedTaskCnt} left of ${totalTaskCnt} </span>`
-
-logg(progress_html, 3000)
-```
-
-### v0.0.0-dovos
-
-* 🐦📝 [Discord](https://discord.com/channels/686053708261228577/710585052769157141/1124438998245453847)
-  * 💁
-    * This particular code is from dovos.
-    * I translated it into js.
-```js
-~~~dataviewjs
-
-const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
-const {path} = this.app.workspace.getActiveFile()
-const page_path = path;
-
-const filter_term = "Status Tasks" ; 
-
-const createCheckTaskForFilterTerm = (
-    filter_term, task_property_key
-) => {
-    return (task) => {
-        const context = task[task_property_key];
-        return String(context).includes(filter_term)
-    }
-}
-const checkTaskForFilterTerm = createCheckTaskForFilterTerm(
-    filter_term, "section"
-);
-const checkForCompletedTask = (task) => task.completed;
-const currentTasks = dv.page(page_path).file.tasks;
-
-const completedTasksCnt = currentTasks
-    .where(checkForCompletedTask)
-    //.where(checkTaskForFilterTerm)
-    .length
-const totalTasksCnt = currentTasks
-    //.where(checkTaskForFilterTerm)
-    .length
-const value = Math.round(
-    completedTasksCnt / totalTasksCnt
-) * 100
-
-
-const unfinishedTasksCnt = totalTasksCnt - completedTasksCnt
-const progress_html = `<progress value="${value}" max="100"></progress><span style="font-size:smaller;color:var(--text-muted)">${value} % | ${unfinishedTasksCnt} left</span>`
-// new obs.Notice(progress_html, 5000)
-
-this.app.workspace.onLayoutReady( main.bind(this) )
-function main() {
-    renderEl.call(this,progress_html);
-}
-function renderEl(html) {
-    const $p = this.container.createEl("p")
-    $p.innerHTML = progress_html;
-}
-~~~
-```
-- [ ] Keep this task for test purposes.
-  - [ ] This sub task exemplifies  bug in the `v0.0.0-dovos` progress bar implementation.
-    - A sub root tag appears as a task to be completed.
-
-This particular code also has bugs but in different situations. It doesn't register nested code i believe. It also record non subrooted tasks.
-* Visually it looks like this⤵
-~~~dataviewjs
-
-const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
-const {path} = this.app.workspace.getActiveFile()
-const page_path = path;
-
-const filter_term = "Status Tasks" ; 
-
-const createCheckTaskForFilterTerm = (
-    filter_term, task_property_key
-) => {
-    return (task) => {
-        const context = task[task_property_key];
-        return String(context).includes(filter_term)
-    }
-}
-const checkTaskForFilterTerm = createCheckTaskForFilterTerm(
-    filter_term, "section"
-);
-const checkForCompletedTask = (task) => task.completed;
-
-
-
-
-
-this.app.workspace.onLayoutReady( main.bind(this) )
-function main() {
-    const currentTasks = dv.page(page_path).file.tasks;
-    
-    const completedTasksCnt = currentTasks
-        .where(checkForCompletedTask)
-        .length
-        //.where(checkTaskForFilterTerm)
-    const totalTasksCnt = currentTasks
-        .length
-        
-    const value = (
-        (completedTasksCnt / totalTasksCnt).toFixed(2)
-    ) * 100;
-    const _value = Math.round(value)
-    const unfinishedTasksCnt = totalTasksCnt - completedTasksCnt
-    const progress_html = `<progress value="${_value}" max="100"></progress><span style="font-size:smaller;color:var(--text-muted)">${_value} % | ${unfinishedTasksCnt} left</span>`
-    
-        //.where(checkTaskForFilterTerm)
-    renderEl.call(this,progress_html);
-}
-function renderEl(progress_html) {
-    const $p = this.container.createEl("p")
-    $p.innerHTML = progress_html;
-}
-~~~
-
-- [ ] Can i delete my progress bar code and allow the progress bar plugin to replace it? #_todo/priority-low/to-muse 
-
+    * [[archived_~view-for-local-tasks-using-a-progress-bar-MUID-698]]

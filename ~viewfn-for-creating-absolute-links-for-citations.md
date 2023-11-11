@@ -1,25 +1,24 @@
 ---
 alias:
 CREATION_DATE: 2023-10-07
-DOC_VERSION: v0.0.2
+DOC_VERSION: v0.0.4
 MUID: MUID-1560
-tag: _wip 
+tag: _wip
 TEMPLATE_VERSION: v1.0.4_blank-template
-UMID: 
+UMID:
 ---
 
 # -
 
 ## About
 
-This [[,aka-reference-specced-note|aka-literature-specced-note]] is 
-
+This [[,aka-reference-specced-note|aka-literature-specced-note]] is
 
 # =
 
 **filename:** `=this.file.path`
 
-* The following code scans the content under a specific H1 using the [[custom-transclusion-parameters,]] syntax (?search_term=).  Every H2 is transformed into a bulletpointed outline of markdown links.⤵
+- The following code scans the content under a specific H1 using the [[custom-transclusion-parameters,]] syntax (?search_term=). Every H2 is transformed into a bulletpointed outline of markdown links.⤵
 
 ```dataviewjs
 const { default: obs } =
@@ -29,7 +28,7 @@ const { default: obs } =
 const {metadataCache,vault,workspace,fileManager} = this.app
 const {adapter} = vault;
 
-let MARKER = "---Transient Citations";
+let MARKER = "---Transient Local Citations";
 
 const getCFP = () => this.currentFilePath;
 
@@ -43,9 +42,9 @@ function main(cmd) {
       providing_path,
       workspace.getActiveFile()
     )
-    console.log({argMap})
+
     MARKER = argMap.search_term || MARKER;
-    
+
     // --
 
     const avf = workspace.getActiveFile()
@@ -54,24 +53,25 @@ function main(cmd) {
 
     const embed_texts = gatherEmbedTexts(
       avf, mdc
-    );  
+    );
+    console.log({embed_texts})
     renderRefreshAndCopyButton
-      .call(ctx, main,"copy")  
+      .call(ctx, main,"copy")
+      
     if (embed_texts.length >= 1) {
-      
-
       renderUI.call(ctx, embed_texts, cmd)
-      
     } else {
       const { $el } = await genCreateDiv(
         ctx, { text: "" , cls: "deleteme"}
       );
-  
+
+
+      const callout_text = getTextForRender(argMap?.search_term || ""); 
       const rendered_text = await obs
         .MarkdownRenderer
         .render(
           ctx.app,
-          `\> [!warning] Transient Citations closest to analysis is empty`,
+          callout_text,
           $el,
           "",
           ctx.container.component
@@ -83,44 +83,71 @@ function main(cmd) {
 
 // LOGIC layer
 
-function gatherEmbedTexts(avf = null,mdc=null) {
+function getTextForRender(search_term) {
+      const warning =  `\> [!warning] ${search_term} closest to analysis is empty`
+      const notification =  `\> [!note] ${search_term} has been used up`;
+      return warning;
+}
+
+function gatherEmbedTexts(avf = null, mdc = null) {
   if ([avf, mdc].every(Boolean) === false) return [];
+
+  const embed_texts = [];
+  const citations = [];
   let isReadFlag = false;
-  const embed_texts = []
-  let ct = 0;
-  const mdcMarkdownLinks = mdc?.links?.map(({original}) => original) || [];
+  
+  if (!!mdc?.headings === false) return embed_texts;
+  if (mdc.headings.length === 0) return embed_texts;
+  
+  // these are the used links
+  const mdcLinks = mdc?.links?.map(({original}) => original) || [];
+  const mdcEmbeds = mdc?.embeds?.map(({original}) => original) || [];
+  const mdcs = [...mdcLinks, ...mdcEmbeds]
   for (let mdcHeading of mdc.headings) {
     const {level,heading} = mdcHeading;
+    const markdownLink = getMarkdownLink(avf,heading)
+    const unaliasedMarkdownLink = getUnaliasedMarkdownLink(markdownLink);
 
     if (heading.startsWith(MARKER) && level === 1) {
-      isReadFlag = !isReadFlag;
-      ct++;
-    }
-    if (ct > 1 && isReadFlag === false) {
-      break;
-    }
+      isReadFlag = true;
+      continue;
+    } 
+    if (isReadFlag === false) continue;
     if (isReadFlag && level === 2) {
-      const embed_text = `#${heading}`
-      const mdlink = fileManager
-        .generateMarkdownLink(
-          avf,
-          avf.path,
-          avf.basename + embed_text,
-          heading
-        )
-      const parsedLink = obs.parseLinktext(mdlink);
-      const _mdlink = parsedLink.path + parsedLink.subpath.split('|').first()
-      console.log({mdcMarkdownLinks,_mdlink})
-      const isMentioned = mdcMarkdownLinks.some((a) => a.startsWith(_mdlink))
-      if (!isMentioned) {
-        embed_texts.push(
-          "`* " + mdlink + "`" + "\n"
-        );
-      }
-    }    
+      citations.push(markdownLink)
+    }
   }
-  console.log({embed_texts})
+  
+  for (const citation of citations) {
+    const unaliasedMarkdownLink = getUnaliasedMarkdownLink(citation);
+    const isUsed = mdcs.some((s) => {
+      const ret = s.indexOf(unaliasedMarkdownLink) > -1
+      // console.log({ret,s,unaliasedMarkdownLink})
+      return ret;
+    })
+    if (!isUsed) {
+      embed_texts.push(citation)
+    }
+  }
+
   return embed_texts;
+}
+
+function getMarkdownLink(avf,heading) {
+  const _embed_text = `#${heading}`
+  const markdownLink = fileManager
+    .generateMarkdownLink(
+      avf,
+      avf.path,
+      avf.basename + _embed_text,
+      heading
+    )
+  return markdownLink;
+}
+
+function getUnaliasedMarkdownLink(markdownLink) {
+    const parsedLink = obs.parseLinktext(markdownLink);
+    return parsedLink.path + parsedLink.subpath.split('|').first()
 }
 
 // UI
@@ -132,7 +159,7 @@ function renderRefreshAndCopyButton(main,cmd) {
     $button.remove();
     this.container?.lastChild?.remove();
     main.call(this, copy);
-  
+
   }
   new obs
     .ButtonComponent(this.container)
@@ -140,7 +167,9 @@ function renderRefreshAndCopyButton(main,cmd) {
     .onClick(handleClick.bind(this))
 }
 function renderUI(embed_texts,cmd) {
-      const uiMdText = embed_texts.reduce((a,b) => a + b)
+    const uiMdText = embed_texts.reduce((chain,text) => {
+      return chain + "* " + text + "\n"
+    },"")
     const $el =dv.paragraph(
       uiMdText, {
         cls: "deleteme"
@@ -148,7 +177,7 @@ function renderUI(embed_texts,cmd) {
     );
     if (cmd === "copy")  {
       const text = $el.innerText;
-      navigator.clipboard.writeText(text);
+      navigator.clipboard.writeText(uiMdText);
     }
 }
 
@@ -178,7 +207,7 @@ async function genCreateDiv(ctx, config = {text: ''}) {
   })
 }
 
-// # Extraction Code vX.X.X. 
+// # Extraction Code vX.X.X.
 // impossible to version when inside another codelet.
 function manuParams() {
   return {
@@ -187,7 +216,7 @@ function manuParams() {
   }
 }
 function extractParams(
-  current_filepath, 
+  current_filepath,
   vf
 ) {
 
@@ -195,16 +224,16 @@ function extractParams(
   const {name} = vault.adapter.path
     .parse(current_filepath);
   const embed = extractTargetEmbed(
-    name, 
+    name,
     embeds
   );
   const displayText = embed?.displayText;
-  
-  console.log({displayText})
+
+
   if (!displayText) {
     return manuParams()
   };
-  
+
   const argMap = parseStringToMap(
     displayText
   );
@@ -212,16 +241,16 @@ function extractParams(
     ...manuParams(),
     ...argMap
   };
-  // /end params extraction 
+  // /end params extraction
 
   // helpers
   function getEmbedsFromVf(vf) {
     return metadataCache
       .getFileCache(vf)?.embeds || [];
   }
-  
+
   function extractTargetEmbed(
-    embed_name, 
+    embed_name,
     embeds
   ) {
     const embed = embeds?.find(
@@ -233,8 +262,8 @@ function extractParams(
     });
     return embed;
   }
-  
-  
+
+
   function parseStringToMap(str) {
     { var parsed = {};
       try {
@@ -242,10 +271,10 @@ function extractParams(
           ?.url
           ?.parse(str, true);
       } catch (err) {
-        console.log({err})
+
         return {
           err
-        }   
+        }
       }
       return parsed?.query || {};
     }
@@ -254,11 +283,14 @@ function extractParams(
 }
 ```
 
-
 # ---Transient Local Citations
-
 
 # ---Transient Commit Log
 
-* v0.0.2 Begin work to remove already linked texts from Sorted Citations
-* v0.0.1 Add button for refreshing
+* v0.0.5 Remove weird flags and create a more straightforward implementation
+  * Any time we go past the target heading, we create a fully featured markdownlink. These are our list of citation headers. The markdownlinks are in our backpocket so we scarpe the whole document for links, finidng that there isn't any...the list of links in the document. Because the headings are not links per se, that means, should the list of links every include a match from one of the list of citations
+  * The log also helped against recidivistic bugs as i was about to forget to track embedded links as "consumed"
+* v0.0.4 Fix bug with non existent array in mdc embedded texts
+- v0.0.3 Fix bug where embedded links (used up) were not included as used up links.
+- v0.0.2 Begin work to remove already linked texts from Sorted Citations
+- v0.0.1 Add button for refreshing

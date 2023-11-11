@@ -39,7 +39,13 @@ FLATTEN (
         join([file.path,"#="],""), "="
     )
 ) as file_link_path
-FLATTEN (length(file.inlinks) * number("0.5")) + (length(file.outlinks) * number("0.9")) as "weighted"
+FLATTEN round(
+    (
+      ( length(file.inlinks) * number("0.5") ) + 
+      ( length(file.outlinks) * number("0.9") )
+    ),
+    2 
+  ) as "weighted"
 FLATTEN string(
    join(
     list(

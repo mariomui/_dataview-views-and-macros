@@ -1,6 +1,6 @@
 ---
 Aliases: ["__README___experiments", _experiments]
-tag: _nts-v1/structural-note
+tag: _noteshippo/structural-note
 ---
 
 

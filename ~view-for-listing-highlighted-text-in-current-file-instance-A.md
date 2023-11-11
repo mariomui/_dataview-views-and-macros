@@ -1,6 +1,6 @@
 ---
 tag: _wip 
-DOC_VERSION: v0.0.3
+DOC_VERSION: v0.0.2
 cssClasses: cards, cards-cover, cards-2-3, table-max
 ---
 # -
@@ -23,6 +23,7 @@ I've added a little checkbox but any mutations are not permanent, id est, a mark
 
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app
+
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object.obsidian;

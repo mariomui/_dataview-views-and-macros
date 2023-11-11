@@ -175,7 +175,11 @@ function bootstrap() {
     const fileStore = getReadOnlyIDBStore(
       db, 'file'
     );
-    console.log("getall",await metadataStore.getAll())
+    const metaStore = await metadataStore.getAll()
+    const item = metaStore.find((datum) => {
+      return datum?.frontmatter?.MUID === "MUID-568"
+    })
+    console.log({item})
   })(this) 
 }
 

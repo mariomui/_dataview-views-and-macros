@@ -218,7 +218,7 @@ function findViewPredicate({tabHeaderEl}) {
 
 🤔 The code is problematic with spaces and Reference and hard to read code with slicing.
 
-- The code below is a copy of the [[~interim_view-for-recent-reference-link-to-note-title-transform]]
+- The code below is a copy of the [[~view-for-recent-reference-link-to-note-title-transform]]
 
 ```js
 ~~~dataviewjs

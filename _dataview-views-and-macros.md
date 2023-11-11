@@ -36,7 +36,6 @@ The code stays off the primary note but the transcluded preview is available. Th
 %% Begin Waypoint %%
 - **[[_experiments]]**
 - [[~deprecated_button-for-ytranscript]]
-- [[~interim_view-for-recent-reference-link-to-note-title-transform]]
 - [[~view-for-big5-character-radar-chart]]
 - [[~view-for-broken-links]]
 - [[~view-for-calculating-reading-time]]
@@ -46,10 +45,12 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-exact-tag-file-listing]]
 - [[~view-for-inactive-note-collection]]
 - [[~view-for-inactive-notes-count]]
+- [[~view-for-listing-highlighted-text-in-current-file-instance-A]]
 - [[~view-for-listing-highlighted-text-in-current-file]]
 - [[~view-for-local-tasks-using-a-progress-bar-MUID-698]]
 - [[~view-for-lotterizing-note-work-slate-TCODEID-1]]
 - [[~view-for-oldest-files-in-system-TCODEID-3]]
+- [[~view-for-recent-reference-link-to-note-title-transform]]
 - [[~view-for-referencing-current-jumpid]]
 - [[~view-for-top-active-notes-using-weighted-score]]
 - [[~view-for-top-inactive-notes-using-io-index]]

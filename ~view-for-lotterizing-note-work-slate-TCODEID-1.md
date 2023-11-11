@@ -1,6 +1,6 @@
 ---
-tag: _meta _coding/partial
-VERSION: v1.0.1
+tags: _meta _coding/partial
+DOC_VERSION: v1.0.1
 ID: TCODEID-1
 CODELET_SHORTNAME: garden-note-by-lottery
 UMID: 
@@ -20,6 +20,8 @@ See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for 
 
 # =
 
+- [ ] Set the .markdown-reading-view.block-language-dataviewjs to overflow auto or something. its getting ugly ➕ 2023-10-29
+
 ```dataviewjs
 // TCODEID-1
 const { default: obs } =
@@ -33,7 +35,8 @@ const sourceVirtualFile = vault.getAbstractFileByPath(
 const sourceFrontmatter =
   metadataCache.getFileCache(sourceVirtualFile);
 
-const { VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
+const { DOC_VERSION: VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
+
 const _CODELET_SHORTNAME = CODELET_SHORTNAME
   ? (CODELET_SHORTNAME || "").toUpperCase().at(0) + CODELET_SHORTNAME.slice(1)
   : "";
@@ -58,26 +61,20 @@ const getFolderAlias = createGetter(folderAliasFig);
 // # bootup
 workspace.onLayoutReady(bootstrap.bind(this));
 function bootstrap() {
+  // this.container.lastChild.remove();
   main.call(
     this,
     button_title,
-    function hc() {
-      if (!this?.fig) {
-        const el = generateTable(this.app, folder_names);
-        this.fig = Object.assign(
-          {},
-          {
-            should: false,
-            el,
-          },
-        );
-        return el;
-      } else {
-        this.container.lastChild.remove();
-        // const nel = generateTable(this.app, folder_names);
-      }
-    }.bind(this),
+    handleRegenerateUiOnClick.bind(this)
   );
+  const el = generateTable(this.app, folder_names);
+}
+
+
+function handleRegenerateUiOnClick() {
+  this.container.lastChild.remove();
+  const el = generateTable(this.app, folder_names);
+  return el;
 }
 
 // # business logic
@@ -85,10 +82,6 @@ function main(button_title, handleClick) {
   const btn = new obs.ButtonComponent(this.container)
     .setButtonText(button_title)
     .onClick(() => handleClick());
-  this.fig = {
-    btn,
-    el: handleClick(),
-  };
 }
 
 // # helper
@@ -158,6 +151,7 @@ function renderLink(link) {
 
 # ---Transient Sandbox
 
+
 v1.0.0
 ```dataviewjs
 const { default: obs } =
@@ -171,7 +165,7 @@ const sourceVirtualFile = vault.getAbstractFileByPath(
 const sourceFrontmatter =
   metadataCache.getFileCache(sourceVirtualFile);
 
-const { VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
+const { DOC_VERSION: VERSION, CODELET_SHORTNAME } = sourceFrontmatter.frontmatter;
 const _CODELET_SHORTNAME = CODELET_SHORTNAME
   ? (CODELET_SHORTNAME || "").toUpperCase().at(0) + CODELET_SHORTNAME.slice(1)
   : "";
@@ -292,5 +286,10 @@ function renderLink(link) {
   return link;
 }
 ```
+
+# ---Transient Commit Log
+
+* v1.0.2 Fix bug where button removed the element without repopulating
+  * Related topic. using global objects to handle a once object is no bueno.
 
 ## Ω

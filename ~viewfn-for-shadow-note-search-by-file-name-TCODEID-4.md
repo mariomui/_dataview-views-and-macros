@@ -17,7 +17,7 @@ AND !completed
 
 ## About
 
-This is a [[Partial-dataview,vis-Noteshippo]] designed to search [[shadow-note]]s for a specific term using regex.
+This is a [[Partial-dataview,vis-Noteshippo]] designed to search [[,aka-shadow-note]]s for a specific term using regex.
 
 * Rough structure is ⤵
 ```ts
@@ -27,9 +27,8 @@ interface TCODEID4 {
 }
 TCODEID4: (queryString: TCODEID4) => void
 ```
-* API is ⤵
-  * `[[` `= this.file.name` `|?search_term=`**note**`&regex_flag=gm`]]`
 
+![[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4#Usage Guide|olk]]
 
 The code used here might be more suitable for a plugin.
 
@@ -51,6 +50,10 @@ v1.0.1 is somewhere floating hard coded out there in the [[notesphere]]
 * †
 
 # =
+
+`= this.file.name`
+
+![[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4#Usage Guide|olk]]
 
 ```dataviewjs
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
@@ -226,6 +229,12 @@ function extractParams(
 ```
 
 ---
+# ---Transient Local Resources
+
+## Usage Guide
+
+* API is ⤵
+  * `[[` `= this.file.name` `|?search_term=`**note**`&regex_flag=gm`]]`
 
 # ---Transient Sandbox
 
