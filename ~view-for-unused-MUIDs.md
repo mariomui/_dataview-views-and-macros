@@ -4,6 +4,7 @@ MUID: MUID-1196
 CREATION_DATE: 2023-06-22 
 tag: _meta 
 UMID: 
+DOC_VERSION: v0.0.1
 ---
 
 ---
@@ -11,6 +12,7 @@ UMID:
 ## About
 
 Collects all the MUIDs not used. Harcoded search goes from 600 to currently used ID no.
+
 
 # =
 Unused MUIDs
@@ -24,7 +26,9 @@ function removeAllFolderPredicate(file) {
 }
 
 const prefix = "MUID"
-const upperlimit = getCurrentIteration(prefix)
+const maxlimit = getCurrentIteration(prefix)
+const upperlimit = 200
+const lowerlimit = Math.max(upperlimit - 100, 0)
 
 main.call(this,vfiles);
 function main(vfiles) {
@@ -39,7 +43,7 @@ function main(vfiles) {
     const unusedIds = getUnusedIds(dict, {
         upperlimit, 
         prefix,
-        lowerlimit: 650
+        lowerlimit
     });
 
     const matrix = transformToColMatrix(
@@ -84,10 +88,10 @@ function getUIFromVFile(vfile) {
     return null;
 }
 
-function getUnusedIds(dict, config ={
+function getUnusedIds(dict, config = {
     prefix: "MUID",
-    upperlimit: 500,
-    lowerlimit: 100
+    upperlimit: 200,
+    lowerlimit: 50
 }) {
     const {prefix, upperlimit, lowerlimit} = config;
     const muids = Array(upperlimit-lowerlimit)
@@ -105,3 +109,10 @@ function getUnusedIds(dict, config ={
 }
 
 ```
+
+
+<%= /**
+* v0.0.1 
+  * Begin process to extract the upper limit and lower limit into knows
+  * transfer learnings from experiment over to the About section
+**/ -%>

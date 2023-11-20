@@ -45,6 +45,7 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-exact-tag-file-listing]]
 - [[~view-for-inactive-note-collection]]
 - [[~view-for-inactive-notes-count]]
+- [[~view-for-list-of-currently-active-obsidianmd-plugins]]
 - [[~view-for-listing-highlighted-text-in-current-file-instance-A]]
 - [[~view-for-listing-highlighted-text-in-current-file]]
 - [[~view-for-local-tasks-using-a-progress-bar-MUID-698]]
@@ -58,6 +59,7 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~viewfn-for-creating-absolute-links-for-citations]]
 - [[~viewfn-for-pending-notes]]
 - [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
+- [[~viewfn-sluicing-out-unprocessed-links-MUID-1643]]
 - **projects**
 
 %% End Waypoint %%
