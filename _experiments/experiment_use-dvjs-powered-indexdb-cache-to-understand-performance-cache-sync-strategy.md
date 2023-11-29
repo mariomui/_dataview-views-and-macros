@@ -22,7 +22,7 @@ task where file.name = this.file.name and completed
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
-    * [[interim_reference-note,et-alia]] -> [[stub-note,et-alia]] -> [[Library-note]] -> [[claim-note,et-alia]]
+    * [[interim_reference-note,et-alia]] -> [[stub-note,et-alia]] -> [[Library-note]] -> [[claim-note,etc]]
   * 🔚
     * What happens when the [[interim_reference-note,et-alia]] also requires coding?
     * TLINE:  Use [[question-spec,ad-finem-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
@@ -107,8 +107,7 @@ async function iterateStore(
   count,
   cb = console.log
 ) {
-    const cursor = await store
-      .openCursor()    
+    const cursor = await store.openCursor()    
     
     let i = count;
     for (const field in cursor.value) {  
@@ -142,6 +141,121 @@ async function genGetAll(store) {
 }
 ```
 
+
+dataview specific
+```dataviewjs
+const {
+  workspace, vault, metadataCache
+} = this.app;
+const dbName = "dataview/cache/09a039420da31c91"
+workspace.onLayoutReady(bootstrap.bind(this))
+async function genDBOpen(dbname) {
+  const DBOpenRequest = window.indexedDB.open(dbName)
+  return new Promise((resolve,reject) => {
+    DBOpenRequest.onerror = (event) => {
+      reject({
+        error: event,
+        desc: "Error loading database",
+        payload: null
+      })
+    };
+    DBOpenRequest.onsuccess = (event) => {
+      const success_msg = "Database initialized";
+      resolve({
+        error: null,
+        desc: success_msg,
+        payload: DBOpenRequest.result
+      })
+    }
+  })
+}
+function bootstrap() {
+  (async function(ctx) {
+
+    const request = await genDBOpen(dbName)
+    if (request.error) {
+      console.log({request})
+      return null
+    }
+    const db = request.payload;
+    console.log({db}, "dvdb")
+    const metadataStore = getReadOnlyIDBStore(
+      db, 'keyvaluepairs'
+    );
+    /**
+    const fileStore = getReadOnlyIDBStore(
+      result, 'file'
+    );
+    **/
+    // dvspecific
+    await iterateStore(metadataStore,5, (pops) => {
+      const keys = Object.keys(pops)
+      const entry = Object.entries(pops.data)
+      console.log({entry})
+      dv.list(entry)
+      renderList.call(
+        ctx,
+        keys
+      )
+    })
+
+      
+    function createPop() {
+      const pops = []
+      return function pop(datum = null) {
+        if (datum === 'mario') {
+          return pops;
+        }
+        pops.push(datum)
+      }
+    }
+
+
+    // console.log({pops, metadataStore});
+    console.log('all',await metadataStore.getAll())
+  })(this)
+  
+}
+
+// # UI renderer
+function renderList(pops) {
+  const md = dv.markdownList.call(this, pops);
+  workspace.onLayoutReady(() => {
+    dv.paragraph(md);
+  })
+}
+
+// # UTIL
+async function iterateStore(
+  store, 
+  count,
+  cb = console.log
+) {
+    const _cursor = await store.openCursor()    
+    _cursor.onsuccess = async () => {
+  
+      const {result} = _cursor
+
+      cb(result.value)
+    }
+}
+function getReadOnlyIDBStore(
+  db, store_name
+) {
+  const tx = db.transaction(
+      store_name, 'readonly'
+  );  
+  const store = tx
+    .objectStore(store_name);  
+  return store;
+}
+
+// they took out the get all function this doesnt work to get all data from store.
+async function genGetAll(store) {
+  if (!store?.getAll) return Promise.resolve();
+  return await store.getAll();
+}
+```
 ---
 
 # ---Transient
@@ -176,6 +290,7 @@ function bootstrap() {
       db, 'file'
     );
     const metaStore = await metadataStore.getAll()
+    
     const item = metaStore.find((datum) => {
       return datum?.frontmatter?.MUID === "MUID-568"
     })

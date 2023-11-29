@@ -19,9 +19,11 @@ This [[folder-page,vis-Noteshippo,]]'s goal is to provide dashboard views to hel
 
 %% Begin Waypoint %%
 - [[~view-dynamic-table-of-contents]]
+- [[~wip_view-for-providing-sampled-todos]]
 - [[experiment_~view-dynamic-table-of-contents-v2]]
 - [[experiment_list-a-folders-contents-and-add-to-dom-TCODEID-5]]
 - [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy]]
+- [[experiment_using-dql-find-the-next-subtask-to-work-on]]
 - [[sandbox_~view-for-mediashelf]]
 - [[sandbox_display-movies-in-cards]]
 

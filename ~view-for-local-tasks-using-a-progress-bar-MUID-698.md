@@ -27,7 +27,7 @@ TASK WHERE file.name = this.file.name AND completed
 - [ ] Devise a more contained method for logging silent.
   - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
 - [ ] What is an example of a [[practice-note]]?
-  - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,et-alia]] so it may be that 
+  - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that 
 - [ ] Make the main function a module so the [[arity,vis-Coding,#=]] is more apparent.
 - [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
 - [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
