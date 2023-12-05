@@ -1,7 +1,6 @@
 ---
-tag: _meta 
+tags: _meta 
 DOC_VERSION: v1.0.5
-CODELET_SHORT_NAME: "pc-jumpid"
 ---
 # -
 
@@ -20,7 +19,7 @@ v1.0.2
 # =
 
 ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ 
-**`= this.file.frontmatter.CODELET_SHORT_NAME + "-" + this.file.frontmatter.DOC_VERSION`**
+**`= this.file.name + "-" + this.file.frontmatter.DOC_VERSION`**
 ```dataviewjs
 const {workspace} = this.app
 const container = this.container

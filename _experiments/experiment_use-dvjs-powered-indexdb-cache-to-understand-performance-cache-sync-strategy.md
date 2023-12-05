@@ -36,10 +36,31 @@ task where file.name = this.file.name and completed
 
 # =
 
-## = TITLE
 
 *`= this.file.name`*
 
+## Prerequisites
+
+### How does the data look like?
+
+#### Databases supplied by Obsidian 
+
+    const {db} = metadataCache;
+    const metadataStore = getReadOnlyIDBStore(
+      db, 'metadata'
+    );
+metadata and file are the store names supplied by [[ObsidianMD-app,]]
+
+#### Databases supplied by Dataview
+
+const APP_ID = this.app.appId
+const dbName = "dataview/cache/" + APP_ID
+const DBOpenRequest = window.indexedDB.open(dbName)
+
+## Differential between Obsidian And Datview IndexedDb Stores
+
+The [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]] store is a api response unlike obsidian db api
+## Spaghetti Phase
 
 ```dataviewjs
 const {
@@ -141,122 +162,13 @@ async function genGetAll(store) {
 }
 ```
 
+Use the indexdb api to use a [[√-Turing-machines-explained-visually-YouTube-https-www-youtube-com-watch-v=-ZS_zFg4w5k&ab_channel=ArtoftheProblem|turing]]-like cursor to move across the metadataCache
+## Directed Phase
 
-dataview specific
-```dataviewjs
-const {
-  workspace, vault, metadataCache
-} = this.app;
-const dbName = "dataview/cache/09a039420da31c91"
-workspace.onLayoutReady(bootstrap.bind(this))
-async function genDBOpen(dbname) {
-  const DBOpenRequest = window.indexedDB.open(dbName)
-  return new Promise((resolve,reject) => {
-    DBOpenRequest.onerror = (event) => {
-      reject({
-        error: event,
-        desc: "Error loading database",
-        payload: null
-      })
-    };
-    DBOpenRequest.onsuccess = (event) => {
-      const success_msg = "Database initialized";
-      resolve({
-        error: null,
-        desc: success_msg,
-        payload: DBOpenRequest.result
-      })
-    }
-  })
-}
-function bootstrap() {
-  (async function(ctx) {
+* # Branch*
+* [[experiment_use-dvjs-powered-dataviewcache]]
+  * This experiment 
 
-    const request = await genDBOpen(dbName)
-    if (request.error) {
-      console.log({request})
-      return null
-    }
-    const db = request.payload;
-    console.log({db}, "dvdb")
-    const metadataStore = getReadOnlyIDBStore(
-      db, 'keyvaluepairs'
-    );
-    /**
-    const fileStore = getReadOnlyIDBStore(
-      result, 'file'
-    );
-    **/
-    // dvspecific
-    await iterateStore(metadataStore,5, (pops) => {
-      const keys = Object.keys(pops)
-      const entry = Object.entries(pops.data)
-      console.log({entry})
-      dv.list(entry)
-      renderList.call(
-        ctx,
-        keys
-      )
-    })
-
-      
-    function createPop() {
-      const pops = []
-      return function pop(datum = null) {
-        if (datum === 'mario') {
-          return pops;
-        }
-        pops.push(datum)
-      }
-    }
-
-
-    // console.log({pops, metadataStore});
-    console.log('all',await metadataStore.getAll())
-  })(this)
-  
-}
-
-// # UI renderer
-function renderList(pops) {
-  const md = dv.markdownList.call(this, pops);
-  workspace.onLayoutReady(() => {
-    dv.paragraph(md);
-  })
-}
-
-// # UTIL
-async function iterateStore(
-  store, 
-  count,
-  cb = console.log
-) {
-    const _cursor = await store.openCursor()    
-    _cursor.onsuccess = async () => {
-  
-      const {result} = _cursor
-
-      cb(result.value)
-    }
-}
-function getReadOnlyIDBStore(
-  db, store_name
-) {
-  const tx = db.transaction(
-      store_name, 'readonly'
-  );  
-  const store = tx
-    .objectStore(store_name);  
-  return store;
-}
-
-// they took out the get all function this doesnt work to get all data from store.
-async function genGetAll(store) {
-  if (!store?.getAll) return Promise.resolve();
-  return await store.getAll();
-}
-```
----
 
 # ---Transient
 

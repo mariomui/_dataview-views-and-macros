@@ -19,7 +19,7 @@ alias: _dataview-views-and-macros
 
 ## About
 
-This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[Dataview-plugin,ad-finem-ObsidianMD]]. 
+This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]]. 
 
 Any subfolders will also be described here.
 
