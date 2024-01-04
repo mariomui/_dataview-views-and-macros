@@ -11,10 +11,10 @@ UMID:
 
 ## About
 
-Much of this code was sourced from [[~viewfn-for-creating-absolute-links-for-citations]]. 
+Much of this code was sourced from [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]. 
 
 * It uses,
-  * [[custom-transclusion-parameters,]]
+  * [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
 
 The purpose of this view is to dynamically source all the links contained within a specified H1 (usually named ---Transient Waypoints). The view will automatically remove any links that have been mentioned AGAIN, creating an almost queue like behavior where the view keeps tracks of how many links you've written about. The goal is to see zero waypoints.
 

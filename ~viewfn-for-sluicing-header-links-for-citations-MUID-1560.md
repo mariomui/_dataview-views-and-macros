@@ -1,9 +1,10 @@
 ---
-alias:
+aliases: 
 CREATION_DATE: 2023-10-07
-DOC_VERSION: v0.0.4
+DOC_VERSION: v0.0.6
 MUID: MUID-1560
-tag: _wip
+tags:
+  - _wip
 TEMPLATE_VERSION: v1.0.4_blank-template
 UMID:
 ---
@@ -12,13 +13,18 @@ UMID:
 
 ## About
 
-This [[,aka-reference-specced-note|aka-literature-specced-note]] is
+This is a [[Partial-dataview,vis-Noteshippo,]]. It houses a [[codelet]] that uses [[Dataview-plugin,bt.-ObsidianMD-app,]] to create a view that scans the nearest H1 search term and collects all the H2s underneath it.
+
+The result is displayed as a list of links.
+There is a copy button. It is used to create a job queueing system for HEADERS under `---Transient Local Citations`
+
+[[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] allow this [[codelet]] to be dynamically controlled at runtime.
 
 # =
 
 **filename:** `=this.file.path`
 
-- The following code scans the content under a specific H1 using the [[custom-transclusion-parameters,]] syntax (?search_term=). Every H2 is transformed into a bulletpointed outline of markdown links.⤵
+- The following code scans the content under a specific H1 using the [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] syntax (?search_term=). Every H2 is transformed into a bulletpointed outline of markdown links.⤵
 
 ```dataviewjs
 const { default: obs } =
@@ -54,7 +60,7 @@ function main(cmd) {
     const embed_texts = gatherEmbedTexts(
       avf, mdc
     );
-    console.log({embed_texts})
+
     renderRefreshAndCopyButton
       .call(ctx, main,"copy")
       
@@ -107,11 +113,14 @@ function gatherEmbedTexts(avf = null, mdc = null) {
     const {level,heading} = mdcHeading;
     const markdownLink = getMarkdownLink(avf,heading)
     const unaliasedMarkdownLink = getUnaliasedMarkdownLink(markdownLink);
-
+    console.log({MARKER, heading, level, isReadFlag})
     if (heading.startsWith(MARKER) && level === 1) {
       isReadFlag = true;
       continue;
-    } 
+    }
+    if (!heading.startsWith(MARKER) && level === 1) {
+     isReadFlag = false;
+    }
     if (isReadFlag === false) continue;
     if (isReadFlag && level === 2) {
       citations.push(markdownLink)
@@ -283,10 +292,13 @@ function extractParams(
 }
 ```
 
-# ---Transient Local Citations
+
 
 # ---Transient Commit Log
 
+* v0.0.6
+  * Add MUID to note title 
+  * Fix bug where the codelet did not exclude links inside of non markered headers
 * v0.0.5 Remove weird flags and create a more straightforward implementation
   * Any time we go past the target heading, we create a fully featured markdownlink. These are our list of citation headers. The markdownlinks are in our backpocket so we scarpe the whole document for links, finidng that there isn't any...the list of links in the document. Because the headings are not links per se, that means, should the list of links every include a match from one of the list of citations
   * The log also helped against recidivistic bugs as i was about to forget to track embedded links as "consumed"

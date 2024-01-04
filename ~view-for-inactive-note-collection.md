@@ -9,7 +9,7 @@ VERSION: v1.0.1
 
 Unfortunately, i have no caching process to draw upon, and the filter on all notes in the system using dvjs has performance issues. 
 - [x] Make a javascript version of this so I can use caches.
-- [ ] Give the dataview the ability to use  [[custom-transclusion-parameters,]]
+- [ ] Give the dataview the ability to use  [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
 
 # =
 

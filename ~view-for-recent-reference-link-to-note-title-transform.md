@@ -24,7 +24,7 @@ The reference is automatically parsed from the active file, from the last item i
         -  [[ß-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
       - ~~When the alias changes in this source note, obsidian does not rename the links whereas the note title propagates the changes.~~
         - 🤔 I dont use aliases anymore, so the example is rendered moot. 
-    - 📁 _Overuse of [[Domain-specific-language,#=|DSL]] such as [[Dataview-plugin,b.t.-ObsidianMD-app,#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
+    - 📁 _Overuse of [[Domain-specific-language,#=|DSL]] such as [[Dataview-plugin,bt.-ObsidianMD-app,#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
 
 _Details_
 This dvjs view converts the last item inside of a header named Reference into a standard obsidian title, removing:

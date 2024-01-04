@@ -21,6 +21,7 @@ This [[folder-page,vis-Noteshippo,]]'s goal is to provide dashboard views to hel
 - [[~view-dynamic-table-of-contents]]
 - [[~wip_view-for-providing-sampled-todos]]
 - [[experiment_~view-dynamic-table-of-contents-v2]]
+- [[experiment_~view-for-listing-backlinks]]
 - [[experiment_list-a-folders-contents-and-add-to-dom-TCODEID-5]]
 - [[experiment_use-dvjs-powered-dataviewcache]]
 - [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy]]

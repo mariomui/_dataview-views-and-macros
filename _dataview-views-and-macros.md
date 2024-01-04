@@ -8,18 +8,18 @@ alias: _dataview-views-and-macros
   - Note-Taking could very easily be a note named Note-taking so consistency is much better.
 - [ ] Replace all mentions of Note-Taking with MNote Taking System and create a note pertaining to that.
   - convert all files named `[[Note-taking-system,cf.-Mario-Mui,]]` into [[,aka-Note-taking-system,cf.-Mario-Mui]]
-- [ ] Add a versioning comment for every [[Partial-dataview,vis-Noteshippo]] housed in this folder
+- [ ] Add a versioning comment for every [[Partial-dataview,vis-Noteshippo,]] housed in this folder
 * #_todo/to-muse/on-noteshippo
   * [ ] Alias or aliases do not change when folder change.
   * [ ] Folder pages change with the folder renaming 
 
 * #_todo/to-muse/on-noteshippo/regarding-meta-note-naming-rules
   - [ ] All tag pages and folder pages aside from the top level  A_ B_ C_ D_...Z_ will be prefixed with an underscore. 
-- [ ] Insert media detailing usage of Partial dataview into each [[Partial-dataview,vis-Noteshippo]]'s [[private-header,b.t.-Anchor-heading-api]][[,aka-private-H1,ad-finem-Note-Taking]]
+- [ ] Insert media detailing usage of Partial dataview into each [[Partial-dataview,vis-Noteshippo,]]'s [[private-header,b.t.-Anchor-heading-api]][[,aka-private-H1,ad-finem-Note-Taking]]
 
 ## About
 
-This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]]. 
+This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo,]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]]. 
 
 Any subfolders will also be described here.
 
@@ -56,10 +56,11 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-top-active-notes-using-weighted-score]]
 - [[~view-for-top-inactive-notes-using-io-index]]
 - [[~view-for-unused-MUIDs]]
-- [[~viewfn-for-creating-absolute-links-for-citations]]
+- [[~viewfn-for-listing-local-specific-tags]]
 - [[~viewfn-for-pending-notes]]
 - [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
-- [[~viewfn-sluicing-out-unprocessed-links-MUID-1643]]
+- [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]UID-1560]]
+- [[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643]]
 - **projects**
 
 %% End Waypoint %%

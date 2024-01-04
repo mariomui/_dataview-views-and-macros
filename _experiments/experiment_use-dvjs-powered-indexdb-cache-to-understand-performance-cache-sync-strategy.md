@@ -22,7 +22,7 @@ task where file.name = this.file.name and completed
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
-    * [[interim_reference-note,et-alia]] -> [[stub-note,et-alia]] -> [[Library-note]] -> [[claim-note,etc]]
+    * [[interim_reference-note,et-alia]] -> [[stub-note,etc]] -> [[Library-note]] -> [[claim-note,etc]]
   * 🔚
     * What happens when the [[interim_reference-note,et-alia]] also requires coding?
     * TLINE:  Use [[question-spec,ad-finem-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.

@@ -17,7 +17,7 @@ AND !completed
 
 ## About
 
-This is a [[Partial-dataview,vis-Noteshippo]] designed to search [[,aka-shadow-note]]s for a specific term using regex.
+This is a [[Partial-dataview,vis-Noteshippo,]] designed to search [[,aka-shadow-note]]s for a specific term using regex.
 
 * Rough structure is ⤵
 ```ts

@@ -1,6 +1,6 @@
 ---
-tag: _meta
-VERSION: v1.0.3
+tags: _meta
+DOC_VERSION: v1.0.3
 ---
 # -
 
@@ -16,15 +16,73 @@ task where file.name = this.file.name and completed
 
 ## About
 
-- [ ] Consider removing [[cf]] from [[Partial-dataview,vis-Noteshippo]] because i do not see another person use the term partial dataview.
+- [ ] Consider removing [[cf]] from [[Partial-dataview,vis-Noteshippo,]] because i do not see another person use the term partial dataview.
 
-This note is a [[Partial-dataview,vis-Noteshippo]].  This [[partial,et-alia]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+This note is a [[Partial-dataview,vis-Noteshippo,]].  This [[partial,et-alia]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
 
-> [!info] This [[Partial-dataview,vis-Noteshippo]] has replaced the need for [[deprecating_tag-page-template]]
+> [!info] This [[Partial-dataview,vis-Noteshippo,]] has replaced the need for [[deprecating_tag-page-template]]
 
 # =
 
+
 ```dataviewjs
+
+const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
+
+const {vault, workspace, metadataCache, fileManager} = this.app
+
+const vf = vault.getAbstractFileByPath(this.currentFilePath)
+const frontmatter = metadataCache.getFileCache(vf).frontmatter
+const DOC_VERSION = frontmatter.DOC_VERSION || "v.N/A"
+const BUTTON_TITLE = `Refresh ${DOC_VERSION} ${vf.basename}` 
+
+workspace.onLayoutReady(main.bind(this));
+
+function main() {
+    const {path} = this.app.workspace.getActiveFile();
+    const {frontmatter} = this.app
+        .metadataCache.getCache(path);
+    const alias = frontmatter?.Aliases?.[0]
+    const $button = dv.el("button", BUTTON_TITLE);
+    function clickHandler(alias, DOC_VERSION) {
+      createDashboard(alias, DOC_VERSION);
+      new obs.Notice(alias, 7000)
+    }
+    $button.onclick = () => {
+      alias && clickHandler(alias, DOC_VERSION);
+    }
+}
+
+
+
+function createDashboard(alias = "#_",DOC_VERSION) {
+
+    dv.execute(`
+        TABLE WITHOUT ID link(file.link, file.name) as "${DOC_VERSION} Root Tag",
+        tags
+        FROM ${alias}
+        FLATTEN join(file.etags," ") as tags
+        FLATTEN join(
+            filter(
+                file.etags, 
+                (x) => startswith(
+                    x,join(
+                        ["${alias}","/"],
+                        ""
+                    )
+                )
+            )
+        ) as umbrellaTags
+        WHERE length(umbrellaTags) = 0
+        SORT file.ctime desc
+    `)
+} 
+```
+
+# ---Transient Archive
+##  v1.0.3 v2023-12-27
+
+```js
 
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
 const PARTIAL_VERSION = "v1.0.2";
@@ -90,10 +148,6 @@ function createDashboard(alias = "#_") {
     `)
 } 
 ```
-
----
-
-# ---Transient
 
 ## CEATION_DATE: 2023-06-04
 

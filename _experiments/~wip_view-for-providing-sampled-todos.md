@@ -17,7 +17,7 @@ AND !completed
 ## About
 
 
-This [[Partial-dataview,vis-Noteshippo]] is a prototype. The goal is to provide a sample set of todos for dashboard use.
+This [[Partial-dataview,vis-Noteshippo,]] is a prototype. The goal is to provide a sample set of todos for dashboard use.
 
 ### Log
 * v0.0.2

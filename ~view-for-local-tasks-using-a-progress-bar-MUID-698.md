@@ -19,22 +19,21 @@ TASK WHERE file.name = this.file.name AND completed
 ```
 
 ## About
-- [ ] #_todo/priority-high/to-design/on-todos/regarding-the-prioritization-of-frequency
+
+- [x]  #_todo/backlog/to-design/on-todos/regarding-the-prioritization-of-frequency ✅ 2023-12-22
   - Some tasks are low priority but require steady chipping.
   - Such as switching from MUID to ID.
 - [ ] Document all the Incremental IDs. What is Plateid? #_todo/to-process/on-Noteshippo/regarding-todo-naming 
-- [ ] Move logger out into one ring plugin
+- [ ] Move logger into one ring plugin #_todo/priority-low/to-code 
 - [ ] Devise a more contained method for logging silent.
-  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
+  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
 - [ ] What is an example of a [[practice-note]]?
   - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that 
-- [ ] Make the main function a module so the [[arity,vis-Coding,#=]] is more apparent.
-- [x] Create centralized parameters in metadata called PARTIAL_PARAM_CONFIG
-- [x] Prototype a logging system that only logs inside the partial and not on the sourcing note.
-* ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs#=]]
+- [ ] Make the main function a module so the [[arity,vis-Coding,]] is more apparent.
+* ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs]]
 * [ ] DEPRECATE PARTIAL_VERSION in current file's dvjs code.
 
-This partial view is transcluded when one needs to see a progress bar over all the tasks of the current file.
+This partial view is [[,aka-transclude]]d when one needs to see a progress bar over all the tasks of the current file.
 
 * Note:
   * The progress will show,
@@ -42,13 +41,7 @@ This partial view is transcluded when one needs to see a progress bar over all t
     * the count for all tasks as the second number.
   * The tasks will only be for the parent task node.
 
-* 💣 Logic  
-  * v1.0.2 has a a bug identifying root subtasks.
-  * Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
-  * 🤔
-    * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
-  * [ ] Create DFS
-  * [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
+
 
 # =
 
@@ -57,96 +50,175 @@ This partial view is transcluded when one needs to see a progress bar over all t
 const {workspace, metadataCache, plugins} = this.app;
 const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
 
-
-
-const PARTIAL_VERSION = "v1.0.3";
+const PARTIAL_VERSION = "v1.0.4";
+// v1.04 refactor silent / simplify
 // v1.0.3 see if i can get the loading problem padding to stop being anal. shoving more stuff into main.
-
 
 // knobs
 
 const OBSIDIAN_COLD_START_TIME = 5000; //5s startup
+const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
 
-workspace.onLayoutReady(main.bind(this));
+workspace.onLayoutReady(bootstrap.bind(this));
 
-function main() {
-  let isLogSilent = false;
+function bootstrap() {
+  (function(self,genMain) {
+    genMain()
+  })(this,genMain.bind(this))
+}
 
-  if (!obs) return;
-  const vf = workspace.getActiveFile();
-  const page_path = vf.path;
-  const cmData = metadataCache.getFileCache(vf);
-  
-  const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
-  const config = cmData?.frontmatter?.[PARTIAL_PARAM_CONFIG];
-  
-  if (config && config?.IS_LOGGING_SILENT) {
-    isLogSilent = config.IS_LOGGING_SILENT;
-  } else if (!config) {
-    isLogSilent = true;
+function manuSetupLoggerFig() {
+  return {
+    IS_LOGGING_SILENT: true
   }
-
+}
+function processSetupLogger(fig = manuSetupLoggerFig()) {
+  const config = Object.assign({}, manuSetupLoggerFig(), fig)
+  
   const logg = createLogg.call(
       this,
-      {isSilent: isLogSilent}
+      {isSilent: config.IS_LOGGING_SILENT}
   );
+  return logg  
+}
+
+function getObs() {
+  return obs;
+} 
+async function genMain(obs = getObs()) {
+  if (!obs) return;
   
+  const vf = workspace.getActiveFile();
+  const page_path = vf.path;
+  
+  const cmData = metadataCache.getFileCache(vf);
+  const config = cmData?.frontmatter?.[PARTIAL_PARAM_CONFIG] ?? manuSetupLoggerFig();
+
+  this.logg = processSetupLogger.call(this, config).bind(this);
+
 
   const currentTasks = dv.page(page_path)?.file?.tasks?.values || [];
-  const progressionInfo = calculateProgressionInfo.call(this, currentTasks);
+  const currentLiDatums = dv.page(page_path)?.file?.lists?.values || [];
 
+  const _currentLiDatums = currentLiDatums.filter(({parent, list}) => parent === list)
+
+  const progressionInfo = await genCalculateProgressionInfo.call(
+    this, currentTasks, currentLiDatums, {logg:this.logg}
+  );
+  this.logg({progressionInfo})
   renderProgressionInfo.call(this, progressionInfo);
 
-  function createLogg(config = {isSilent: false}) {
-    const self = this;
-    const LogStyle = {
-      background: "var(--material-color-red-700)",
-      padding: "1em 1em",
-    };
-    const style = serializeStyle(LogStyle);
-    return function logger(text, time = 5000, isBypass = false) {
-      const isSilent = self?.fig?.silent === true || config.isSilent;
-      if (isSilent && !isBypass) {
-        return;
+}
+function createLogg(config) {
+
+  const LogStyle = {
+    background: "var(--material-color-red-700)",
+    padding: "1em 1em",
+  };
+  const style = serializeStyle(LogStyle);
+  return logger.bind(this);
+  function logger(text, time = 5000, isBypass = false) {
+    if (config.isSilent && !isBypass) {
+      return;
+    }
+    const _text = typeof text === "string" ? text : JSON.stringify(text);
+    const $span = this.container.createDiv({
+      text: `logger:${_text}`,
+      attr: {
+        style,
+      },
+    });
+    new obs.Notice($span, time);
+  };
+}
+
+function createLiDatumsStrategy() {
+  const payload = {
+    completedTasksCnt: 0,
+    rootTasksCnt: 0,
+  }
+  return function strategy(liDatums = []) {
+    let parentMap = {}
+
+    walk(liDatums);
+    return payload;
+    
+    function walk(liDatums, flag = false) {
+     
+      for (let i = 0; i < liDatums.length; i++) {
+        const li = liDatums[i]
+
+        if (li.task && flag && !parentMap[li.parent]) {
+        
+          if (li.fullyCompleted) {
+            payload.completedTasksCnt++
+          }
+          payload.rootTasksCnt++;
+          parentMap[li.parent] = true;
+        }
+        if (!li.task && li.children.length) {
+          walk(li.children, true)
+        }
       }
-      const _text = typeof text === "string" ? text : JSON.stringify(text);
-      const $span = self.container.createDiv({
-        text: `logger:${_text}`,
-        attr: {
-          style,
-        },
+      
+    }
+  }
+}
+function createDefaultGenStrategy() {
+  return function genStrategy(tasks, liDatums) {
+  
+    const payload = createLiDatumsStrategy()(liDatums)
+    
+    return new Promise((rs,rj) => {
+      
+      let rootTasksCount = 0 + payload.rootTasksCnt;
+      let completedTasksCnt = 0 + payload.completedTasksCnt;
+      tasks.forEach((task,idx) => {
+        if (!task.parent) {
+          rootTasksCount++;
+          if (task.fullyCompleted) {
+            completedTasksCnt++;
+          }
+        }
+        if( idx === (tasks.length - 1)) {
+          return rs([
+            rootTasksCount, completedTasksCnt
+          ])
+        }
       });
-      new obs.Notice($span, time);
-    };
+    })
   }
 }
 
-function getTaskCounts(tasks) {
-  let rootTasksCount = 0;
-  let completedRootTasks = 0;
+async function genTaskCounts(
+    tasks, 
+    liDatums, 
+    strat = createDefaultGenStrategy()
+) {
 
-  tasks.forEach(task => {
-    if (!task.parent) {
-      rootTasksCount++;
-      if (task.fullyCompleted) {
-        completedRootTasks++;
-      }
-    }
-  });
+  
+  const taskCountTuple = await strat(tasks, liDatums)
 
-  return [
-    rootTasksCount,
-    completedRootTasks,
-  ]
+  return taskCountTuple;
+
 }
 
 
-function calculateProgressionInfo(currentTasks = []) {
+async function genCalculateProgressionInfo(
+  currentTasks = [], 
+  currentLiDatums = [],
+  config
+) {
+
+  const {logg} = config;
   const uniqueListIdCheckingContext = {};
-
   const uniqueTasks = [];
-
-  const [totalTaskCnt, completedTaskCnt] = getTaskCounts(currentTasks)
+  
+  logg({currentTasks})
+  
+  const [totalTaskCnt, completedTaskCnt] = await genTaskCounts(
+    currentTasks, currentLiDatums
+  )
 
   // business domaind derived
   
@@ -215,9 +287,24 @@ function manuProgressionInfo(progressionInfo = {}) {
 
 # ---Transient Local Archive
 
-
+- [ ] Use the new algorithm and update progress ➕ 2023-12-22 #_todo/priority-high/to-fix/on-a-codelet/regarding-a-parsing-bug 
+  - the new code in [[~viewfn-for-listed-items-that-contain-specific-targetted-text]] uses a recursive mechanism that records the levels. A [[breath-first-search,vis-Coding,]] that does work as it pops off the stack should be able to check whehter or not a root node is done.
+  * ⏺ *history*
+    * 💣 Logic ➕ 2023-07-11 
+      * v1.0.2 has a a bug identifying root subtasks.
+      * Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
+      * 🤔
+        * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
+      * [ ] Create DFS 
+      * [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
 ## LA--archive--old version of MUID-698
 
 * Passing context into the logger to only allow logging in the 2nd pbar
   * 🤔doesn't work, this is shared.
     * [[archived_~view-for-local-tasks-using-a-progress-bar-MUID-698]]
+
+# ---Transient Commit Log
+
+* v1.0.3
+  * Introduced new algorithm that only records the root node for the task.
+    * 🐛 Four tasks, only 3 are collected
