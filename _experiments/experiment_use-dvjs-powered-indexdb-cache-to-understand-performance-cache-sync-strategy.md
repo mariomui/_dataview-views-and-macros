@@ -25,7 +25,7 @@ task where file.name = this.file.name and completed
     * [[interim_reference-note,et-alia]] -> [[stub-note,etc]] -> [[Library-note]] -> [[claim-note,etc]]
   * 🔚
     * What happens when the [[interim_reference-note,et-alia]] also requires coding?
-    * TLINE:  Use [[question-spec,ad-finem-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
+    * TLINE:  Use [[question-spec,vis-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
       * [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy-1691247592373.jpeg]]
 
 ### Reference

@@ -241,4 +241,4 @@ function extractParams(
 * [x] #_todo/priority-high/to-extract/on-a-dataviewjs-codelet/regarding-better-shadow-note-search Extract code below ⤵
   * Add in code for transclusion params
 
-- [ ] Is there a way to export the function extractParams as dataview module using viewState? #_todo/to-muse/on-an-obsidianmd-api-codelet/regarding-global-code-sharing
+- [ ] Is there a way to export the function extractParams as dataview module using viewState? #_todo/to-muse/on-obsidianmd-app/regarding-a-codelet/regarding-global-code-sharing

@@ -10,7 +10,7 @@ DOC_VERSION: v1.0.3
 > [!warning] Code breaks if you add new extra lines pre/post to the reference target
 > ⚠ I dont like how shitty this code is. Overengineer the next version with codemirror stuff
 
-- [ ] Turn all sound/podcast affixes to ß ➕ 2023-11-01 #_todo/long-term/to-normalize/regarding-Noteshippo/regarding-audio-only-note-titles 
+- [ ] Turn all sound/podcast affixes to ß ➕ 2023-11-01 #_todo/080-long-term/to-normalize/on-noteshippo/regarding-audio-only-note-titles 
   - See [[ß-affix,vis-Noteshippo,]]
 This note contains a partial view that displays a converted reference.
 The reference is automatically parsed from the active file, from the last item inside any markdown header named "Reference".

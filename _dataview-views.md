@@ -56,10 +56,11 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-top-active-notes-using-weighted-score]]
 - [[~view-for-top-inactive-notes-using-io-index]]
 - [[~view-for-unused-MUIDs]]
+- [[~viewfn-for-listed-items-that-contain-specific-targetted-text]]
 - [[~viewfn-for-listing-local-specific-tags]]
 - [[~viewfn-for-pending-notes]]
 - [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
-- [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]UID-1560]]
+- [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]
 - [[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643]]
 - **projects**
 

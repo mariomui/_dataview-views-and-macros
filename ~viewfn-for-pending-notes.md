@@ -4,7 +4,7 @@ VERSION: v1.0.0
 ---
 # -
 
-This [[Partial-dataview,vis-Noteshippo,]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-affixes,by-endian,ad-finem-Note-title-encoding,vis-Noteshippo#~viewfn]]). 
+This [[Partial-dataview,vis-Noteshippo,]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-affixes,by-endian,vis-Noteshippo-title-level#~viewfn]]). 
 
 - [ ] What is the difference between an [[experiment-note]] and a [[,aka-workboard-note]]? #_todo/to-muse/on-noteshippo/regarding-a-note-spec 
 
