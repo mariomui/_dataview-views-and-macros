@@ -37,6 +37,7 @@ With such a contract in place, downwind API consumers (mentions,backlinks) can r
 ### Reference
 
 ![[~view-for-referencing-current-jumpid#=|nlk]]
+
 - † ß [207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)
 
 # =

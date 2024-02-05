@@ -4,6 +4,7 @@ DOC_VERSION: v1.0.3
 ---
 # -
 
+## Meta
 ![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
 
 ```dataview
@@ -16,15 +17,17 @@ task where file.name = this.file.name and completed
 
 ## About
 
-- [ ] Consider removing [[cf]] from [[Partial-dataview,vis-Noteshippo,]] because i do not see another person use the term partial dataview.
 
 This note is a [[Partial-dataview,vis-Noteshippo,]].  This [[partial,et-alia]]'s' job is to show the exact files listed inside a subfolder sans files of any tag of a lower than itself.
+
+
+* ! Root Tags such as `_lcsh` do not work because of recent Obsidian changes. Nested tags still work.
 
 > [!info] This [[Partial-dataview,vis-Noteshippo,]] has replaced the need for [[deprecating_tag-page-template]]
 
 # =
 
-
+> [!info] Show files with the exact tag level and not any further nested tag
 ```dataviewjs
 
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
@@ -268,7 +271,6 @@ function createDashboard(alias = "#_") {
 
 ## v0.0.1
 
-- [ ] list all types of stub note naming in Andy's note taking system #_todo/to-differential/on-note-naming
 * 💣
   * FROM clause input is hard coded
   * Utilizing `this.file.name` to obtain the tag name is not dynamic enough
