@@ -5,7 +5,9 @@ VERSION: v0.0.1-TCODEID-5
 
 # -
 
-This [[experiment-note]] explores the substitution of the renderValue function with my own so that i can attach to the domFragment.
+## Analysis
+
+This [[,aka-experiment-specced-note,]] explores the substitution of the renderValue function with my own so that i can attach to the domFragment.
 Key files are genRenderVfs, which starts the process
 genListAsDomV2 and customRenderFiles are extraneous middleman.
 
@@ -18,8 +20,13 @@ genRenderValue is the recursive ui impl which has the same implementation as dat
 > * **TLINE**: *Populate Startup Template with dummy file in order to access obs api through templater plugin even when within the dataviewjs environ.*
 >   * parse_template populates current_functions_object with the obs module
 >   * Startup Templates is the ui setting that calls parse template
->   * ![[experiment_list-a-folders-contents-and-add-to-dom-1692346851509.jpeg]]
+ 
+---
 
+
+* # Demo
+  * List all files inside of `_experiments` folder recursively
+    * ![[#Figure 1 Lists all files recursively of containing folder|nlk]]
 # =
 
 ```dataviewjs
@@ -232,7 +239,7 @@ async function genRenderCompactMarkdown(
 
 # ---Transient
 
-![[#Figure 1 Lists all files recursively of containing folder|nlk]]
+
 
 ```js
 function getFileNameFromPath(file_path) {

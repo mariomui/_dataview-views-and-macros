@@ -39,7 +39,7 @@ After trying [[Obsidian-text-expander-plugin,b.t.-ObsidianMD]], the ability to c
 
 ### Commit Log
 
-v1.0.1 is somewhere floating hard coded out there in the [[notesphere]]
+v1.0.1 is somewhere floating hard coded out there in the [[notesphere,cf.-Kanzi,]]
 
 ### Planned feature
 

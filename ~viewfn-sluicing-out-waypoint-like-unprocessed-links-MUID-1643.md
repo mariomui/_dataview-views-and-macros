@@ -51,6 +51,7 @@ function main(cmd) {
 
     const avf = workspace.getActiveFile()
     const mdc = metadataCache.getFileCache(avf)
+    
     const {headings} = mdc;
     const mdclinks = mdc.links;
     
@@ -72,6 +73,7 @@ function main(cmd) {
   
     const betweenSpec = getBetweenSpec(targetHeadings)
    console.log({targetHeadings, markedHeadings, headings, mdclinks, betweenSpec})
+    // error handling
     if (!betweenSpec) {
       const $el = await genManuUiFailure(ctx, { 
         text: "" , cls: "deleteme"

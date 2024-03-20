@@ -2,7 +2,7 @@
 ---
 # -
 
-This [[Partial-dataview,vis-Noteshippo]] uses a lot of [[22--inbox-list-of-api,by-node-primitive,b.t.-ObsidianMD-app#generateMarkdownLink]]
+This [[Partial-dataview,vis-Noteshippo]] uses a lot of [[22--inbox-list-of-api,by-proximity-to-top-node,b.t.-ObsidianMD-app#generateMarkdownLink]]
 # =
 
 ## TABLE OF CONTENTS
@@ -90,5 +90,10 @@ function generateLinkFromHeading(vf, heading, level) {
 
 # ---Transient Local Resources
 
-## LR--Demo Image For Github
-![[Screen Shot 2023-09-17 at 12.08.54 PM.png]]
+## LR--image--screenshot--Demo Image For Github
+
+#_cv/LR/image/screenshot
+- [ ] document controlled vocabulary for Local resources ➕ 2024-03-06 #_todo/to-document 
+- [ ] Conform all local resources to use the image/sub category divisions in accordance to their controlled vocabulary #_todo/080-long-term/to-normalize/on-noteshippo 
+
+![[~view-dynamic-table-of-contents-1709750111261.jpeg]]

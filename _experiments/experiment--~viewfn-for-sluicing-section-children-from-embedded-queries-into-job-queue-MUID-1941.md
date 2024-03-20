@@ -1,16 +1,20 @@
 ---
-TEMPLATE_VERSION: v1.0.0-default-meta
+TEMPLATE_VERSION: v1.0.0
 MUID: MUID-1941
-CREATION_DATE: 2023-12-26 
-tags: _meta 
+CREATION_DATE: 2023-12-26
+tags:
+  - _meta
 UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
 DOC_VERSION: v0.0.1
+TEMPLATE_SOURCE: "[[20--default-meta-template]]"
 ---
 
 # -
 ## About
 
 This note is derived from [[experiment~viewfn-for-sluicing-out-embedded-query-into-a-job-queue-MUID-1934]]
+
+> [!warning] this is an example of long filenames not workin because there is now to see the seperation between sentenances fo the long function names.
 
 
 # =
@@ -466,5 +470,6 @@ function extractParams(
   * What I really need is a way to grab these texts, validate it and put it into a uniqueMap.
 ---
 # ---Transient Commit Log
-v0.0.1 add search for multiple query childs
-v.0.0.0 raw
+
+- v0.0.1 add search for multiple query childs
+- v.0.0.0 raw

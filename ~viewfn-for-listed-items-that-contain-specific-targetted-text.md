@@ -22,13 +22,7 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-* Hover over me and snatch the output of note title algorithm:[[~view-for-recent-reference-link-to-note-title-transform]]
 
-### Reference
-
-![[~view-for-referencing-current-jumpid#=|nlk]]
-
-* †
 
 # =
 

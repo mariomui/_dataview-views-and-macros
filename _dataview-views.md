@@ -34,7 +34,7 @@ The code stays off the primary note but the transcluded preview is available. Th
 # =
 
 %% Begin Waypoint %%
-- **[[_experiments]]**
+- **[_experiments](./_experiments/_experiments.md)**
 - [[~deprecated_button-for-ytranscript]]
 - [[~view-for-big5-character-radar-chart]]
 - [[~view-for-broken-links]]

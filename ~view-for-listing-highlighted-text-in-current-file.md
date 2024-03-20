@@ -1,7 +1,12 @@
 ---
-tag: _wip 
-DOC_VERSION: v0.0.3
-cssClasses: cards, cards-cover, cards-2-3, table-max
+tags:
+  - _wip
+DOC_VERSION: v0.0.4
+cssclasses:
+  - cards
+  - cards-cover
+  - cards-2-3
+  - table-max
 ---
 # -
 
@@ -20,6 +25,9 @@ I've added a little checkbox but any mutations are not permanent, id est, a mark
 ==Testing==
 
 # =
+
+> [!info] List all highlighted material
+> if highlighted material is `^like so` within the highlights then the list item will be checked.
 
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app

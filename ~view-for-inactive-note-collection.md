@@ -8,7 +8,6 @@ VERSION: v1.0.1
 ~~Uses the randomizing alogirthim found in  [Randomly order rows in a Dataview query - Share & showcase - Obsidian Forum](https://forum.obsidian.md/t/randomly-order-rows-in-a-dataview-query/46989?u=oirammui) to~~  create a 100 sample set, where each file's calculated [[IO-composite-key,vis-Noteshippo-dashboard,]] represents a file's inactivity with resepcts to input and output link ratio.
 
 Unfortunately, i have no caching process to draw upon, and the filter on all notes in the system using dvjs has performance issues. 
-- [x] Make a javascript version of this so I can use caches.
 - [ ] Give the dataview the ability to use  [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
 
 # =

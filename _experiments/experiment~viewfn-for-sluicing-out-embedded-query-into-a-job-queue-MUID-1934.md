@@ -64,10 +64,17 @@ function main(cmd) {
     
     const unusedLinks = processDiffJobLine({unaliasedQueryLinks, unaliasedEmbeddedLinks}).map((basename) => {
       const vf = metadataCache.getFirstLinkpathDest(basename,"")
-      const link = getMarkdownLink(vf,"")
 
+      if (!vf) {
+        console.log({vf,basename})
+        return false;
+      }
+      const link = getMarkdownLink(vf,"")
+      
+      if (!link) return false;
+      
       return link;
-    })
+    }).filter(Boolean)
 
     
     //ui
@@ -170,6 +177,7 @@ async function genProcessMarkdownLinksByVf(vfs = []) {
 
 // utils
 function getMarkdownLink(avf,heading) {
+
   const _embed_text = !heading ? "" : `#${heading}`
   const markdownLink = fileManager
     .generateMarkdownLink(
@@ -191,16 +199,24 @@ async function genUnaliasedMarkdownLink(markdownLink) {
     }
     
     const parsedLink = obs.parseLinktext(payload.data);
-
-    return parsedLink.path
+    
+    if (parsedLink?.path) {
+      return parsedLink.path
+    }
+    throw new Error("Parsed path does not exist ")
 }
 
 // # processors
 async function genProcessQueryFileFigToWikiLinks(fileFig) {
   
   const markdownLink = getMarkdownLink(avf,heading)
-  const unaliasedMarkdownLink = await genUnaliasedMarkdownLink(markdownLink);
-  return unaliasedMarkdownLink
+  try {
+    const unaliasedMarkdownLink = await genUnaliasedMarkdownLink(markdownLink);
+    return unaliasedMarkdownLink
+  } catch(err) {
+    const err_string = JSON.stringify(err);
+    throw new Error(`genUnaliasedMarkdownLink error ${err_string}`)
+  }
 }
 
 function processAllEmbeddedLinks(mdc) {

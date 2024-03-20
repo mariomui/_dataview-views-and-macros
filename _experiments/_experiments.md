@@ -21,15 +21,15 @@ This [[folder-page,vis-Noteshippo,]]'s goal is to provide dashboard views to hel
 - [[~view-dynamic-table-of-contents]]
 - [[~wip_view-for-providing-sampled-todos]]
 - [[experiment_~view-dynamic-table-of-contents-v2]]
-- [[experiment_~view-for-listing-backlinks]]
-- [[experiment_~viewfn-for-sluicing-section-children-from-embedded-queries-into-job-queue-MUID-1941]]
 - [[experiment_list-a-folders-contents-and-add-to-dom-TCODEID-5]]
 - [[experiment_use-dvjs-powered-dataviewcache]]
-- [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy]]
 - [[experiment_using-dql-find-the-next-subtask-to-work-on]]
+- [[experiment--~view-display-movie-info-using-frontmatter]]
+- [[experiment--~view-for-listing-backlinks]]
+- [[experiment--~view-for-mediashelf]]
+- [[experiment--~viewfn-for-sluicing-section-children-from-embedded-queries-into-job-queue-MUID-1941]]
+- [[experiment--use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy]]
+- [[experiment~view-frontmatter-scrape]]
 - [[experiment~viewfn-for-sluicing-out-embedded-query-into-a-job-queue-MUID-1934]]
-- **MUID-1941**
-- [[sandbox_~view-for-mediashelf]]
-- [[sandbox_display-movies-in-cards]]
 
 %% End Waypoint %%
