@@ -131,12 +131,12 @@ function doExtractLink() {
                  .slice(-1).first();
         const modifiedString = title
             .replace(/[|"“”[\]()?:,.\\/\s]+/g, "-")
+            .replace(/#+/,"-")
             .replace(/-+/g, "-")
             .replace(/^-|-$/g, "")
             .replaceAll("–","-")
             .split("-").filter(Boolean).join("-")
             .replaceAll("-_-", "-")
-            console.log({modifiedString})
             dv.paragraph(" " + modifiedString);
     }).bind(this))(this.app)
 
@@ -156,7 +156,7 @@ function doExtractLink() {
 Setting buttons requires the document being ready before placing on the page. The [[engineering-style-differential-report-regarding-button-creation-in-obsidianmd]] using dataviewjs states that the document must be ready before dom insertion.
 
 - ℹ
-  - v1.0.0 chose to use setTimeout to achieve documents.addEventListener("DOMContentReady") because the author(me) worried about cleanup. The nature of blackbox Obisdianmd programming means I cannot reliably ascertain the rules for memory clean up so I opted for setTimeout. (🤔 [[Leaky-abstraction,ad-finem-Coding,]] rears its ugly head again!)
+  - v1.0.0 chose to use setTimeout to achieve documents.addEventListener("DOMContentReady") because the author(me) worried about cleanup. The nature of blackbox Obisdianmd programming means I cannot reliably ascertain the rules for memory clean up so I opted for setTimeout. (🤔 [[Law-of-leaky-abstraction,vis-Coding,]] rears its ugly head again!)
 
 Eventually, this folder, containing all my dataview-powered partials, shall be handed over to a [[version-control-system]], the more appropriate tool edifying change-log and code-related meta-tasks. To spur myself to quicken the migration, I've set the following rule:
 
