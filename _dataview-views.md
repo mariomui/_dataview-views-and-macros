@@ -8,18 +8,18 @@ alias: _dataview-views-and-macros
   - Note-Taking could very easily be a note named Note-taking so consistency is much better.
 - [ ] Replace all mentions of Note-Taking with MNote Taking System and create a note pertaining to that.
   - convert all files named `[[Note-taking-system,cf.-Mario-Mui,]]` into [[,aka-Note-taking-system,cf.-Mario-Mui]]
-- [ ] Add a versioning comment for every [[Partial-dataview,vis-Noteshippo]] housed in this folder
+- [ ] Add a versioning comment for every [[Partial-dataview,vis-Noteshippo,]] housed in this folder
 * #_todo/to-muse/on-noteshippo
   * [ ] Alias or aliases do not change when folder change.
   * [ ] Folder pages change with the folder renaming 
 
 * #_todo/to-muse/on-noteshippo/regarding-meta-note-naming-rules
   - [ ] All tag pages and folder pages aside from the top level  A_ B_ C_ D_...Z_ will be prefixed with an underscore. 
-- [ ] Insert media detailing usage of Partial dataview into each [[Partial-dataview,vis-Noteshippo]]'s [[private-header,b.t.-Anchor-heading-api]][[,aka-private-H1,ad-finem-Note-Taking]]
+- [ ] Insert media detailing usage of Partial dataview into each [[Partial-dataview,vis-Noteshippo,]]'s [[private-header,bt.-Noteshippo-heading-api,]][[,aka-private-H1,ad-finem-Note-Taking]]
 
 ## About
 
-This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]]. 
+This [[folder-page,vis-Noteshippo,]] describes the files that should be housed inside this folder. It describes the types of files that should be classified as a [[Partial-dataview,vis-Noteshippo,]] , or a [[macro]]. Mostly, the files are a sandbox for pages with views powered by [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]]. 
 
 Any subfolders will also be described here.
 
@@ -32,6 +32,16 @@ The code stays off the primary note but the transcluded preview is available. Th
 > This folder is git synced
 
 # =
+
+
+
+# ---Transient Jobs
+
+![[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643#=|?search_term=---Transient Local Waypoint&t=nlk]]
+
+# ---Transient Local Waypoint
+
+> [!info] Insert Waypoint Marker below: 
 
 %% Begin Waypoint %%
 - **[_experiments](./_experiments/_experiments.md)**
@@ -66,22 +76,9 @@ The code stays off the primary note but the transcluded preview is available. Th
 
 %% End Waypoint %%
 
-- [ ] Extract ⤵ to learnings from listing files
-```dataviewjs
-const vf = this.app.vault.getAbstractFileByPath(dv.currentFilePath)
-const parentPath = `"${vf.parent.path}"`;
-const list = dv.pages(parentPath).map(mapByFileNameToLink).groupBy((link) => {
-  return link.path.split('/').slice(0,2).join('/')
-})
+- [x] Extract ⤵ to learnings from listing files #_todo/to-extract/upon-dvjs-codelet/regarding-listing-files ✅ 2024-03-29 
+  - 🔑 [[~view-for-listing-highlighted-text-in-current-file]]
 
-function mapByFileNameToLink({file}) {
-  return dv.fileLink(file.path,false, file.name.length > 46 ? file.name.substring(0,46)+ "...." : file.name)
-}
-
-const matrix = list.map((l) => [l.key, l.rows]) 
-
-DataviewAPI.renderValue(matrix,this.container,this.component,dv.currentFilePath, true)
-```
 
 # ---Transient
 Normal dataviewjs way of listing files in a folder.

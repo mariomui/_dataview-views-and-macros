@@ -13,7 +13,7 @@ This partial shows the hot keys for the timestamper plugin
   * Dependencies
     * Requires knowledge of the plugin name 
 
-* ℹ To create similar hotkey views for another plugin, use [[wip_viewfn-to-recall-hot-key]] on a new note.
+* ℹ To create similar hotkey views for another plugin, use [[wip--viewfn-to-recall-hot-key]] on a new note.
 
 # =
 

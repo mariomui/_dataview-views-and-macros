@@ -15,7 +15,7 @@ task where file.name = this.file.name
 ```
 ## About
 
-This [[Partial-dataview,vis-Noteshippo]] scrapes the entire document for highlighted text and displays it with a checkbox.
+This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
 Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,ad-finem-ObsidianMD]]. 
 
@@ -250,3 +250,5 @@ function createButton(button_title, clickHandler) {
 
 * v0.0.2 Add Refresh button
   * The button fakes adds a delay so that it seems like the update is happening really fast. What it really does is that it wipes the last element and replaces with the updated content. The act of deleting an element causes a refresh cycle.
+
+

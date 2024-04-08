@@ -13,12 +13,12 @@ UMID:
 
 ## About
 
-This is a [[Partial-dataview,vis-Noteshippo,]]. It houses a [[codelet,]] that uses [[Dataview-plugin,bt.-ObsidianMD-app,]] to create a view that scans the nearest H1 search term and collects all the H2s underneath it.
+This is a [[Partial-dataview,vis-Noteshippo,]]. It houses a [[,aka-codelet]] that uses [[Dataview-plugin,bt.-ObsidianMD-app,]] to create a view that scans the nearest H1 search term and collects all the H2s underneath it.
 
 The result is displayed as a list of links.
 There is a copy button. It is used to create a job queueing system for HEADERS under `---Transient Local Citations`
 
-[[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] allow this [[codelet,]] to be dynamically controlled at runtime.
+[[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] allow this [[,aka-codelet]] to be dynamically controlled at runtime.
 
 # =
 

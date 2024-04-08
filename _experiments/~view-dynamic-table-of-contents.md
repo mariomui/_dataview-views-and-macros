@@ -2,7 +2,7 @@
 ---
 # -
 
-This [[Partial-dataview,vis-Noteshippo]] uses a lot of [[22--inbox-list-of-api,by-proximity-to-top-node,b.t.-ObsidianMD-app#generateMarkdownLink]]
+This [[Partial-dataview,vis-Noteshippo,]] uses a lot of [[22--inbox-list-of-api,by-proximity-to-top-node,b.t.-ObsidianMD-app#generateMarkdownLink]]
 # =
 
 ## TABLE OF CONTENTS

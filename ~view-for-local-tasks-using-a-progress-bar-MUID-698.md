@@ -8,6 +8,7 @@ CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 
 # -
 
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
 - [ ] Make a common js tools i use like this logger thing.
   - The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
@@ -23,7 +24,10 @@ TASK WHERE file.name = this.file.name AND completed
 - [x]  #_todo/050-backlog/to-design/on-todos/regarding-the-prioritization-of-frequency ✅ 2023-12-22
   - Some tasks are low priority but require steady chipping.
   - Such as switching from MUID to ID.
-- [ ] Document all the Incremental IDs. What is Plateid? #_todo/to-process/on-noteshippo/regarding-todo-naming 
+- [ ] Document all the Incremental IDs. #_todo/to-process/upon-noteshippo/regarding-todo-naming
+  - 🔑 [[sandbox,bt.-Noteshippo-title-level-affix,]]
+- [x] What is Plateid? ✅ 2024-03-20
+  - 🔑 [[interim--internal-guide-to-using-plateids-to-track-plates,vis-Writing,]] A plate id is way to make sure that plates are recorded an identified using incremental id but it doesn't work well since it doesn't flag like html. It lacks the ability to alert me when a [[plate,vis-Writing]] hasn't been closed yet. #_todo/070-done/to-muse/on-writing/regarding-plate-tracking
 - [ ] Move logger into one ring plugin #_todo/priority-low/to-code 
 - [ ] Devise a more contained method for logging silent.
   - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 

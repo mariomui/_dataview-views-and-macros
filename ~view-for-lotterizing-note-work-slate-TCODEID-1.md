@@ -1,9 +1,10 @@
 ---
-tags: _meta _coding/partial
+tags:
+  - _meta
 DOC_VERSION: v1.0.1
 ID: TCODEID-1
 CODELET_SHORTNAME: garden-note-by-lottery
-UMID: 
+UMID:
 ---
 # -
 

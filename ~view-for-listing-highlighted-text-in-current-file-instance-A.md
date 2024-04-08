@@ -10,14 +10,12 @@ task where file.name = this.file.name
 ```
 ## About
 
-This [[Partial-dataview,vis-Noteshippo]] scrapes the entire document for highlighted text and displays it with a checkbox.
+This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
 Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,ad-finem-ObsidianMD]]. 
 
 I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
-### Mocks
 
-==Testing==
 
 # =
 

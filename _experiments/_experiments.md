@@ -1,6 +1,6 @@
 ---
 Aliases: ["__README___experiments", _experiments]
-tags: _noteshippo/structural-note
+tags: _noteshippo/v1/structural-note
 ---
 
 
@@ -19,6 +19,7 @@ This [[folder-page,vis-Noteshippo,]]'s goal is to provide dashboard views to hel
 
 %% Begin Waypoint %%
 - [[~view-dynamic-table-of-contents]]
+- [[~view-listing-of-adjacent-files]]
 - [[~wip_view-for-providing-sampled-todos]]
 - [[experiment_~view-dynamic-table-of-contents-v2]]
 - [[experiment_list-a-folders-contents-and-add-to-dom-TCODEID-5]]
