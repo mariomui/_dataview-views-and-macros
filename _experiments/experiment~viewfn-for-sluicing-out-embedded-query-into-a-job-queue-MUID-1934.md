@@ -70,7 +70,7 @@ function main(cmd) {
         return false;
       }
       const link = getMarkdownLink(vf,"")
-      
+      console.log({link}, 'inside of processDiffJobLine mapper')
       if (!link) return false;
       
       return link;
@@ -79,7 +79,7 @@ function main(cmd) {
     
     //ui
     renderRefreshAndCopyButton.call(ctx, main,"copy")
-
+    console.log({unusedLinks})
     if (unusedLinks.length >= 1) {
       
       return renderUI.call(ctx, unusedLinks, cmd)
@@ -133,7 +133,10 @@ function processDiffJobLine(
   const unusedLinks = []
   for (const link of unaliasedQueryLinks) {
     const isUsed = unaliasedEmbeddedLinks.some(
-      (embedLink) => link.indexOf(embedLink) > -1
+      (embedLink) => {
+        console.log({link, embedLink})
+        return link.startsWith(embedLink)
+      }
     )
     if (!isUsed) {
       unusedLinks.push(link)
@@ -390,4 +393,4 @@ function extractParams(
 
 
 
-[[differential-between-affix,experiment-vs-sandbox,vis-Noteshippo]]]]
+[[differential-between-affix,experiment-vs-sandbox,vis-Noteshippo]]
