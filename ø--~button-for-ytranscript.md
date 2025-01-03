@@ -6,6 +6,8 @@ CODELET_SHORT_NAME: cta-button-to-open-ytranscript-text
 
 # -
 
+[[obsoleter-symbol-ø,bt.-Noteshippo-title-level-flag,]]
+[[experiment-symbol-≈,bt.-Noteshippo-title-level-affix,]]
 ![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
 
 ```dataview
@@ -18,8 +20,8 @@ task where file.name = this.file.name and completed
 
 - [ ] Prettify unformatted code.
 - [ ] Conform function names to mario standard.
-- [ ] Consider deleting
-  - 🤔 No notes use this partial.
+	- [x] Consider deleting ✅ 2024-12-19
+	  - 🤔 No notes use this partial.
 
 ### Reference
 
@@ -218,7 +220,7 @@ function findViewPredicate({tabHeaderEl}) {
 
 🤔 The code is problematic with spaces and Reference and hard to read code with slicing.
 
-- The code below is a copy of the [[~view-for-recent-reference-link-to-note-title-transform]]
+- The code below is a copy of the [[~view-for-recent-reference-link-to-note-title-transform,nb.-MUID-115]]
 
 ```js
 ~~~dataviewjs

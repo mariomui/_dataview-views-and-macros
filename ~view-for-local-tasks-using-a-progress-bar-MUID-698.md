@@ -1,6 +1,6 @@
 ---
 MUID: MUID-698
-DOC_VERSION: v1.0.3
+DOC_VERSION: v1.0.4
 PARTIAL_PARAM_CONFIG:
   IS_LOGGING_SILENT: true
 CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
@@ -9,8 +9,8 @@ CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 # -
 
 ![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
-- [ ] Make a common js tools i use like this logger thing.
-  - The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
+* [ ] Make a common js tools i use like this logger thing.
+  * The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
 TASK WHERE file.name = this.file.name AND !completed
 ```
@@ -21,19 +21,20 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-- [x]  #_todo/050-backlog/to-design/on-todos/regarding-the-prioritization-of-frequency ✅ 2023-12-22
-  - Some tasks are low priority but require steady chipping.
-  - Such as switching from MUID to ID.
-- [ ] Document all the Incremental IDs. #_todo/to-process/upon-noteshippo/regarding-todo-naming
-  - 🔑 [[sandbox,bt.-Noteshippo-title-level-affix,]]
-- [x] What is Plateid? ✅ 2024-03-20
-  - 🔑 [[interim--internal-guide-to-using-plateids-to-track-plates,vis-Writing,]] A plate id is way to make sure that plates are recorded an identified using incremental id but it doesn't work well since it doesn't flag like html. It lacks the ability to alert me when a [[plate,vis-Writing]] hasn't been closed yet. #_todo/070-done/to-muse/on-writing/regarding-plate-tracking
-- [ ] Move logger into one ring plugin #_todo/priority-low/to-code 
-- [ ] Devise a more contained method for logging silent.
-  - 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]] 
-- [ ] What is an example of a [[practice-note]]?
-  - An example [[practice-note]] in the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that 
-- [ ] Make the main function a module so the [[arity,vis-Coding,]] is more apparent.
+* [x]  #_todo/50-backlog--/to-design/on-todos/regarding-the-prioritization-of-frequency ✅ 2023-12-22
+  * Some tasks are low priority but require steady chipping.
+  * Such as switching from MUID to ID.
+* [ ] Document all the Incremental IDs. #_todo/to-process/upon-noteshippo/regarding-todo-naming
+  * 🔑 [[sandbox,bt.-Noteshippo-title-level-flag,]]
+* [x] What is Plateid? ✅ 2024-03-20
+  * 🔑 [[interim--internal-guide-to-using-plateids-to-track-plates,vis-Writing,]] A plate id is way to make sure that plates are recorded an identified using incremental id but it doesn't work well since it doesn't flag like html. It lacks the ability to alert me when a [[plate,vis-Writing,]] hasn't been closed yet. #_todo/70-done--/to-muse/on-writing/regarding-plate-tracking
+* [ ] Move logger into one ring plugin #_todo/52-priority-low--/to-code
+* [ ] Devise a more contained method for logging silent.
+  * 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]]
+
+  * ~~🔑An example [[,aka-practice-note]]~~ in ~~the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that ➕ 2024-06-05~~
+    * What is an example of a [[,aka-practice-note]]?
+* [ ] Make the main function a module so the [[arity,vis-Coding,]] is more apparent.
 * ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs]]
 * [ ] DEPRECATE PARTIAL_VERSION in current file's dvjs code.
 
@@ -45,8 +46,6 @@ This partial view is [[,aka-transclude]]d when one needs to see a progress bar o
     * the count for all tasks as the second number.
   * The tasks will only be for the parent task node.
 
-
-
 # =
 
 ~~~dataviewjs
@@ -54,7 +53,8 @@ This partial view is [[,aka-transclude]]d when one needs to see a progress bar o
 const {workspace, metadataCache, plugins} = this.app;
 const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
 
-const PARTIAL_VERSION = "v1.0.4";
+const PARTIAL_VERSION = "v1.0.5";
+// v1.0.5 add more try catches
 // v1.04 refactor silent / simplify
 // v1.0.3 see if i can get the loading problem padding to stop being anal. shoving more stuff into main.
 
@@ -73,7 +73,7 @@ function bootstrap() {
 
 function manuSetupLoggerFig() {
   return {
-    IS_LOGGING_SILENT: true
+    IS_LOGGING_SILENT: false
   }
 }
 function processSetupLogger(fig = manuSetupLoggerFig()) {
@@ -89,7 +89,10 @@ function processSetupLogger(fig = manuSetupLoggerFig()) {
 function getObs() {
   return obs;
 } 
+
+
 async function genMain(obs = getObs()) {
+  
   if (!obs) return;
   
   const vf = workspace.getActiveFile();
@@ -105,14 +108,22 @@ async function genMain(obs = getObs()) {
   const currentLiDatums = dv.page(page_path)?.file?.lists?.values || [];
 
   const _currentLiDatums = currentLiDatums.filter(({parent, list}) => parent === list)
-
-  const progressionInfo = await genCalculateProgressionInfo.call(
-    this, currentTasks, currentLiDatums, {logg:this.logg}
-  );
-  this.logg({progressionInfo})
-  renderProgressionInfo.call(this, progressionInfo);
-
+  console.log({currentTasks})
+  if (currentLiDatums.length === 0 || currentTasks.length === 0) {
+    return renderProgressionInfo.call(this, manuProgressionInfo());
+  }
+  try {
+   const progressionInfo = await genCalculateProgressionInfo
+    .call(
+      this, currentTasks, currentLiDatums, {logg:this.logg}
+   );
+  return renderProgressionInfo.call(this, progressionInfo);
+ } catch(e) {
+  this.logg({e,text: "genMainfucked"})
+  return manuProgressionInfo.call(this);
+ }
 }
+
 function createLogg(config) {
 
   const LogStyle = {
@@ -218,34 +229,38 @@ async function genCalculateProgressionInfo(
   const uniqueListIdCheckingContext = {};
   const uniqueTasks = [];
   
-  logg({currentTasks})
-  
-  const [totalTaskCnt, completedTaskCnt] = await genTaskCounts(
-    currentTasks, currentLiDatums
-  )
 
-  // business domaind derived
-  
-  const raw_percentage = (completedTaskCnt / totalTaskCnt).toFixed(2) * 100;
-  const percentage = Math.round(raw_percentage) || 0;
+  try {
+   const [totalTaskCnt, completedTaskCnt] = await genTaskCounts(
+     currentTasks, currentLiDatums
+   )
+ 
+   // business domaind derived
+   
+   const raw_percentage = (completedTaskCnt / totalTaskCnt).toFixed(2) * 100;
+   const percentage = Math.round(raw_percentage) || 0;
+ 
+   const unfinishedTaskCnt = totalTaskCnt - completedTaskCnt;
+ 
+   return manuProgressionInfo({
+     completedTaskCnt,
+     percentage,
+     totalTaskCnt,
+     unfinishedTaskCnt,
+   });
+  } catch(e) {
+    logg("we got problems in genCalculateProgressionInfo");
+    return manuProgressionInfo()
 
-  const unfinishedTaskCnt = totalTaskCnt - completedTaskCnt;
-
-  return manuProgressionInfo({
-    completedTaskCnt,
-    percentage,
-    totalTaskCnt,
-    unfinishedTaskCnt,
-  });
+  }
 }
 
-function renderProgressionInfo(progressionInfo) {
-
-  const { percentage, totalTaskCnt, unfinishedTaskCnt, completedTaskCnt } =
-    progressionInfo;
+function renderProgressionInfo(progressionInfo = manuProgressionInfo()) {
+  const _progressionInfo = {...manuProgressionInfo(), ...progressionInfo};
+  const { percentage, totalTaskCnt, unfinishedTaskCnt, completedTaskCnt } = _progressionInfo;
 
   const attributeConfig = {
-    value: percentage,
+    value: percentage || 0,
     max: 100,
     appearance: "none",
   };
@@ -291,21 +306,21 @@ function manuProgressionInfo(progressionInfo = {}) {
 
 # ---Transient Local Archive
 
-- [ ] Use the new algorithm and update progress ➕ 2023-12-22 #_todo/priority-high/to-fix/on-a-codelet/regarding-a-parsing-bug 
-  - the new code in [[~viewfn-for-listed-items-that-contain-specific-targetted-text]] uses a recursive mechanism that records the levels. A [[breath-first-search,vis-Coding,]] that does work as it pops off the stack should be able to check whehter or not a root node is done.
+* [ ] Use the new algorithm and update progress ➕ 2023-12-22 #_todo/42-priority-high--/to-fix/on-a-codelet/regarding-a-parsing-bug
+  * the new code in [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925]] uses a recursive mechanism that records the levels. A [[breath-first-search,vis-Coding,]] that does work as it pops off the stack should be able to check whehter or not a root node is done.
   * ⏺ *history*
-    * 💣 Logic ➕ 2023-07-11 
+    * 💣 Logic ➕ 2023-07-11
       * v1.0.2 has a a bug identifying root subtasks.
       * Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
       * 🤔
         * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
-      * [ ] Create DFS 
+      * [ ] Create DFS
       * [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
 ## LA--archive--old version of MUID-698
 
 * Passing context into the logger to only allow logging in the 2nd pbar
   * 🤔doesn't work, this is shared.
-    * [[archived_~view-for-local-tasks-using-a-progress-bar-MUID-698]]
+    * [[archived--~view-for-local-tasks-using-a-progress-bar-MUID-698]]
 
 # ---Transient Commit Log
 

@@ -7,9 +7,11 @@ cssclasses:
   - cards-cover
   - cards-2-3
   - table-max
+MUID: MUID-113
 ---
 # -
 
+[[~view-for-unused-MUIDs]]
 ```dataview
 task where file.name = this.file.name
 ```
@@ -17,7 +19,7 @@ task where file.name = this.file.name
 
 This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
-Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,ad-finem-ObsidianMD]]. 
+Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,bt.-ObsidianMD-app,]]. 
 
 I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
 ### Mocks
@@ -25,6 +27,8 @@ I've added a little checkbox but any mutations are not permanent, id est, a mark
 ==Testing==
 
 # =
+
+**file_basename**: *`= this.file.name`* *`=this.DOC_VERSION`*
 
 > [!info] List all highlighted material
 > if highlighted material is `^like so` within the highlights then the list item will be checked.
@@ -247,8 +251,13 @@ function createButton(button_title, clickHandler) {
 
 # ---Transient Doc Log
 
-
+* v0.0.3 *2024-05-28*
+  * Add file base name to identify
+  * Add a MUID
+  * Rename file so that i can track it by MUID
 * v0.0.2 Add Refresh button
   * The button fakes adds a delay so that it seems like the update is happening really fast. What it really does is that it wipes the last element and replaces with the updated content. The act of deleting an element causes a refresh cycle.
+
+
 
 

@@ -22,7 +22,7 @@ task where file.name = this.file.name and completed
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
-    * [[interim_reference-note,et-alia]] -> [[stub-note,etc]] -> [[Library-note]] -> [[claim-note,etc]]
+    * [[interim_reference-note,et-alia]] -> [[stub-note,etc]] -> [[,aka-library-specced-note]] -> [[claim-note,etc]]
   * 🔚
     * What happens when the [[interim_reference-note,et-alia]] also requires coding?
     * TLINE:  Use [[question-spec,vis-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
@@ -59,7 +59,7 @@ const DBOpenRequest = window.indexedDB.open(dbName)
 
 ## Differential between Obsidian And Datview IndexedDb Stores
 
-The [[C_library_notes/inbox-list-of-plugins,b.t.-ObsidianMD-app,etc/Dataview-plugin,b.t.-ObsidianMD-app,]] store is a api response unlike obsidian db api
+The [[C_library_notes/inbox-list-of-plugins,bt.-ObsidianMD-app,etc/Dataview-plugin,bt.-ObsidianMD-app,]] store is a api response unlike obsidian db api
 ## Spaghetti Phase
 
 ```dataviewjs
@@ -162,11 +162,11 @@ async function genGetAll(store) {
 }
 ```
 
-Use the indexdb api to use a [[√-Turing-machines-explained-visually-YouTube-https-www-youtube-com-watch-v=-ZS_zFg4w5k&ab_channel=ArtoftheProblem|turing]]-like cursor to move across the metadataCache
+Use the indexdb api to use a [[ß-118-Emphasis-in-Writing-Mythcreants-https-mythcreants-com-blog-podcasts-118-emphasis-in-writing|turing]]-like cursor to move across the metadataCache
 ## Directed Phase
 
 * # Branch*
-* [[experiment_use-dvjs-powered-dataviewcache]]
+* [[≈-how-to-use-dvjs-powered-dataviewcache]]
   * This experiment 
 
 
@@ -178,7 +178,7 @@ Use the indexdb api to use a [[√-Turing-machines-explained-visually-YouTube-ht
   * Procedure
     * [Speeding up IndexedDB reads and writes | Read the Tea Leaves](https://nolanlawson.com/2021/08/22/speeding-up-indexeddb-reads-and-writes/)
   * Batched Cursor Technique
-    * [(#6031) - faster IDB changes() with batched cursor by nolanlawson · Pull Request #6033 · pouchdb/pouchdb · GitHub](https://github.com/pouchdb/pouchdb/pull/6033) #_todo/priority-high/to-study/on-indexdb-querying/regarding-improving-performance
+    * [(#6031) - faster IDB changes() with batched cursor by nolanlawson · Pull Request #6033 · pouchdb/pouchdb · GitHub](https://github.com/pouchdb/pouchdb/pull/6033) #_todo/42-priority-high--/to-study/on-indexdb-querying/regarding-improving-performance
   * Resources
     * [Working with IndexedDB](https://web.dev/indexeddb/)
       * example code

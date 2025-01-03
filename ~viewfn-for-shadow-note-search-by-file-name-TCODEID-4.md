@@ -238,7 +238,7 @@ function extractParams(
 
 # ---Transient Sandbox
 
-* [x] #_todo/priority-high/to-extract/on-a-dataviewjs-codelet/regarding-better-shadow-note-search Extract code below ⤵
+* [x] #_todo/42-priority-high--/to-extract/on-a-dataviewjs-codelet/regarding-better-shadow-note-search Extract code below ⤵
   * Add in code for transclusion params
 
 - [ ] Is there a way to export the function extractParams as dataview module using viewState? #_todo/to-muse/on-obsidianmd-app/regarding-a-codelet/regarding-global-code-sharing

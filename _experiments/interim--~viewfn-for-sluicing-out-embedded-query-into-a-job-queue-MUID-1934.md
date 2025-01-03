@@ -1,27 +1,32 @@
 ---
-TEMPLATE_VERSION: v1.0.0
-MUID: MUID-1941
-CREATION_DATE: 2023-12-26
-tags:
-  - _meta
-UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
+alias:
+CREATION_DATE: 2023-12-23
 DOC_VERSION: v0.0.1
-TEMPLATE_SOURCE: "[[20--default-meta-template]]"
+MUID: MUID-1934
+tags: _wip 
+TEMPLATE_VERSION: v1.0.4_blank-template
+UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
 ---
 
 # -
+
 ## About
 
-This note is derived from [[interim--~viewfn-for-sluicing-out-embedded-query-into-a-job-queue-MUID-1934]]
 
-> [!warning] this is an example of long filenames not workin because there is now to see the seperation between sentences fo the long function names.
+`[[experiment,bt.-Noteshippo-title-level-affix,]]`
 
 
 # =
 
-* ! DOESN"T GRAB THE TEXT INSIDE OF EMBED QUERIES
+**filename:** `=this.file.path`
 
-```dataviewjs
+> [!info]  This codelet searches for an existing **embedded query**and makes a **jobs line** to notify you of any links you may not have written about.
+
+  - :~~See [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] for search term use.~~
+
+
+~~~dataviewjs
+
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object.obsidian;
@@ -44,6 +49,7 @@ function main(cmd) {
       providing_path,
       workspace.getActiveFile()
     )
+    // console.log({providing_path,argMap})
 
     MARKER = argMap.search_term || MARKER;
 
@@ -53,35 +59,42 @@ function main(cmd) {
     const mdc = metadataCache.getFileCache(avf)
     const avfv = workspace.getActiveFileView()
 
-    const queryFileFigsPayload = await genProcessQueriedFileFigsByActiveFileViewV2(avfv, MARKER)
+    const queryFileFigsPayload = await genProcessQueriedFileFigsByActiveFileView(avfv, MARKER)
 
+    
     const {
       unaliasedQueryLinks,
       unaliasedEmbeddedLinks
     } = await genProcessDiffingArtifactFig(mdc,queryFileFigsPayload)
     
-    const unusedLinks = processDiffJobLine({unaliasedQueryLinks, unaliasedEmbeddedLinks}).map((link) => {
+    const unusedLinks = processDiffJobLine({unaliasedQueryLinks, unaliasedEmbeddedLinks}).map((basename) => {
+      const vf = metadataCache.getFirstLinkpathDest(basename,"")
 
-      const parsedLinkFig = obs.parseLinktext(link)
-
-      //const link = getMarkdownLink(vf,"")
-      return getMarkdownLinkFromParsedLinkText(parsedLinkFig)
-      return `[[${link}]]`;
-    })
+      if (!vf) {
+        console.log({vf,basename})
+        return false;
+      }
+      const link = getMarkdownLink(vf,"")
+      // console.log({link}, 'inside of processDiffJobLine mapper')
+      if (!link) return false;
+      
+      return link;
+    }).filter(Boolean)
 
     
     //ui
     renderRefreshAndCopyButton.call(ctx, main,"copy")
-
+    // console.log({unusedLinks})
     if (unusedLinks.length >= 1) {
       
       return renderUI.call(ctx, unusedLinks, cmd)
     }  
-    
+
     const { $el } = await genCreateDiv(
       ctx, { text: "" , cls: "deleteme"}
     );
-    const callout_text = getTextForRender(argMap?.search_term || ""); 
+
+    const callout_text = getTextForRender(argMap?.search_term || "Empty"); 
     const rendered_text = await obs.MarkdownRenderer.render(
       ctx.app,
       callout_text,
@@ -101,8 +114,7 @@ async function genProcessDiffingArtifactFig(mdc, queryFileFigsPayload) {
   if (!config?.data) return manuProcessDiffJobLineFig();
   
   const unaliasedEmbeddedLinks = await genProcessMarkdownLinksByWikiLink(embeddedLinks)
-  console.log({unaliasedEmbeddedLinks, embeddedLinks})
-  const unaliasedQueryLinks = config.data || []
+  const unaliasedQueryLinks = await genProcessMarkdownLinksByVf(config.data);
 
   return  {
     unaliasedEmbeddedLinks,
@@ -126,13 +138,15 @@ function processDiffJobLine(
   const unusedLinks = []
   for (const link of unaliasedQueryLinks) {
     const isUsed = unaliasedEmbeddedLinks.some(
-      (embedLink) => link.indexOf(embedLink) > -1
+      (embedLink) => {
+        console.log({link, embedLink})
+        return link.startsWith(embedLink)
+      }
     )
     if (!isUsed) {
       unusedLinks.push(link)
     }
   }
-  console.log({unusedLinks})
   return unusedLinks;
 }
 
@@ -158,7 +172,6 @@ async function genProcessMarkdownLinksByWikiLink(wikilinks) {
   return unaliasedMarkdownLinks
 }
 
-// unused
 async function genProcessMarkdownLinksByVf(vfs = []) {
   if (!Array.isArray(vfs)) return [];
   const unaliasedMarkdownLinks = []
@@ -172,6 +185,7 @@ async function genProcessMarkdownLinksByVf(vfs = []) {
 
 // utils
 function getMarkdownLink(avf,heading) {
+
   const _embed_text = !heading ? "" : `#${heading}`
   const markdownLink = fileManager
     .generateMarkdownLink(
@@ -183,40 +197,35 @@ function getMarkdownLink(avf,heading) {
   return markdownLink;
 }
 
-
-function getMarkdownLinkFromParsedLinkText(parsedLinkFig,alias ="") {
-  const {path, subpath} = parsedLinkFig
-  const vf = metadataCache.getFirstLinkpathDest(parsedLinkFig.path,"")
-  const markdownLink = fileManager
-    .generateMarkdownLink(
-      vf,
-      path,
-      subpath,
-      alias
-    )
-  return markdownLink;
-}
-
 async function genUnaliasedMarkdownLink(markdownLink) {
     const payload = await genScrapeTextFromWikiLink(
       markdownLink
     )
     if (payload?.err) {
       console.log({err})
+      dv.paragraph("fucking error")
       return "";
     }
     
     const parsedLink = obs.parseLinktext(payload.data);
-
-    return parsedLink.path + parsedLink.subpath
+    
+    if (parsedLink?.path) {
+      return parsedLink.path
+    }
+    throw new Error("Parsed path does not exist ")
 }
 
 // # processors
 async function genProcessQueryFileFigToWikiLinks(fileFig) {
   
   const markdownLink = getMarkdownLink(avf,heading)
-  const unaliasedMarkdownLink = await genUnaliasedMarkdownLink(markdownLink);
-  return unaliasedMarkdownLink
+  try {
+    const unaliasedMarkdownLink = await genUnaliasedMarkdownLink(markdownLink);
+    return unaliasedMarkdownLink
+  } catch(err) {
+    const err_string = JSON.stringify(err);
+    throw new Error(`genUnaliasedMarkdownLink error ${err_string}`)
+  }
 }
 
 function processAllEmbeddedLinks(mdc) {
@@ -228,70 +237,8 @@ function processAllEmbeddedLinks(mdc) {
   return mdcs;
 }
 
-async function genProcessQueriedFileFigsByActiveFileViewV2(activeViewFile, search_term) {
-  return new Promise((rs,rj) => {
-    {var result = { data: [], err: null};
-    
-      try {
-        const findPredicate = (child) => {
-          console.log({child, search_term})
-          return child.query && (child.query.indexOf(search_term) > -1)
-        }
-        const found = activeViewFile?.
-          _children?.at(0)?._children
-            ?.find(findPredicate)
 
-        const data = found?.dom?.getFiles() || []
-
-        // each datum is a file
-        const matches = [];
-        for (const datum of data) {
-        
-          const result = activeViewFile?._children?.at(0)?._children
-            ?.find((child) => child.query)
-            ?.dom?.getResult(datum)
-          
-          if (!result?.result) break;
-          console.log({filecontent: result.content})
-          const isFilename = result.result.hasOwnProperty("filename")
-          const isContent = result.result.hasOwnProperty("content")
-
-          let matchesFig = {filenameMatches: [], contentMatches: []}
-          if (isFilename) {
-            matchesFig.filenameMatches = matchesFig.filenameMatches
-              .concat(
-                result.result.filename
-              )
-          } else if (isContent) {
-            matchesFig.contentMatches = matchesFig.contentMatches
-              .concat(
-                result.result.content
-              )
-          }
-
-          for (const match of matchesFig.contentMatches) {
-            const [start,end] = match;
-            
-            if (!end) new obs.Notice("end idx missing")
-            // const startIdx = findLastIndexFromIndex(start, result.content)
-            console.log({datum})
-            matches.push(
-              datum.basename + result.content.slice(start, end)
-            )
-          }
-        }
-        console.log({matches})
-        result.data = matches || []
-        return rs(result)
-      } catch (err) {
-        result.err = err;
-        return rj(result)
-      }
-    }
-  })
-}
-
-async function genProcessQueriedFileFigsByActiveFileView(avf) {
+async function genProcessQueriedFileFigsByActiveFileView(avf, search_term) {
   // I couldnt find a callback to see when the queue finished populating but when i do i knwo this function will need it.
   return new Promise((rs,rj) => {
     {var result = { data: [], err: null};
@@ -299,7 +246,7 @@ async function genProcessQueriedFileFigsByActiveFileView(avf) {
       try {
         const data = avf?.
           _children?.at(0)?._children
-            ?.find((child) => child.query)
+            ?.find((child) => child.query && child.query.indexOf(search_term) > -1)
             ?.dom?.getFiles()
         result.data = data || []
         return rs(result)
@@ -309,21 +256,6 @@ async function genProcessQueriedFileFigsByActiveFileView(avf) {
       }
     }
   })
-}
-
-function findLastIndexFromIndex(idx, content, target = "\n") {
-  let j = target.length - 1;
-  for (let i = idx; i > 0; i-- ) {
-    if (j < 0) {
-      return i + 2 
-    } 
-    if (content[i] === target[j]) {
-      j--
-    } else {
-      j = target.length - 1;
-    }
-  }
-  return idx;
 }
 // UI
 function getTextForRender(search_term) {
@@ -461,15 +393,4 @@ function extractParams(
     return {};
   }
 }
-```
-
-# ---Transient Bug Log
-
-* ! Bugs
-  * If there is another filename that has the text, it will also grab that.
-  * What I really need is a way to grab these texts, validate it and put it into a uniqueMap.
----
-# ---Transient Commit Log
-
-- v0.0.1 add search for multiple query childs
-- v.0.0.0 raw
+~~~

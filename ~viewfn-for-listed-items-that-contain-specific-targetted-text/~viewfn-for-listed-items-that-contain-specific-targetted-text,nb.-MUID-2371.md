@@ -1,44 +1,33 @@
 ---
-TEMPLATE_VERSION: v1.0.7_note-refactor-template
-MUID: MUID-1922
-CREATION_DATE: 2023-12-22
-tags: _wip 
+CREATION_DATE: 2024-06-07
 DOC_VERSION: v0.0.0
+MUID: MUID-2371
+TEMPLATE_VERSION: v1.0.8
+TEMPLATE_SOURCE: "[[10--UMID-project-note-template]]"
 UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
+aliases: 
+tags:
+  - _wip
 ---
+
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+## Meta
+
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
 
 ```dataview
-task where file.name = this.file.name and !completed
+TASK WHERE file.name = this.file.name AND !completed
 ```
-
 ```dataview
-task where file.name = this.file.name and completed
+TASK WHERE file.name = this.file.name AND completed
 ```
 
 ## About
 
-
-There is a heavy reliance to dv.file 
-
-one day i have to excise this so that I can grab it from the indexedDb. 
-The puprose of this partial is to dynamically list the list items using a tag specified in the [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
-### Reference
-
-> [!info] [[~view-for-referencing-current-jumpid]]
-
-* †
-
+Hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925#LR--instruction--how to use|how to use]] 
+This macro is used in [[macro-for-abacus-seeds]]
 # =
-
-> [!warning] This only lists current tags in the note and doesn't search globally
-
-> [!info] Embed `![viewfn...|?search_term=_cv...]` into your note.
-> ℹ Replace `#cv` with the tag you want to list
-
-*`= this.file.name`*
 
 ```dataviewjs
 const { plugins, workspace, vault, metadataCache, fileManager } =
@@ -67,18 +56,20 @@ function bootstrap() {
     const childrenTextTuples = dvCurrent.file.lists.values.map(({text, children}) => ({children, text}))
 
     const datums = [];
-    const {search_term: tagTarget} = argMap;
+    const {search_term: target} = argMap;
+    if (target === "") {
+      renderText(`* > ${fm.MUID} [!warning] Param search is empty`)
+      return console.error("params are empty")
+    }
+    walk(childrenTextTuples, datums, 0, {target})
 
-    walk(childrenTextTuples, datums, 0, {tagTarget})
+    workspace.onLayoutReady(() => {
     
-    
-    renderText(`* ! Render list items that are tagged with ${tagTarget}`);
-    renderList(datums)
+      renderText(`* ! ${fm.MUID} Render list items that are tagged with ` + target);
+      renderList(datums)
+    })
 }
 
-function withTagTarget(tagTarget, cb) {
-  cb(tagTarget)
-}
 
 function renderText(text) {
   dv.paragraph(text)
@@ -88,29 +79,36 @@ function renderList(datums) {
 }
 // walk an array
 function manuWalkFig() {
- return ({tagTarget: `_cv/`})
+ return ({target: `## ! `})
 } 
 function walk(list, c, level, fig = manuWalkFig()) {
+  if (level > 4) {
+    return;
+  }
   const config = {
     ...(manuWalkFig()),
     ...fig
   }
+  if (config.target === "") return;
   for(let li of list) {
     const d = [];
-    if ((li.text.indexOf(`#${config.tagTarget}`) > -1) || (level > 0)) {
+    if ((li.text.indexOf(`${config.target}`) > -1)) {
       d.push(li.text)
       if (Array.isArray(li.children) && li.children.length) {
         walk(li.children, d, level + 1, config)
       }
-      if (d.length) {
-        c.push(d)
-      }
+
+    }
+    if (level > 0) {
+      d.push(li.text);
+    }
+    if (d.length) {
+      c.push(d)
     }
   }
-  
 }
 
-// # Extraction Code See MUID-1634 for versioning 
+// # ø-Extraction Code See ø-MUID-1634 for versioning 
 // impossible to version when inside another codelet.
 
 function manuParams() {
@@ -170,6 +168,7 @@ function extractParams(
 
   function parseStringToMap(str) {
     { var parsed = {};
+    
       try {
         parsed = vault.adapter
           ?.url
@@ -180,13 +179,34 @@ function extractParams(
           err
         }
       }
-      return parsed?.query || {};
+      const parsedQuery = parsed?.query || {};
+      const search_term = decodeURIComponent(parsed.href.match(/(?<=\=)[^&]+/).at(0) || "");
+      
+      
+      if (parsed.href.includes("#")) {
+        return {
+          ...parsedQuery,
+          search_term
+        }
+      }
+      return parsedQuery
     }
     return {};
   }
 }
 ```
 
----
+# ---Transient Local Resources
 
-# ---Transient
+## LR--instruction--how to use
+
+> [!info] Embed `![viewfn...|?search_term=...]` into your note.
+> ℹ Replace `...` with the list item text you want to target
+
+*`= this.file.name`*
+
+
+# ---Transient Commit Log
+
+
+

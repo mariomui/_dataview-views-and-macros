@@ -69,7 +69,10 @@ v0.0.0
 
 # ---Transient Local Archive
 
+
 ## LA--code--reading time v1.0
+
+- 🤔 without the date i cant tell when i wrote it.
 
 ```js
 ~~~dataviewjs

@@ -3,7 +3,7 @@ CREATION_DATE: 2024-03-29
 DOC_VERSION: v0.0.0
 MUID: MUID-2258
 TEMPLATE_VERSION: v1.0.6
-TEMPLATE_SOURCE: "[[10--blank-template]]"
+TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
 UMID: 
 aliases: 
 tags:

@@ -57,13 +57,14 @@ function main(cmd) {
     const mdc = metadataCache.getFileCache(avf)
 
 
-    const embed_texts = gatherEmbedTexts(
+    const [citations, embed_texts] = gatherEmbedTexts(
       avf, mdc
     );
 
     renderRefreshAndCopyButton
       .call(ctx, main,"copy")
-      
+
+    
     if (embed_texts.length >= 1) {
       renderUI.call(ctx, embed_texts, cmd)
     } else {
@@ -109,17 +110,21 @@ function gatherEmbedTexts(avf = null, mdc = null) {
   const mdcLinks = mdc?.links?.map(({original}) => original) || [];
   const mdcEmbeds = mdc?.embeds?.map(({original}) => original) || [];
   const mdcs = [...mdcLinks, ...mdcEmbeds]
+
   for (let mdcHeading of mdc.headings) {
     const {level,heading} = mdcHeading;
     const markdownLink = getMarkdownLink(avf,heading)
-    const unaliasedMarkdownLink = getUnaliasedMarkdownLink(markdownLink);
-    console.log({MARKER, heading, level, isReadFlag})
+    const unaliasedMarkdownLink = getUnaliasedMarkdownLink(
+      markdownLink
+    );
+    // console.log({MARKER, heading, level, isReadFlag})
+    
     if (heading.startsWith(MARKER) && level === 1) {
       isReadFlag = true;
       continue;
     }
     if (!heading.startsWith(MARKER) && level === 1) {
-     isReadFlag = false;
+      isReadFlag = false;
     }
     if (isReadFlag === false) continue;
     if (isReadFlag && level === 2) {
@@ -139,7 +144,7 @@ function gatherEmbedTexts(avf = null, mdc = null) {
     }
   }
 
-  return embed_texts;
+  return [citations, embed_texts];
 }
 
 function getMarkdownLink(avf,heading) {
@@ -175,6 +180,7 @@ function renderRefreshAndCopyButton(main,cmd) {
     .setButtonText('Refresh and Copy')
     .onClick(handleClick.bind(this))
 }
+
 function renderUI(embed_texts,cmd) {
     const uiMdText = embed_texts.reduce((chain,text) => {
       return chain + "* " + text + "\n"
@@ -184,6 +190,7 @@ function renderUI(embed_texts,cmd) {
         cls: "deleteme"
       }
     );
+    console.log({elInnerText: $el.innerText})
     if (cmd === "copy")  {
       const text = $el.innerText;
       navigator.clipboard.writeText(uiMdText);
@@ -306,3 +313,5 @@ function extractParams(
 - v0.0.3 Fix bug where embedded links (used up) were not included as used up links.
 - v0.0.2 Begin work to remove already linked texts from Sorted Citations
 - v0.0.1 Add button for refreshing
+
+

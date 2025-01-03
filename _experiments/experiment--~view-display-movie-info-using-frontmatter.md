@@ -150,6 +150,7 @@ async function getFolderContentsByVeeFolder(vf) {
 function getActiveVeeFile() {
   return workspace.getActiveFile();
 }
+
 function getMarkdownLinkByFilePath(file_path) {
   if (!file_path) return "";
   return `![](${file_path})`

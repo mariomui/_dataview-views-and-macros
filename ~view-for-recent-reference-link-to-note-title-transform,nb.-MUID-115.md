@@ -1,17 +1,33 @@
 ---
-tag: _meta
-DOC_VERSION: v1.0.3
+tags:
+  - _meta
+DOC_VERSION: v1.0.5
+MUID: MUID-115
+COMMIT_VERSION:
 ---
 
 # -
 
-## About
+
+## 00-Meta
+
+![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+
+```dataview
+task where file.name = this.file.name and !completed
+```
+
+```dataview
+task where file.name = this.file.name and completed
+```
+
+## 10-About
+
+[[~view-for-unused-MUIDs]]
 
 > [!warning] Code breaks if you add new extra lines pre/post to the reference target
 > ⚠ I dont like how shitty this code is. Overengineer the next version with codemirror stuff
 
-- [ ] Turn all sound/podcast affixes to ß ➕ 2023-11-01 #_todo/080-long-term/to-normalize/on-noteshippo/regarding-audio-only-note-titles 
-  - See [[ß-affix,vis-Noteshippo,]]
 This note contains a partial view that displays a converted reference.
 The reference is automatically parsed from the active file, from the last item inside any markdown header named "Reference".
 
@@ -24,7 +40,7 @@ The reference is automatically parsed from the active file, from the last item i
         -  [[ß-207-Adverbs-Why-All-the-Hate-Mythcreants-https-mythcreants-com-blog-podcasts-207-adverbs-why-all-the-hate|[207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)]]
       - ~~When the alias changes in this source note, obsidian does not rename the links whereas the note title propagates the changes.~~
         - 🤔 I dont use aliases anymore, so the example is rendered moot. 
-    - 📁 _Overuse of [[Domain-specific-language,#=|DSL]] such as [[Dataview-plugin,bt.-ObsidianMD-app,#=|DVJS]] should be avoided to avoid [[rigidity-ala-software-design]]__
+    - 📁 _Overuse of [[Domain-specific-language,#=|DSL]] such as [[Dataview-plugin,bt.-ObsidianMD-app,#=|DVJS]] should be avoided to avoid [[rigidity,vis-System-design,etc]]__
 
 _Details_
 This dvjs view converts the last item inside of a header named Reference into a standard obsidian title, removing:
@@ -36,7 +52,7 @@ With such a contract in place, downwind API consumers (mentions,backlinks) can r
 
 ### Reference
 
-![[~view-for-referencing-current-jumpid#=|nlk]]
+> [!info] [[~view-for-referencing-current-jumpid]]
 
 - † ß [207 – Adverbs, Why All the Hate? – Mythcreants](https://mythcreants.com/blog/podcasts/207-adverbs-why-all-the-hate/)
 
@@ -45,7 +61,6 @@ With such a contract in place, downwind API consumers (mentions,backlinks) can r
 ## Normalized Reference
 
 ```dataviewjs
-// PARTIAL_VERSION: v1.0.2
 const {
   plugins, 
   workspace, 
@@ -55,6 +70,8 @@ const {
 
 const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
 
+// toggles
+const MARKER = "Reference"
 
 // data
 const button_title = "♻",
@@ -97,11 +114,11 @@ function doExtractLink() {
     if (!headings) return;
     
     let toggle = false;
-    
+    console.log({headings})
     for (const heading of headings) {
 
         if (
-          heading.heading === "Reference" || 
+          heading.heading.contains(MARKER) || 
           toggle === true
         ) {
             toggle = !toggle;
@@ -166,7 +183,15 @@ Eventually, this folder, containing all my dataview-powered partials, shall be h
 
 testing is auto fixing but not arto fix stuff you dont manually have a dictionary for.
 
-# ---Transient Commit Log
+# ---Transient Doc Log
 
+[[transient-doc-log-endpoint,bt.-Noteshippo-heading-api,]]
+
+- v1.0.5 *2024-07-17*
+  - make it so that it takes the first REFERENCE so that i can do 11-Reference rather htan hardcode it.
+    - in the future consider creating a custom transclusion version of this partial dataview
+- v1.0.4 *2024-06-26*
+  - Add MUID to title and to yaml
 * v1.0.3 Graduate codelet from interim to a Noteshippo mechanism.
   * 🤔 When the linked mentions grow to > 30, that's prolly when the interim tag can be removed.
+

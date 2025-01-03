@@ -14,27 +14,24 @@ WHERE file.name = this.file.name
 AND !completed
 ```
 
+[[differential-between-noteshippo-title-level-flags,experiment-vs-wip]]
 ## About
 
 
 This [[Partial-dataview,vis-Noteshippo,]] is a prototype. The goal is to provide a sample set of todos for dashboard use.
 
-### Log
-* v0.0.2
-* v0.0.1
-  * Set up a basic test environment housed in [[demo-of-transclusion-parameters-and-sampled-todos]] 
-  * There are large probelems with [[inbox-note,vis-ObsidianMD-app,etc]]'s Automatic View Refresh where any vault changes refreshes the view causing the random sampling function to retrigger. This happens everytime a checkbox is marked.
-  * ![[Screen Shot 2023-08-01 at 5.05.17 PM.png]]
-  * Attempts:
-    * global window.fig 
-      * unsuccessful
-### Reference
-![[~view-for-referencing-current-jumpid#=|nlk]]
+- ⤵ The following is an example image of `= this.file.frontmatter.MUID` in use.
+  - ~ ![[experiment--~viewfn-for-providing-sampled-todos-MUID-1378#LR--image--screenshot of partial view in use]]
+
+> [!info] [[~view-for-referencing-current-jumpid|Hover here for jumpid]]
 * † 
 
 # =
 
+> [!info] %%  %% Instructions
+> Use `[[viewfn...sampled-todos|-n #]]`. Where # is the number of sampled todos to draw from.
 
+---
 
 ```dataviewjs
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
@@ -77,9 +74,12 @@ function main(current_filepath, depConfig) {
   const vf = workspace.getActiveFile();
   new obs.Notice(vf.path + "::ACTIVE", 10000);
   const embeds = getEmbedsFromVf(vf)
-  const {name} = vault.adapter.path
-    .parse(current_filepath);
-  if (!embeds) {
+  
+  const parseCurrentFilePath = (current_filepath) => vault.adapter.path
+    ?.parse(current_filepath) || {name: null};
+  const {name} = parseCurrentFilePath(current_filepath)
+  
+  if (!embeds || !name) {
     new obs.Notice('no embeds');
   }
   const embed = extractTargetEmbed(name, embeds);
@@ -96,7 +96,7 @@ function main(current_filepath, depConfig) {
   if (!taskDatums) {
     return new obs.Notice("No task data available.")
   };
-
+  /*
   console.log(window.fig, 'fig')
   if (window?.fig) {
     const param = Number(JSON.parse(window.fig.params));
@@ -106,8 +106,9 @@ function main(current_filepath, depConfig) {
       );
     }
   } 
+  */
   renderTasks(taskDatums);
-  useMemo(window,taskDatums, limit)
+  // useMemo(window,taskDatums, limit)
 }
 
 // utils
@@ -235,3 +236,19 @@ function getEmbedsFromVf(vf) {
 
 
 # ---Transient
+
+
+# ---Transient Local Resources
+
+## LR--image--screenshot of partial view in use
+![[experiment--~viewfn-for-providing-sampled-todos-1714397119398.jpeg]]
+
+# ---Transient Commit Log
+* v0.0.2
+  * Change the notetitle to viewfn to reflect the ability to use transclusion parameters
+* v0.0.1
+  * Set up a basic test environment housed in [[demo-of-transclusion-parameters-and-sampled-todos]] 
+  * There are large probelems with [[inbox-note,vis-ObsidianMD-app,etc]]'s Automatic View Refresh where any vault changes refreshes the view causing the random sampling function to retrigger. This happens everytime a checkbox is marked.
+  * Attempts:
+    * global window.fig 
+      * unsuccessful

@@ -1,15 +1,18 @@
 ---
-CREATION_DATE: 2023-12-22
-DOC_VERSION: v0.0.2
-MUID: MUID-1925
-TEMPLATE_VERSION: v1.0.5_default-template
+CREATION_DATE: 2024-06-21
+DOC_VERSION: v0.0.0
+MUID: MUID-2424
+TEMPLATE_VERSION: v1.0.8
+TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
 UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
-alias: 
+aliases: 
 tags:
   - _wip
 ---
 
 # -
+
+## Meta
 
 ![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
 
@@ -22,17 +25,11 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-
+Hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925#LR--instruction--how to use|how to use]] 
+This is primarily/tentaively used to collect elements in macro for `@`
+[[macro-for-targetting-Subject-seeds]]
 
 # =
-
-
-
-> [!info] Embed `![viewfn...|?search_term=...]` into your note.
-> ℹ Replace `...` with the list item text you want to target
-
-*`= this.file.name`*
-
 
 ```dataviewjs
 const { plugins, workspace, vault, metadataCache, fileManager } =
@@ -63,14 +60,14 @@ function bootstrap() {
     const datums = [];
     const {search_term: target} = argMap;
     if (target === "") {
-      renderText("* > [!warning] Param search is empty")
+      renderText(`* > ${fm.MUID} [!warning] Param search is empty`)
       return console.error("params are empty")
     }
     walk(childrenTextTuples, datums, 0, {target})
 
     workspace.onLayoutReady(() => {
     
-      renderText("* ! Render list items that are tagged with " + target);
+      renderText(`* ! ${fm.MUID} Render list items that are tagged with ` + target);
       renderList(datums)
     })
 }
@@ -201,8 +198,15 @@ function extractParams(
 }
 ```
 
+# ---Transient Local Resources
+
+## LR--instruction--how to use
+
+> [!info] Embed `![viewfn...|?search_term=...]` into your note.
+> ℹ Replace `...` with the list item text you want to target
+
+*`= this.file.name`*
+
 
 # ---Transient Commit Log
 
-* v0.0.1 
-  * Solves the problem of non uri compatitble letters liek # and !. These cannot be fed into the queryString so the solution currently is to create an if statement to manually parse them out. 

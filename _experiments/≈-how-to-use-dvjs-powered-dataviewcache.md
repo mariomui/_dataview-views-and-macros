@@ -19,8 +19,11 @@ task where file.name = this.file.name and completed
 
 ## About
 
-This [[wip_experiment-note]] details the experiment to mess with the dataview cache as controlled by [[indexedDb,vis-Coding,]]
+This [[,aka-experiment-specced-note]] details the experiment to mess with the dataview cache as controlled by [[indexedDb,vis-Coding,]]
 
+[[,aka-experiment-specced-note]]
+
+[[experiment-symbol-≈,bt.-Noteshippo-title-level-affix,]]
 ### Reference
 
 ![[~view-for-referencing-current-jumpid#=|nlk]]

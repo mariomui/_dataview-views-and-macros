@@ -1,18 +1,17 @@
 ---
-alias:
+aliases: 
 CREATION_DATE: 2023-12-23
 DOC_VERSION: v0.0.1
-MUID: MUID-1934
-tags: _wip 
+MUID: MUID-1934A
+tags:
+  - _wip
 TEMPLATE_VERSION: v1.0.4_blank-template
 UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
 ---
 
 # -
 
-## About
-
-
+## 10-About
 
 
 # =
@@ -20,9 +19,12 @@ UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
 **filename:** `=this.file.path`
 
 > [!info]  This codelet searches for an existing **embedded query**and makes a **jobs line** to notify you of any links you may not have written about.
+
   - :~~See [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] for search term use.~~
 
-```dataviewjs
+
+~~~dataviewjs
+
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object.obsidian;
@@ -45,6 +47,7 @@ function main(cmd) {
       providing_path,
       workspace.getActiveFile()
     )
+    console.log({providing_path,argMap})
 
     MARKER = argMap.search_term || MARKER;
 
@@ -198,6 +201,7 @@ async function genUnaliasedMarkdownLink(markdownLink) {
     )
     if (payload?.err) {
       console.log({err})
+      dv.paragraph("fucking error")
       return "";
     }
     
@@ -387,10 +391,9 @@ function extractParams(
     return {};
   }
 }
-```
-
-# ---Transient Local Resources
+~~~
 
 
 
-[[differential-between-affix,experiment-vs-sandbox,vis-Noteshippo]]
+# ---Transient
+
