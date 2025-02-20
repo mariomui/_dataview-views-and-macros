@@ -9,7 +9,7 @@ SHORT_NAME: view-for-reading-time
 
 ## Meta
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -55,6 +55,7 @@ function renderContent(
     isBelowThresh ? '0 min' : minutesRead
   );
 }
+
 ~~~
 
 # ---Transient Sandbox

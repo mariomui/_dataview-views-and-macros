@@ -3,13 +3,12 @@ tags:
   - _meta
 DOC_VERSION: v1.0.5
 MUID: MUID-105
+CREATION_DATE: 2024-06-03
 ---
 # -
 
-[[~view-for-unused-MUIDs]]
-
-## Meta
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+## 10-Meta
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -33,6 +32,7 @@ The code in particular is focused on scraping the alias and then getting the tag
 
 > [!info] Show files with the exact tag level and not any further nested tag
 
+**file_basename**: *`= this.file.name`* doc-`=this.DOC_VERSION` `= this.MUID`/`=this.heading`/`=this.UMID`/
 
 ```dataviewjs
 
@@ -524,7 +524,7 @@ function createDashboard(alias = "#_") {
 * 💣
   * FROM clause input is hard coded
   * Utilizing `this.file.name` to obtain the tag name is not dynamic enough
-    * When the tag page changes, the file name that is associated to the tag does not change. 👀 [[tag-wrangler-plugin-for-obsidianmd]] Only the Aliases does.
+    * When the tag page changes, the file name that is associated to the tag does not change. 👀 [[tag-wrangler-plugin,bt-ObsidianMD-app,]] Only the Aliases does.
 
 ```js
 ~~~dataview

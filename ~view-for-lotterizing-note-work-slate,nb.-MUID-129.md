@@ -1,35 +1,38 @@
 ---
 tags:
   - _meta
-DOC_VERSION: v1.0.1
-ID: TCODEID-1
+DOC_VERSION: v1.0.3
 CODELET_SHORTNAME: garden-note-by-lottery
-UMID:
+UMID: 
+MUID: MUID-129
 ---
 # -
+
+[[~view-for-unused-MUIDs]]
 
 ```dataview
 task where file.name = this.file.name and !completed
 ```
 
-## About
+## 10-About
 
 See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for details on usage.
 
-- [ ]  Convert [[~view-for-lotterizing-note-work-slate-TCODEID-1]] into transcluded code.
-  - Is there a way to instance transcluded code?
+* [ ]  Convert [[~view-for-lotterizing-note-work-slate-TCODEID-1]] into transcluded code. ( possible inputs would be folders I want? I would prolly want to hook into templater for that.)
+  * Is there a way to instance transcluded code? 🔑 Not htat i know of.
+
+- [ ] Remove dependencies to dv if possible. ➕ 2025-02-04 #_todo/80-longterm--/to-code 
+
 
 # =
 
-- [ ] Set the .markdown-reading-view.block-language-dataviewjs to overflow auto or something. its getting ugly ➕ 2023-10-29
 
 ```dataviewjs
-// TCODEID-1
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object.obsidian;
 
-const { workspace, vault, metadataCache } = this.app;
+const { workspace, vault, metadataCache, fileManager } = this.app;
 const sourceVirtualFile = vault.getAbstractFileByPath(
   this.currentFilePath,
 );
@@ -115,15 +118,23 @@ function generateTable(app, folder_names) {
   const headers = Array(els.length)
     .fill(null)
     .map(() => "º");
-  const mdt = dv.markdownTable(headers, [els, _fls[0], _fls[1]]);
+  const [filenames, filesCnts] = _fls;
+  const vfs = filenames.map((filename) => metadataCache.getFirstLinkpathDest(filename));
+  const markdownLinks = vfs.map((vf) => fileManager.generateMarkdownLink(vf, vf.basename)).map(wrapPredicate)
+
+  const mdt = dv.markdownTable(headers, [els, markdownLinks, filesCnts]);
   return dv.paragraph(mdt);
+
+  function wrapPredicate(markdownLink) {
+     return `\<span style\="--link-color\:#A3C1C9 !important"\>${markdownLink}<\span>`
+  }
 }
 
-function prepam(vault, folder_name) {
+function prepam(vault, folder_name, ext = "md") {
   const abf = vault.getAbstractFileByPath(folder_name);
   if (abf?.children) {
     const acf = abf.children.filter(
-      ({ extension }) => extension === "md",
+      ({ extension }) => extension === ext,
     );
     const max = acf.length;
     const _acf = acf.slice().sort();
@@ -150,10 +161,12 @@ function renderLink(link) {
 
 ```
 
-# ---Transient Sandbox
+# ---Transient
 
 
 v1.0.0
+````
+
 ```dataviewjs
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
@@ -287,9 +300,17 @@ function renderLink(link) {
   return link;
 }
 ```
+````
 
 # ---Transient Commit Log
 
+[[transient-commit-log-endpoint,bt.-Noteshippo-heading-api,]]
+
+* v1.0.3 *2025-02-04*
+  * Make the links under the folder clickable.
+  * Remove the TCODE from yaml and from title
+  * use secondary inline color for markdownTable markdownlinks
+    * light teal `#A3C1C9`
 * v1.0.2 Fix bug where button removed the element without repopulating
   * Related topic. using global objects to handle a once object is no bueno.
 

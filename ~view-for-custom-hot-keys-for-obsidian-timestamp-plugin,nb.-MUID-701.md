@@ -8,7 +8,7 @@ TEMPLATE_VERSION: v1.0.1-blank-template
 
 # - 
 
-This partial shows the hot keys for the timestamper plugin
+- & This partial shows the hot keys for the timestamper plugin
 * ⚖
   * Dependencies
     * Requires knowledge of the plugin name 

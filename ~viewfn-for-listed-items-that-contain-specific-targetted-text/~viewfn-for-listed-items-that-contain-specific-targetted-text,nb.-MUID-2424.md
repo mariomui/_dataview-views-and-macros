@@ -14,7 +14,7 @@ tags:
 
 ## Meta
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
 
 ```dataview
 TASK WHERE file.name = this.file.name AND !completed

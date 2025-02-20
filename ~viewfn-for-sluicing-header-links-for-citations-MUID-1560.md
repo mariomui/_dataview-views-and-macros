@@ -28,8 +28,7 @@ There is a copy button. It is used to create a job queueing system for HEADERS u
 
 ```dataviewjs
 const { default: obs } =
-  this.app.plugins.plugins["templater-obsidian"].templater
-    .current_functions_object.obsidian;
+  this.app?.plugins?.plugins?.["templater-obsidian"]?.templater?.current_functions_object.obsidian;
 
 const {metadataCache,vault,workspace,fileManager} = this.app
 const {adapter} = vault;
@@ -40,6 +39,7 @@ const getCFP = () => this.currentFilePath;
 
 workspace.onLayoutReady(main.bind(this))
 function main(cmd) {
+	if (!obs) return;
   (genMain)(this,renderUI.bind(this))
   async function genMain(ctx,renderUI) {
     // --
@@ -118,7 +118,7 @@ function gatherEmbedTexts(avf = null, mdc = null) {
       markdownLink
     );
     // console.log({MARKER, heading, level, isReadFlag})
-    
+
     if (heading.startsWith(MARKER) && level === 1) {
       isReadFlag = true;
       continue;
@@ -135,7 +135,9 @@ function gatherEmbedTexts(avf = null, mdc = null) {
   for (const citation of citations) {
     const unaliasedMarkdownLink = getUnaliasedMarkdownLink(citation);
     const isUsed = mdcs.some((s) => {
-      const ret = s.indexOf(unaliasedMarkdownLink) > -1
+	    const _s = s.toUpperCase()
+	    const _u = unaliasedMarkdownLink.toUpperCase()
+      const ret = _s.indexOf(_u) > -1
       // console.log({ret,s,unaliasedMarkdownLink})
       return ret;
     })
@@ -303,6 +305,8 @@ function extractParams(
 
 # ---Transient Commit Log
 
+* v0.0.7 *2025-01-21*
+	* Fix it so that a lint that upper cases the first letter wont register as a unused item by uppercasing all objects
 * v0.0.6
   * Add MUID to note title 
   * Fix bug where the codelet did not exclude links inside of non markered headers

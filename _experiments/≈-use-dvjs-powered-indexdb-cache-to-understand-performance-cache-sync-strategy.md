@@ -1,14 +1,15 @@
 ---
-TEMPLATE_VERSION: v1.0.6_note-refactor-template
+TEMPLATE_VERSION: "[[wip--experimentnote-template]]"
 MUID: MUID-1406
-CREATION_DATE: 2023-08-05 
-tag: _wip 
-UMID: 
+CREATION_DATE: 2023-08-05
+tags:
+  - _wip
+UMID:
 ---
 
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -18,49 +19,55 @@ task where file.name = this.file.name and !completed
 task where file.name = this.file.name and completed
 ```
 
-## About
+## 10-About
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
-    * [[interim_reference-note,et-alia]] -> [[stub-note,etc]] -> [[,aka-library-specced-note]] -> [[claim-note,etc]]
+    * [[reference-note,etc]] -> [[stub-note,etc]] -> [[,aka-library-specced-note]] -> [[claim-note,etc]]
   * 🔚
-    * What happens when the [[interim_reference-note,et-alia]] also requires coding?
+    * What happens when the [[reference-note,etc]] also requires coding?
     * TLINE:  Use [[question-spec,vis-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
       * [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy-1691247592373.jpeg]]
 
-### Reference
-
-![[~view-for-referencing-current-jumpid#=|nlk]]
+### 11-Reference
 
 * †
 
 # =
 
 
-*`= this.file.name`*
+**base_filepath-v0.0.2**: *`= this.file.path`* doc-`= this.DOC_VERSION` / ids: `= this.MUID`,`= this.UMID` / lcsh: `= this.heading` / updated on: `= dateformat(this.file.mday, "yyyy-LL-dd")` / file-size: `= round(this.file.size/1024,2)` KB
 
-## Prerequisites
+* [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#10-About|10-About]]
+* [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--TOC|TOC]]
+## Value
 
-### How does the data look like?
+[[indexedDb,vis-Coding,]] is used by both [[ObsidianMD-app,]] and [[Dataview-plugin,bt.-ObsidianMD-app,]] to store/cache results to improve fetch performance. Understanding it might allow me to directly access the database without caching objects myself.
 
-#### Databases supplied by Obsidian 
+## Logic
 
-    const {db} = metadataCache;
-    const metadataStore = getReadOnlyIDBStore(
-      db, 'metadata'
-    );
-metadata and file are the store names supplied by [[ObsidianMD-app,]]
+* @ Prerequisites
+  * # How Does The Data Look Like?
+    * ## Databases Supplied By Obsidian
+      * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--codeblock--metadatastore where the metadata is kept|LR--codeblock--metadatastore where the metadata is kept]]
+        * `metadata` and `file` are the store names supplied by [[ObsidianMD-app,]]
+    * ## Databases Supplied By Dataview
+      * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--codeblock--how To To Open The Dataview Indexdb Cache|LR--codeblock--how To To Open The Dataview Indexdb Cache]]
+        * It's a little more complicated. See [[≈-how-to-use-dvjs-powered-dataviewcache]] for an deeper understanding
+- @ Differential Between Obsidian And Datview IndexedDb Stores
+  - The [[C_library_notes/inbox-list-of-plugins,bt.-ObsidianMD-app,etc/Dataview-plugin,bt.-ObsidianMD-app,]] store is a api response unlike obsidian db api
+- ## Directed Code Experiments
+  * # Dataview Plugin Exploration
+    * [[≈-how-to-use-dvjs-powered-dataviewcache]]
+      * This experiment dives into the indexdb cache used by dataview for direct access bypassing dataview apis.
+  * # Dataviewjs Powered Snippet
+    * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--code--practical Example Of Walking Through Indexdb|LR--code--practical Example Of Walking Through Indexdb]]
 
-#### Databases supplied by Dataview
+## Experiment
 
-const APP_ID = this.app.appId
-const dbName = "dataview/cache/" + APP_ID
-const DBOpenRequest = window.indexedDB.open(dbName)
+The following is a sandbox of experiments to understand how the obsidianmd app cache works
 
-## Differential between Obsidian And Datview IndexedDb Stores
-
-The [[C_library_notes/inbox-list-of-plugins,bt.-ObsidianMD-app,etc/Dataview-plugin,bt.-ObsidianMD-app,]] store is a api response unlike obsidian db api
-## Spaghetti Phase
+the structure is a little different than a simple object db, you go through it like it's a field or cursor and it pops out items that might necessarily be what you want. the entire db is serial in nature. I'm not sure its worth it to learn. It's 10x more code.
 
 ```dataviewjs
 const {
@@ -163,11 +170,7 @@ async function genGetAll(store) {
 ```
 
 Use the indexdb api to use a [[ß-118-Emphasis-in-Writing-Mythcreants-https-mythcreants-com-blog-podcasts-118-emphasis-in-writing|turing]]-like cursor to move across the metadataCache
-## Directed Phase
 
-* # Branch*
-* [[≈-how-to-use-dvjs-powered-dataviewcache]]
-  * This experiment 
 
 
 # ---Transient
@@ -183,8 +186,34 @@ Use the indexdb api to use a [[ß-118-Emphasis-in-Writing-Mythcreants-https-myth
     * [Working with IndexedDB](https://web.dev/indexeddb/)
       * example code
 
-# Transient Shareable version
 
+# ---Transient Jobs
+
+![[~viewfn-for-sluicing-header-links-for-citations-MUID-1560#=|?search_term=---Transient Local&t=nlknoui-scroll]]
+
+
+# ---Transient Local Resources
+
+## LR--codeblock--how To To Open The Dataview Indexdb Cache
+
+```js
+const APP_ID = this.app.appId
+const dbName = "dataview/cache/" + APP_ID
+const DBOpenRequest = window.indexedDB.open(dbName)
+```
+
+## LR--codeblock--metadatastore Where The Metadata Is Kept
+
+```js
+  const {db} = metadataCache;
+  const metadataStore = getReadOnlyIDBStore(
+    db, 'metadata'
+  );
+```
+
+## LR--code--practical Example Of Walking Through Indexdb
+
+* ? Does getting the file this way directly from the indexdb more performant? possibly not.
 ```dataviewjs
 const {
   workspace, vault, metadataCache

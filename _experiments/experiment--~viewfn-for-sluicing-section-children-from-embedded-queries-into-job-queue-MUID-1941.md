@@ -12,7 +12,7 @@ TEMPLATE_SOURCE: "[[20--default-meta-template]]"
 # -
 ## About
 
-This note is derived from [[interim--~viewfn-for-sluicing-out-embedded-query-into-a-job-queue-MUID-1934]]
+This note is derived from [[interim--~viewfn-for-sluicing-out-embedded-query-into-a-job-queue,nb.-MUID-1934]]
 
 > [!warning] this is an example of long filenames not workin because there is now to see the seperation between sentences fo the long function names.
 

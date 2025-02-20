@@ -8,7 +8,7 @@ UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
 ---
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed

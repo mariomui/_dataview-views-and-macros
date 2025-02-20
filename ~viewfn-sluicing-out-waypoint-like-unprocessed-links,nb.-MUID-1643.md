@@ -2,8 +2,9 @@
 TEMPLATE_VERSION: v1.0.7_note-refactor-template
 MUID: MUID-1643
 CREATION_DATE: 2023-10-29
-tags: _wip
-DOC_VERSION: v0.0.2
+tags:
+  - _wip
+DOC_VERSION: v0.0.3
 UMID:
 ---
 
@@ -351,6 +352,8 @@ function extractParams(
 
 # ---Transient Commit Log
 
+* v0.0.3 *2025-02-19* 
+	* Normalize title to use nb with the MUID affix
 * v0.0.2 Update ui failure text
 * v0.0.1 bug-fix/on-escape-handler-not-rendering-ui-failure-notification
   * The early escape when betweenSpec could not be found returned null instead of triggering the Error UI handler.

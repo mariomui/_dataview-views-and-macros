@@ -10,20 +10,22 @@ UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
 
 # -
 
-## About
-
+## 10-About
 
 `[[experiment,bt.-Noteshippo-title-level-affix,]]`
 
+## 20-Inlink
+
+> [!info]- Get Macros that Consume v0.0.1 `=this.MUID` 
+`= join( map( filter( this.file.inlinks, (link) => icontains(meta(link).path, "macro") ) , (link) => "• " + link ), "<br>")`
 
 # =
 
-**filename:** `=this.file.path`
+**file_bn--v.0.0.3**: *`= this.file.name`* doc-`=this.DOC_VERSION` `= this.MUID`/`=this.heading`/`=this.UMID`/
 
 > [!info]  This codelet searches for an existing **embedded query**and makes a **jobs line** to notify you of any links you may not have written about.
 
-  - :~~See [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] for search term use.~~
-
+* :~~See [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]] for search term use.~~
 
 ~~~dataviewjs
 
@@ -71,7 +73,7 @@ function main(cmd) {
       const vf = metadataCache.getFirstLinkpathDest(basename,"")
 
       if (!vf) {
-        console.log({vf,basename})
+        // console.log({vf,basename})
         return false;
       }
       const link = getMarkdownLink(vf,"")
@@ -134,12 +136,12 @@ function processDiffJobLine(
 ) {
   const config = Object.assign({}, manuProcessDiffJobLineFig(), fig);
   const { unaliasedQueryLinks, unaliasedEmbeddedLinks} = config
-  console.log({unaliasedQueryLinks, unaliasedEmbeddedLinks})
+  // console.log({unaliasedQueryLinks, unaliasedEmbeddedLinks})
   const unusedLinks = []
   for (const link of unaliasedQueryLinks) {
     const isUsed = unaliasedEmbeddedLinks.some(
       (embedLink) => {
-        console.log({link, embedLink})
+        // console.log({link, embedLink})
         return link.startsWith(embedLink)
       }
     )
@@ -167,7 +169,9 @@ async function genProcessMarkdownLinksByWikiLink(wikilinks) {
   const unaliasedMarkdownLinks = []
   for (const wikilink of wikilinks) {
     const unaliasedMdLink = await genUnaliasedMarkdownLink(wikilink)
-    unaliasedMarkdownLinks.push(unaliasedMdLink)
+    if (unaliasedMdLink) {
+      unaliasedMarkdownLinks.push(unaliasedMdLink)
+    }
   }
   return unaliasedMarkdownLinks
 }
@@ -198,21 +202,30 @@ function getMarkdownLink(avf,heading) {
 }
 
 async function genUnaliasedMarkdownLink(markdownLink) {
+    const fnName = genUnaliasedMarkdownLink?.name
     const payload = await genScrapeTextFromWikiLink(
       markdownLink
     )
     if (payload?.err) {
-      console.log({err})
+      const errPkg = {
+        err: payload.err, 
+        errDesc: fnName + " fucked up"
+      }
       dv.paragraph("fucking error")
+      throw new Error(JSON.stringify(errPkg))
       return "";
     }
     
     const parsedLink = obs.parseLinktext(payload.data);
-    
+    // console.log({payload,parsedLink, markdownLink})
+    if (parsedLink?.path === "" && parsedLink?.subpath?.startsWith("#")) {
+      return "";
+    }
     if (parsedLink?.path) {
+      // if parsed link path doesn't exist suchas in [[#link]]s then there is an error. It should really return itself.
       return parsedLink.path
     }
-    throw new Error("Parsed path does not exist ")
+    throw new Error(`Parsed path does not exist in ${markdownLink}`)
 }
 
 // # processors

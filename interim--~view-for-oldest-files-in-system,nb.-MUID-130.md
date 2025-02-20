@@ -1,19 +1,34 @@
 ---
-tag: _meta 
-ID: TCODEID-3
-SHORT_NAME: view-old-files
+tags:
+  - _meta
+  - _wip
+CODELET_SHORTNAME: view-old-files
+MUID: MUID-130
 ---
 
+
+[[~view-for-unused-MUIDs]]
 # -
 
-- [ ] Can i hook into any data attributes?
+* [ ] Can i hook into any data attributes?
 
-This codelet is the prototype for "transclusion parameters". The ability to source code from an external markddown and provide it dynamic parameters means you can theoretically have dynamic views. 
+This codelet is the prototype for "transclusion parameters". The ability to source code from an external markddown and provide it dynamic parameters means you can theoretically have dynamic views.
 
 * `[[addAToB| -a 1 -b 2]]` for one note would show `3`
 * `[[addAToB| -a 10 -b 20]]` for another note would show `30`
+`	- ![[~view-for-oldest-files-in-system,nb.-TCODEID-3#=| -n 2 nlk]]`
+(in use)
+## 20-Inlink
+
+
+> [!abstract]- %%  %% Automated List of Reference Inlinks (v0.0.4)
+> * ℹ Commit/design logs are located in this [[π-lists-all-inlinks,nb.-MUID-128|experiment note]]. 
+> > `= join( map( sort( map( filter(this.file.inlinks, (link) => meta(link).path != this.file.path), (x) => [ split(meta(x).path, "/")[length(split(meta(x).path, "/")) - 1], x ] ) ), (b) => "• " + choice( length(b[0]) > 28, link( b[1], truncate( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", ""), length( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", "") ) * 0.75 ) ), link(b[1], regexreplace(b[0], "\.md$", "")) ) ), "<br>" )`
+
 
 # =
+
+**base_filepath-v0.0.2**: *`= this.file.path`* doc-`= this.DOC_VERSION` / ids: `= this.MUID`,`= this.UMID` / lcsh: `= this.heading` / updated on: `= dateformat(this.file.mday, "yyyy-LL-dd")` / file-size: `= round(this.file.size/1024,2)` KB
 ```dataviewjs
 
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
@@ -67,6 +82,8 @@ function main(
   const oldestVfs = queryOldestFilesInfo(
     vfs, {historyToKeep: historyToKeepCnt}
   );
+
+
   for (const oldestVf of oldestVfs) {
     const epochTime = getCtime(oldestVf)
     const dateString = convertEpochTimeToDateString(
@@ -131,6 +148,7 @@ return map;
 
 function getEmbedsFromVf(vf) {
   const cache = metadataCache.getFileCache(vf)
+console.log({cache})
   return cache?.embeds;
 }
 

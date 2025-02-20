@@ -1,8 +1,9 @@
 ---
-TEMPLATE_VERSION: v1.0.5_note-refactor-template
+DOC_VERSION: v1.0.5_note-refactor-template
 MUID: MUID-1401
-CREATION_DATE: 2023-08-04 
-tag: _wip 
+CREATION_DATE: 2023-08-04
+tags:
+  - _wip
 UMID: 
 VERSION: v1.0.3-shadow-note-search-TCODEID-4
 ---
@@ -28,7 +29,7 @@ interface TCODEID4 {
 TCODEID4: (queryString: TCODEID4) => void
 ```
 
-![[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4#Usage Guide|olk]]
+![[~viewfn-for-shadow-note-search-by-file-name,nb.-MUID-1401#Usage Guide|olk]]
 
 The code used here might be more suitable for a plugin.
 
@@ -53,7 +54,7 @@ v1.0.1 is somewhere floating hard coded out there in the [[notesphere,cf.-Kanzi,
 
 `= this.file.name`
 
-![[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4#Usage Guide|olk]]
+![[~viewfn-for-shadow-note-search-by-file-name,nb.-MUID-1401#Usage Guide|olk]]
 
 ```dataviewjs
 const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;

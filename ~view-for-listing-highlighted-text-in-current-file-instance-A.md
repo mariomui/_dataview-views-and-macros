@@ -80,7 +80,7 @@ function main() {
       createColumnHeaders(), 
       transposedMatrix
     );
-    await genRenderParagraph(mdt, {
+    await genRenderParagraph.call(this,mdt, {
       attr: {
         style: "width: 100%;"
       }
@@ -90,6 +90,7 @@ function main() {
 
 async function genRenderParagraph(mdt,option = {}) {
     await dv.paragraph(mdt, option)
+    console.log(this.container, "container");
 }
 
 // # helpers
@@ -166,7 +167,7 @@ async function genParse(vf) {
   let match = ""
   const matches = [];
   while ( (match = regex.exec(input) ) !== null) {
-  console.log({match})
+  // console.log({match})
     const start = match.index + match[0].indexOf(match[1]);
     const end = start + match[1].length;
     const ender = input.slice(end, end + 4);

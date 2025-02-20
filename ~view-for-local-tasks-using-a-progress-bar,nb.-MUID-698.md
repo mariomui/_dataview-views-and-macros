@@ -8,7 +8,7 @@ CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|olk]]
+[[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
 * [ ] Make a common js tools i use like this logger thing.
   * The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
@@ -30,7 +30,7 @@ TASK WHERE file.name = this.file.name AND completed
   * 🔑 [[interim--internal-guide-to-using-plateids-to-track-plates,vis-Writing,]] A plate id is way to make sure that plates are recorded an identified using incremental id but it doesn't work well since it doesn't flag like html. It lacks the ability to alert me when a [[plate,vis-Writing,]] hasn't been closed yet. #_todo/70-done--/to-muse/on-writing/regarding-plate-tracking
 * [ ] Move logger into one ring plugin #_todo/52-priority-low--/to-code
 * [ ] Devise a more contained method for logging silent.
-  * 🔑 The code in [[~view-for-oldest-files-in-system-TCODEID-3]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]]
+  * 🔑 The code in [[interim--~view-for-oldest-files-in-system,nb.-MUID-130]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]]
 
   * ~~🔑An example [[,aka-practice-note]]~~ in ~~the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that ➕ 2024-06-05~~
     * What is an example of a [[,aka-practice-note]]?
@@ -46,12 +46,15 @@ This partial view is [[,aka-transclude]]d when one needs to see a progress bar o
     * the count for all tasks as the second number.
   * The tasks will only be for the parent task node.
 
+
+
+
 # =
 
 ~~~dataviewjs
 // instance
 const {workspace, metadataCache, plugins} = this.app;
-const {default: obs} = plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
+const obs = plugins?.plugins?.['templater-obsidian']?.templater?.current_functions_object?.obsidian?.default;
 
 const PARTIAL_VERSION = "v1.0.5";
 // v1.0.5 add more try catches
@@ -66,6 +69,8 @@ const PARTIAL_PARAM_CONFIG = "PARTIAL_PARAM_CONFIG";
 workspace.onLayoutReady(bootstrap.bind(this));
 
 function bootstrap() {
+	if(!obs) return; // on boot up templater obsidian doesn't load the obsidian apis I need fast enough. so early return.
+	
   (function(self,genMain) {
     genMain()
   })(this,genMain.bind(this))
@@ -108,7 +113,7 @@ async function genMain(obs = getObs()) {
   const currentLiDatums = dv.page(page_path)?.file?.lists?.values || [];
 
   const _currentLiDatums = currentLiDatums.filter(({parent, list}) => parent === list)
-  console.log({currentTasks})
+  // console.log({currentTasks})
   if (currentLiDatums.length === 0 || currentTasks.length === 0) {
     return renderProgressionInfo.call(this, manuProgressionInfo());
   }
@@ -270,7 +275,7 @@ function renderProgressionInfo(progressionInfo = manuProgressionInfo()) {
     {
       text: "hi",
       attr: attributeConfig,
-      cls: "mario-progress",
+      cls: "mario-progress", // is mario-progress in my css? if it is please take it out and inline it.
     },
     ($p) => {
       const style = `font-size: smaller`;

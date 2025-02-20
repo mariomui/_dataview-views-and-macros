@@ -45,7 +45,7 @@ The code stays off the primary note but the transcluded preview is available. Th
 
 * [[~view-for-broken-links]]
 * [[~view-for-calculating-reading-time]]
-* [[~view-for-creating-absolute-links-for-citations]]
+* [[ø--~view-for-creating-absolute-links-for-citations]]
 * [[~view-for-custom-hot-keys-for-code-block-from-selection-plugin]]
 * [[~view-for-custom-hot-keys-for-obsidian-timestamp-plugin-MUID-701]]
 * [[~view-for-exact-tag-file-listing]]
@@ -70,12 +70,13 @@ The code stays off the primary note but the transcluded preview is available. Th
 * [[~viewfn-for-pending-notes]]
 * [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
 * [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]
-* [[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643]]
+* [[~viewfn-sluicing-out-waypoint-like-unprocessed-links,nb.-MUID-1643]]
 * [[~view-for-listing-highlighted-text-in-current-file,vis-MUID-113]]
+* [[~view-for-big5-character-radar-chart]]
 
 # ---Transient Jobs
 
-![[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643#=|?search_term=---Transient Local Waypoint&t=nlk]]
+![[~viewfn-sluicing-out-waypoint-like-unprocessed-links,nb.-MUID-1643#=|?search_term=---Transient Local Waypoint&t=nlk]]
 
 # ---Transient Local Waypoint
 
@@ -86,18 +87,16 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~view-for-big5-character-radar-chart]]
 - [[~view-for-broken-links]]
 - [[~view-for-calculating-reading-time]]
-- [[~view-for-creating-absolute-links-for-citations]]
 - [[~view-for-custom-hot-keys-for-code-block-from-selection-plugin]]
-- [[~view-for-custom-hot-keys-for-obsidian-timestamp-plugin-MUID-701]]
+- [[~view-for-custom-hot-keys-for-obsidian-timestamp-plugin,nb.-MUID-701]]
 - [[~view-for-exact-tag-file-listing]]
 - [[~view-for-inactive-note-collection]]
 - [[~view-for-inactive-notes-count]]
 - [[~view-for-list-of-currently-active-obsidianmd-plugins]]
 - [[~view-for-listing-highlighted-text-in-current-file-instance-A]]
 - [[~view-for-listing-highlighted-text-in-current-file,vis-MUID-113]]
-- [[~view-for-local-tasks-using-a-progress-bar-MUID-698]]
-- [[~view-for-lotterizing-note-work-slate-TCODEID-1]]
-- [[~view-for-oldest-files-in-system-TCODEID-3]]
+- [[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698]]
+- [[~view-for-lotterizing-note-work-slate,nb.-MUID-129]]
 - [[~view-for-recent-reference-link-to-note-title-transform,nb.-MUID-115]]
 - [[~view-for-referencing-current-jumpid]]
 - [[~view-for-top-active-notes-using-weighted-score]]
@@ -110,9 +109,10 @@ The code stays off the primary note but the transcluded preview is available. Th
 - [[~viewfn-for-listing-folder-items]]
 - [[~viewfn-for-listing-local-specific-tags]]
 - [[~viewfn-for-pending-notes]]
-- [[~viewfn-for-shadow-note-search-by-file-name-TCODEID-4]]
+- [[~viewfn-for-shadow-note-search-by-file-name,nb.-MUID-1401]]
 - [[~viewfn-for-sluicing-header-links-for-citations-MUID-1560]]
-- [[~viewfn-sluicing-out-waypoint-like-unprocessed-links-MUID-1643]]
+- [[~viewfn-sluicing-out-waypoint-like-unprocessed-links,nb.-MUID-1643]]
+- [[interim--~view-for-oldest-files-in-system,nb.-MUID-130]]
 - [[ø--~button-for-ytranscript]]
 - **projects**
 

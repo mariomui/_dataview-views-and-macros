@@ -1,9 +1,9 @@
 ---
-alias:
+alias: 
 CREATION_DATE: 2023-10-05
 DOC_VERSION: v0.0.0
 MUID: MUID-1552
-tag: _wip 
+tag: _wip
 TEMPLATE_VERSION: v1.0.4_blank-template
 UMID: 
 cssClasses: cards, cards-cover, cards-2-3, table-max
@@ -15,9 +15,11 @@ cssClasses: cards, cards-cover, cards-2-3, table-max
 
 # =
 
-**filename:** `=this.file.path`
+**base_filepath-v0.0.2**: *`= this.file.path`* doc-`= this.DOC_VERSION` / ids: `= this.MUID`,`= this.UMID` / lcsh: `= this.heading` / updated on: `= dateformat(this.file.mday, "yyyy-LL-dd")` / file-size: `= round(this.file.size/1024,2)` KB
 
 ```dataviewjs
+
+const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian
 
 const {workspace, vault, metadataCache, fileManager} = this.app;
 //*2023-07-22*
@@ -27,29 +29,33 @@ workspace.onLayoutReady(bootstrap.bind(this));
 // entry file
 function bootstrap() {
   (genMain)()
+}
+// workhorse
+async function genMain() {
+  const veeFile = getActiveVeeFile();
+  const veeFolder = getClosestVeeFolder(
+    veeFile
+  ); 
 
-  // workhorse
-  async function genMain() {
-    const veeFile = getActiveVeeFile();
-    const veeFolder = getClosestVeeFolder(
-      veeFile
-    ); 
-    const {
-      files, 
-      folders
-    } = await getFolderContentsByVeeFolder(
-      veeFolder
-    );
-    
-    const {data} = await processTableFromFiles(
-      files.slice(0, -1), 
-      veeFolder
-    );
-    if (data) {
-      renderMarkdownTable(...data)
-    }
+  const {
+    files, 
+    folders
+  } = await getFolderContentsByVeeFolder(
+    veeFolder
+  );
+
+  const {data} = await processTableFromFiles(
+    files.slice(0, -1), 
+    veeFolder
+  );
+
+  console.log({files,folders, data})
+
+  if (data) {
+    renderMarkdownTable(...data)
   }
 }
+
 
 async function processTableFromFiles(
   files, 
@@ -64,7 +70,7 @@ async function processTableFromFiles(
       error: null
     }
   } catch(err) {
-    obs.Notice(JSON.stringify(err));
+    // obs.Notice(JSON.stringify(err));
     return {
       data: null,
       err: "genTableTuple error"
@@ -197,4 +203,3 @@ function parseBasename(file_path) {
 ```
 
 # ---Transient Local Resources
-

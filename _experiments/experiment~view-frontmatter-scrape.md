@@ -7,7 +7,7 @@ UMID:
 ---
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar-MUID-698#=|nlk]]
+![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -26,6 +26,8 @@ task where file.name = this.file.name and completed
 * †
 
 # =
+**base_filepath-v0.0.2**: *`= this.file.path`* doc-`= this.DOC_VERSION` / ids: `= this.MUID`,`= this.UMID` / lcsh: `= this.heading` / updated on: `= dateformat(this.file.mday, "yyyy-LL-dd")` / file-size: `= round(this.file.size/1024,2)` KB
+
 
 *`= this.file.name`*
 
