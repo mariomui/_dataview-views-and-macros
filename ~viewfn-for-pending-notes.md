@@ -5,7 +5,7 @@ nextPageIndex: 0
 ---
 # -
 
-This [[Partial-dataview,vis-Noteshippo,]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-affixes,by-endian,vis-Noteshippo-title-level#~viewfn]]). 
+This [[Partial-dataview,vis-Noteshippo,]] uses arguments as denoted by the special keyword inside of the note title( [[list-of-affixes,by-Endian,nb.-title-level,vis-Noteshippo#~viewfn]]). 
 
 - [ ] What is the difference between an [[Z_akas/,aka-experiment-specced-note]] and a [[,aka-workboard-note]]? #_todo/to-muse/_upon-noteshippo/regarding-a-note-spec 
 

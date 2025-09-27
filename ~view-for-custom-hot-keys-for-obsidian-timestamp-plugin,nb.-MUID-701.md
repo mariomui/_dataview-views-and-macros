@@ -13,7 +13,7 @@ TEMPLATE_VERSION: v1.0.1-blank-template
   * Dependencies
     * Requires knowledge of the plugin name 
 
-* ℹ To create similar hotkey views for another plugin, use [[wip--viewfn-to-recall-hot-key]] on a new note.
+* ℹ To create similar hotkey views for another plugin, use [[∑--~viewfn-to-recall-hot-key]] on a new note.
 
 # =
 

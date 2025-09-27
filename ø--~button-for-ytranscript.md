@@ -6,8 +6,8 @@ CODELET_SHORT_NAME: cta-button-to-open-ytranscript-text
 
 # -
 
-[[obsoleter-symbol-ø,bt.-Noteshippo-title-level-flag,]]
-[[experiment-symbol-≈,bt.-Noteshippo-title-level-affix,]]
+[[obsolete-content-symbol,uti.-ø,bt.-Noteshippo-title-level-flag,]]
+[[experiment-symbol,uti.-≈,bt.-Noteshippo-title-level-affix,]]
 ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview

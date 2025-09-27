@@ -1,12 +1,13 @@
 ---
 tags:
   - _meta
-DOC_VERSION: v1.0.5
+DOC_VERSION: v1.0.7
 MUID: MUID-105
 CREATION_DATE: 2024-06-03
 ---
 # -
 
+[[fixme-symbol,uti.-ƒ,bt.-Noteshippo-title-level-flag,]]
 ## 10-Meta
 ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
@@ -72,15 +73,22 @@ therefore createWrapper has to wrap the oldMedhod.
 workspace.onLayoutReady(main.bind(this));
 
 function main() {
-    const {path} = this.app.workspace.getActiveFile();
-    const {frontmatter} = this.app
-      .metadataCache.getCache(path);
-    console.log({frontmatter})
+    // const {path} = this.app.workspace.getActiveFile();
+    const frontmatter = this.app.workspace
+	    .getActiveFileView()
+	    .metadataEditor.serialize()
+
+    // const {frontmatter} = this.app.metadataCache.getCache(path);
+    // console.log({frontmatter})
     const alias = frontmatter?.Aliases?.[0] || frontmatter?.aliases?.[0]
     const $button = dv.el("button", BUTTON_TITLE + ":" + alias);
+    
+    if (!alias) return;
+  
+    clickHandler.call(this, alias, DOC_VERSION)
     function clickHandler(alias, DOC_VERSION) {
-      createDashboard.call(this,alias, DOC_VERSION);
-      new obs.Notice(alias, 7000)
+      createDashboard.call(this, alias, DOC_VERSION);
+      // new obs.Notice(alias, 7000)
     }
     $button.onclick = () => {
       if (!alias) {
@@ -160,11 +168,15 @@ function around(obj, methodName, createOverride) {
 
 
 # ---Transient Commit Log
-
+- v1.0.7 *2025-03-15*
+	- 🐛 Broken. 
+- v1.0.6
+	- fire main function on load
+	- when alias is not set, exit function early so as to not bug the ui
 - v1.0.5
   - Use econtains and etags in the main query so that exact file tag search can be used because e stands for exact matches.
 * v1.04
-  * Archive the dataview-reliant version of [[~view-for-exact-tag-file-listing]]
+  * Archive the dataview-reliant version of [[ƒ--~view-for-exact-tag-file-listing,nb.-v1.0.7,nb.-MUID-105]]
   * Remove umbrella tag and DQL filtering due to changes in ObsidianMD tag structure (they removed the back slashes present in any solo tag)
   * Setup prelim pagination prototype
     * pagination bar
@@ -173,7 +185,7 @@ function around(obj, methodName, createOverride) {
     * Hook into ui loop to grab the row count at runtime.
       * Create an example of monkey around without the ability to hijack prototypes
         * 🔑 [[monkey-around,vis-Coding-toolbox]] for hijacking prototypes requires access to the class constructor which i don't have.
-          * [[new,vis-Web-api,vis-Coding-javascript,]]
+          * [[new,bt.-Javascript-keyword,]]
 # ---Transient Archive
 
 ## v1.0.4 archived@v2024-04-09
@@ -573,7 +585,7 @@ sort file.ctime desc
 > [!info] This is a good way to use regex to only get an exact file tag listing but the EmbeddedClass and the EmbeddedLeafInitializer are not exposed by obsidian
  
 - [ ] What does EmbeddedLeafInitializer do? ➕ 2024-05-11 #_todo/to-muse/upon-obsidianmd-plugin-authoring/regarding-embedded-query-api
-  - ℹ The EmbeddedLeafInitializer class is not exposed by [[ObsidianMD-app,]]
+  - ℹ The EmbeddedLeafInitializer class is not exposed by [[+C10,Obsidianmd-app,]]
 
 ```query
 line: /#_writing-bit(?!\/)/

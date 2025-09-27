@@ -8,7 +8,7 @@ MUID: MUID-129
 ---
 # -
 
-[[~view-for-unused-MUIDs]]
+[[~view-for-unused-MUIDs,nb.-MUID-1196]]
 
 ```dataview
 task where file.name = this.file.name and !completed
@@ -18,7 +18,7 @@ task where file.name = this.file.name and !completed
 
 See [[demo-of-partial-view-for-lotterizing-note-work-slate.gif|demo video]] for details on usage.
 
-* [ ]  Convert [[~view-for-lotterizing-note-work-slate-TCODEID-1]] into transcluded code. ( possible inputs would be folders I want? I would prolly want to hook into templater for that.)
+* [ ]  Convert [[~view-for-lotterizing-note-work-slate,nb.-MUID-129]] into transcluded code. ( possible inputs would be folders I want? I would prolly want to hook into templater for that.)
   * Is there a way to instance transcluded code? 🔑 Not htat i know of.
 
 - [ ] Remove dependencies to dv if possible. ➕ 2025-02-04 #_todo/80-longterm--/to-code 

@@ -1,48 +1,63 @@
 ---
-TEMPLATE_VERSION: "[[wip--experimentnote-template]]"
-MUID: MUID-1406
 CREATION_DATE: 2023-08-05
+MUID: MUID-1406
+PROJECT_PARENT: 
+TEMPLATE_VERSION: "[[∑--experiment-template]]"
 tags:
-  - _wip
-UMID:
+  - _misc/_wip
+heading: Plug-ins (Computer programs)--Research
+uri: https://id.loc.gov/authorities/subjects/sh98001621
+broader:
+  - "[[Utilities (Computer programs)]]"
 ---
 
 # -
 
-![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
+## 00-Meta
 
-```dataview
-task where file.name = this.file.name and !completed
-```
+> [!info]- Progress Bar v0.0.3
+> > ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
+> ```dataview
+> task where file.name = this.file.name and !completed
+> ```
+> > 
+> ```dataview
+> task where file.name = this.file.name and completed
+> ```
 
-```dataview
-task where file.name = this.file.name and completed
-```
 
-## 10-About
+### 10÷About
 
 * 🤔 State a lifecyle process to help myself think.
   * 🔰
     * [[reference-note,etc]] -> [[stub-note,etc]] -> [[,aka-library-specced-note]] -> [[claim-note,etc]]
   * 🔚
     * What happens when the [[reference-note,etc]] also requires coding?
-    * TLINE:  Use [[question-spec,vis-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
+    * TLINE:  Use [[interim--question-spec,vis-Noteshippo-taxonomy,]] instead of workboard-note to hold code and learnings.
       * [[experiment_use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy-1691247592373.jpeg]]
 
-### 11-Reference
+### 11÷Reference
 
 * †
+
+## 20-Inlink
+
+> [!abstract]- %%  %% Automated List of Reference Inlinks (v0.0.5)
+> * ℹ Commit/design logs are located in this [[,aka-MUID-150|experiment note]]. 
+> > `= join( map( sort( map( filter(this.file.inlinks, (link) => meta(link).path != this.file.path), (x) => [ split(meta(x).path, "/")[length(split(meta(x).path, "/")) - 1], x ] ) ), (b) => "• " + choice( length(b[0]) > 28, link( b[1], truncate( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", ""), length( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", "") ) * 0.75 ) ), link(b[1], regexreplace(b[0], "\.md$", "")) ) ), "<br>" )`
+
 
 # =
 
 
 **base_filepath-v0.0.2**: *`= this.file.path`* doc-`= this.DOC_VERSION` / ids: `= this.MUID`,`= this.UMID` / lcsh: `= this.heading` / updated on: `= dateformat(this.file.mday, "yyyy-LL-dd")` / file-size: `= round(this.file.size/1024,2)` KB
 
-* [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#10-About|10-About]]
+* [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#10÷About|10÷About]]
 * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--TOC|TOC]]
+
 ## Value
 
-[[indexedDb,vis-Coding,]] is used by both [[ObsidianMD-app,]] and [[Dataview-plugin,bt.-ObsidianMD-app,]] to store/cache results to improve fetch performance. Understanding it might allow me to directly access the database without caching objects myself.
+- [[indexedDb,vis-Coding,]] is used by both [[+C10,Obsidianmd-app,]] and [[Dataview-plugin,bt.-Obsidianmd-app,]] to store/cache results to improve fetch performance. Understanding it might allow me to directly access the database without caching objects myself.
 
 ## Logic
 
@@ -50,24 +65,24 @@ task where file.name = this.file.name and completed
   * # How Does The Data Look Like?
     * ## Databases Supplied By Obsidian
       * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--codeblock--metadatastore where the metadata is kept|LR--codeblock--metadatastore where the metadata is kept]]
-        * `metadata` and `file` are the store names supplied by [[ObsidianMD-app,]]
+        * `metadata` and `file` are the store names supplied by [[+C10,Obsidianmd-app,]]
     * ## Databases Supplied By Dataview
       * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--codeblock--how To To Open The Dataview Indexdb Cache|LR--codeblock--how To To Open The Dataview Indexdb Cache]]
-        * It's a little more complicated. See [[≈-how-to-use-dvjs-powered-dataviewcache]] for an deeper understanding
+        * It's a little more complicated. See [[≈-how-to-use-dvjs-powered-dataviewcache,uti.-indexDb]] for an deeper understanding
 - @ Differential Between Obsidian And Datview IndexedDb Stores
-  - The [[C_library_notes/inbox-list-of-plugins,bt.-ObsidianMD-app,etc/Dataview-plugin,bt.-ObsidianMD-app,]] store is a api response unlike obsidian db api
+  - The [[Dataview-plugin,bt.-Obsidianmd-app,]] store is a api response unlike obsidian db api
 - ## Directed Code Experiments
   * # Dataview Plugin Exploration
-    * [[≈-how-to-use-dvjs-powered-dataviewcache]]
+    * [[≈-how-to-use-dvjs-powered-dataviewcache,uti.-indexDb]]
       * This experiment dives into the indexdb cache used by dataview for direct access bypassing dataview apis.
   * # Dataviewjs Powered Snippet
     * [[≈-use-dvjs-powered-indexdb-cache-to-understand-performance-cache-sync-strategy#LR--code--practical Example Of Walking Through Indexdb|LR--code--practical Example Of Walking Through Indexdb]]
 
 ## Experiment
 
-The following is a sandbox of experiments to understand how the obsidianmd app cache works
+- The following is a sandbox of experiments to understand how the obsidianmd app cache works
 
-the structure is a little different than a simple object db, you go through it like it's a field or cursor and it pops out items that might necessarily be what you want. the entire db is serial in nature. I'm not sure its worth it to learn. It's 10x more code.
+- the structure is a little different than a simple object db, you go through it like it's a field or cursor and it pops out items that might necessarily be what you want. the entire db is serial in nature. I'm not sure its worth it to learn. It's 10x more code.
 
 ```dataviewjs
 const {
@@ -169,7 +184,7 @@ async function genGetAll(store) {
 }
 ```
 
-Use the indexdb api to use a [[ß-118-Emphasis-in-Writing-Mythcreants-https-mythcreants-com-blog-podcasts-118-emphasis-in-writing|turing]]-like cursor to move across the metadataCache
+- Use the indexdb api to use a [[∑--ß-118-emphasis-in-Writing-Mythcreants-https-mythcreants-com-blog-podcasts-118-emphasis-in-writing|turing]]-like cursor to move across the metadataCache
 
 
 
@@ -189,7 +204,7 @@ Use the indexdb api to use a [[ß-118-Emphasis-in-Writing-Mythcreants-https-myth
 
 # ---Transient Jobs
 
-![[~viewfn-for-sluicing-header-links-for-citations-MUID-1560#=|?search_term=---Transient Local&t=nlknoui-scroll]]
+![[~viewfn-for-sluicing-header-links-for-citations,nb.-MUID-1560#=|?search_term=---Transient Local&t=nlknoui-scroll]]
 
 
 # ---Transient Local Resources
@@ -249,4 +264,4 @@ function getReadOnlyIDBStore(
     .objectStore(store_name);  
   return store;
 }
-```
+``

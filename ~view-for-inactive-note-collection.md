@@ -17,7 +17,7 @@ DOC_VERSION: v0.0.1
   - & 🔑 *O(Limit)* 
     - Rathan loop through each item in the set, create random integer offsets, and use those as the items to calculate the status from.
     - 📈 Easy to implement.
-- [ ] Give the dataview the ability to use  [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
+- [ ] Give the dataview the ability to use  [[custom-transclusion-parameters,bt.-Noteshippo-terminology,]]
 
 # =
 

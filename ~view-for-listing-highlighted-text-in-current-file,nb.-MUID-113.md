@@ -1,23 +1,46 @@
 ---
-tag: _wip 
-DOC_VERSION: v0.0.2
-cssClasses: cards, cards-cover, cards-2-3, table-max
+tags:
+  - _misc/_wip
+DOC_VERSION: v0.0.4
+cssclasses:
+  - cards
+  - cards-cover
+  - cards-2-3
+  - table-max
+MUID: MUID-113
 ---
 # -
 
-```dataview
-task where file.name = this.file.name
-```
-## About
+## 00-Meta
 
-This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
+> [!info]+ Progress Bar
+> > ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
+> ```dataview
+> task where file.name = this.file.name and !completed
+> ```
+> > 
+> ```dataview
+> task where file.name = this.file.name and completed
+> ```
 
-Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,bt.-ObsidianMD-app,]]. 
+### 10-About
 
-I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
+- This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
+- Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,bt.-ObsidianMD-app,]]. 
+
+- I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
+	- ? Is there a low maintenance way of adding interactivity without causing memory issues? 
+
+- ### Mocks
+	- ==Testing==
 
 # =
+
+**file_basename**: *`= this.file.name`* *`=this.DOC_VERSION`*
+
+> [!info] List all highlighted material
+> if highlighted material is `^like so` within the highlights then the list item will be checked.
 
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app
@@ -80,7 +103,7 @@ function main() {
       createColumnHeaders(), 
       transposedMatrix
     );
-    await genRenderParagraph.call(this,mdt, {
+    await genRenderParagraph(mdt, {
       attr: {
         style: "width: 100%;"
       }
@@ -90,7 +113,6 @@ function main() {
 
 async function genRenderParagraph(mdt,option = {}) {
     await dv.paragraph(mdt, option)
-    console.log(this.container, "container");
 }
 
 // # helpers
@@ -106,6 +128,8 @@ async function transpose(ctx, _matrix, postFixes) {
     return String.prototype.charCodeAt.call(letterOrWord,0)
   }
   let i = 0;
+  let checkCnt = 0;
+  
   for (const [rowIdx, row] of Object.entries(matrix)) {
     for (const item of row) {
       const {
@@ -118,6 +142,7 @@ async function transpose(ctx, _matrix, postFixes) {
       const isSuffixed = item.ender === "==!\n"
       const isChecked = item.line.startsWith("^") || isSuffixed
       const checkedAffix = isChecked ? {checked: true} : {};
+		 if (isChecked) checkCnt++;
       const $box = window.createEl(
         'input', 
         {
@@ -141,7 +166,9 @@ async function transpose(ctx, _matrix, postFixes) {
       }
     }
   }
-  console.log({matrix,transposedItems})
+  
+  // console.log({matrix,transposedItems})
+  if ( (checkCnt === transposedItems.length) && (checkCnt !== 0) ) transposedItems.length = 0;
   return transposedItems;
 }
 function createColumnHeaders(
@@ -239,6 +266,13 @@ function createButton(button_title, clickHandler) {
 
 # ---Transient Doc Log
 
-
+* v0.0.3 *2024-05-28*
+  * Add file base name to identify
+  * Add a MUID
+  * Rename file so that i can track it by MUID
 * v0.0.2 Add Refresh button
   * The button fakes adds a delay so that it seems like the update is happening really fast. What it really does is that it wipes the last element and replaces with the updated content. The act of deleting an element causes a refresh cycle.
+
+
+
+

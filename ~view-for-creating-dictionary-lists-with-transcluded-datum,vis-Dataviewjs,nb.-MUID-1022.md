@@ -1,57 +1,53 @@
 ---
-TEMPLATE_VERSION: v1.0.5_default-template
-VERSION: v0.0.5
+CREATION_DATE: "2023-06-06"
 MUID: MUID-1022
-CREATION_DATE: 2023-06-06
-tags:
-  - _wip
-UMID:
-aliases:
+PROJECT_PARENT: 
+TEMPLATE_VERSION: 0.0.0
+VERSION: v0.0.6
+aliases: 
 cssclasses:
   - table-max
   - table-nowrap
+tags:
+  - _misc/_wip
 ---
 
 # -
 
 ## 00-Meta
 
-![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
+> [!info]- Progress Bar v0.0.3
+> > ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
+> ```dataview
+> task where file.name = this.file.name and !completed
+> ```
+> > 
+> ```dataview
+> task where file.name = this.file.name and completed
+> ```
 
-```dataview
-task where file.name = this.file.name and !completed
-```
-
-```dataview
-task where file.name = this.file.name and completed
-```
 
 * [ ] Extract code into a partial dataview so that I can use it as a hoverable wikilink ➕ 2024-12-04 [[~view-to-auto-index-libraries-based-on-first-two-letters]]
 
-## About
+[[partial-view-symbol,uti.-~view,bt.-Noteshippo-title-level-affix,]]
+### 10÷About
 
-This is a prototyping [[,aka-experiment-specced-note]] for developing [[Partial-dataview,vis-Noteshippo,]]s.
+- ~~This is a prototyping [[,aka-experiment-specced-note]] for developing [[Partial-dataview,vis-Noteshippo,]]s.~~
 
-The goal is to take a dictonary note like [[master-list-of-unfamiliar-vocabulary]] and group them by the first two letters of the indexed word
+- The goal is to take a dictonary note like [[master-list-of-unfamiliar-vocabulary]] and group them by the first two letters of the indexed word
 
-* Created a list of embedded link in an array
-  * ![[sandbox-view-for-creating-dictionary-lists-1695192439093.jpeg]]
-  * `![[B_inbox/inbox-note,ad-finem-Fiction-Writing,et-alia/list-of-uncommon-vocabulary,ad-finem-Fiction-writing.md#Chaise]]` would be the typically data entry.
-    * 💁 The goal is to see what bypasses the dataview js and allows Obsidian to process these embeds.
-  * 🤔 The dv code incredibly laggy.
+- This ~~experiment~~ is designed to be hovered over. When the wikilink is placed inside a [[,aka-library-specced-note]], the act of hovering will trigger the group by action. The experiment by itself will exit early since it is not a library note.
+- [ ] Refactor code so that dependencies are lifted. Create factorized functions and figs ➕ 2025-05-08 #_todo/43-priority-low--/to-improve/upon-obsidian-codelet 
 
-
-
-This experiment is designed to be hovered over. When the wikilink is placed inside a [[,aka-library-specced-note]], the act of hovering will trigger the group by action. The experiment by itself will exit early since it is not a library note.
-
-### Reference
+### 11÷Reference
 
 # =
 
-`=this.file.name`
+**file_bn--v0.0.7**: *`= this.file.name`* doc-`=this.DOC_VERSION` `= this.MUID`/`=this.heading`/`=this.PROJECT_PARENT`/
+
 
 ```dataviewjs
-const {default: obs} = this.app.plugins.plugins['templater-obsidian'].templater.current_functions_object.obsidian;
+const {default: obs} = this?.app?.plugins?.plugins?.['templater-obsidian']?.templater?.current_functions_object?.obsidian;
 
 const {workspace, vault, metadataCache, fileManager} = this.app;
 
@@ -66,21 +62,36 @@ const {workspace, vault, metadataCache, fileManager} = this.app;
 // # KNOBS
 const MIN_VOCAB_ENTRY_COUNT = 100;
 const IS_PREVIEW_MODE = false;
-
+const LIBRARY_SPEC_DENOTION_AFFIX = "list-of";
+const STOPMARK_HEADINGLEVEL_TUPLE = ["---Transient", 1]
 // # Utils
 function wikilinkToText(wikilink) {
   const match = wikilink.match(/\[\[(.*?)\]\]/);
   return match ? match[1] : wikilink;
 } // used with file link 
 
+// # BOOTUP
 workspace.onLayoutReady(bootstrap.bind(this))
 
 
 function bootstrap() {
+	if (!obs) {
+		return;
+	} // early escape.
+	const boundedArchGenMain = archGenMain.bind(this);
+	const archGenMainFig = { wikilinkToText };
+	(boundedArchGenMain)(genMain.bind(this), this, archGenMainFig)
+}
 
-  (async function(genMain, ctx, utils) {
+async function archGenMain(genMain, ctx, utils) {
+		//consts.
+    const vf = workspace.getActiveFile()
+    
+	  // # LOGIC
     const wls = await genMain.call(ctx);
     // console.log({wls})
+
+		// # Middlewife
     const matrix = wls.slice(
           0,
           Math.min(MIN_VOCAB_ENTRY_COUNT, wls.length)
@@ -92,13 +103,15 @@ function bootstrap() {
             ])
         );
     // the native api doesnt transclude markdown
-    function previewPredicateUsingFileLink(vi) { // filelink is as fast as just writing the link. It's dv that is slow.
+    function previewPredicateUsingFileLink(vi) { 
+	    // filelink is as fast as just writing the link. Dv is slow
       // const [linktext,alias] = utils.wikilinkToText(vi).split('|'); 
       return dv.span("!" + vi)
     }
     
-    // replaced dv.list so that it doesnt recurse and waste cpu cycles. This is much faster
-      let res = ""
+    // replaced dv.list so that it doesnt recurse and waste cpu cycles. 
+    // ## Faster custom listing function.
+    let res = ""
     for (let i = 0; i < matrix.length; i++) {
       const [h,items] = matrix[i]
       res += `* @ ${h}\n`
@@ -106,9 +119,10 @@ function bootstrap() {
         res += `  * ${item}\n`
       })
     }
-    const vf = workspace.getActiveFile()
-    if (!IS_PREVIEW_MODE) {
 
+
+		// # Rendering
+    if (!IS_PREVIEW_MODE) {
       await genManuEmbed.call(ctx, ctx, res, ctx.container);
     }
     if (IS_PREVIEW_MODE) {
@@ -117,14 +131,8 @@ function bootstrap() {
       // dv.list(matrix) // <-- so slow> beta type
     }
 
-  
-  // setTimeout(() => {  
-  //   dv.list(
-  //   matrix.slice(Math.floor(matrix.length/2) + 1)
-  // )}, 100);
+  }
 
-  })(genMain.bind(this),this, {wikilinkToText})
-}
 async function genManuEmbed(
   ctx,
   markdown,
@@ -151,7 +159,7 @@ async function genMain() {
   const abstractFile = workspace.getActiveFile()
   // const folder_path = vf?.parent?.path
 
-  const isLibraryType = abstractFile && abstractFile.basename.includes("list-of");
+  const isLibraryType = abstractFile && abstractFile.basename.includes(LIBRARY_SPEC_DENOTION_AFFIX);
 
   if (isLibraryType === false) return;
 
@@ -160,22 +168,28 @@ async function genMain() {
   // );
   const cache = metadataCache.getFileCache(abstractFile);
   const {headings} = cache;
+  
   const startIdx = headings.findIndex(findPublicHeadingPred)
   function findPublicHeadingPred({heading, level}) {
      return heading === "=" && level == 1;
   }
+  
   const _endIdx = headings.findIndex(findTransientHeading);
+  function findTransientHeading({heading, level}) {
+	  const [
+		  target_heading, target_level
+		] = STOPMARK_HEADINGLEVEL_TUPLE;
+    return heading.startsWith(target_heading) && level === target_level;
+  }
 
   const endIdx = _endIdx > -1
     ? _endIdx
     : headings.length - 1;
 
-  function findTransientHeading({heading, level}) {
-    return heading === "---Transient" && level == 1;
-  }
   const slicedHeadings = headings.slice(startIdx + 1,endIdx);
 
   const groupedHeadings = groupBy(slicedHeadings)
+  // normalizedHeadings functionality that excludes numbers from headings is disabled until further notice.
   const headers = Object.keys(groupedHeadings);
   const matrix = Object.values(groupedHeadings);
   // console.log({headers, matrix});
@@ -200,7 +214,7 @@ async function genMain() {
 }
 // < /WORKHORSE-DICT>
 
-function groupBy(headings) {
+function groupBy(headings, normalizeHeading = (x) => [x]) {
   const sortedHeadings = headings.sort((a, b) => {
     const aHeading = normalizeHeading(a.heading)?.first()
     const bHeading = normalizeHeading(b.heading)
@@ -300,7 +314,8 @@ function getWikiLinkByVeeFile(
 
 # ---Transient
 
-### 🕯❔ Use Request Animaiton Frame to solve rendering issue
+
+## «--LR÷Use Request Animaiton Frame to solve rendering issue
 
 * 📝 <https://discord.com/channels/686053708261228577/1014259487445622855/1075431577003237406>
 
@@ -333,7 +348,7 @@ class DVTools {
 }
 ```
 
-### v1
+## LA÷v1
 
 * [ ] Generate dynamic transcluded links, made dynamic because the [[transclusion]] parameters are sourced from a distant [[master-list-of-unfamiliar-vocabulary#Extant|extant]] file, e.g. the [[anchor-heading,etc]]s (and thereby the goal would be to induce [[transclusion]] of their content). This codelet will execute within a dataview post processing block. In order to bypass the conflicts that two competing post processors may [[may-vs-might]] have upon each other, one solution is to shove the transformed markdown into a seperate container so that the native [[markdown-postprocessor,vis-ObsidianMD-app,]] can act upon it without interference.
 * 🤔 Two awaits cause the rendering to go haywire.
@@ -413,7 +428,7 @@ async function genMain() {
 }
 // < /WORKHORSE-DICT>
 
-function groupBy(headings) {
+function groupBy(headings, normalizeHeading = (x) => [x]) {
   const sortedHeadings = headings.sort((a, b) => {
     const aHeading = normalizeHeading(a.heading)?.first()
     const bHeading = normalizeHeading(b.heading)
@@ -510,14 +525,31 @@ function getWikiLinkByVeeFile(
 ```
 
 ---
+# ---Transient Local Archive
+
+
+* v0.0.0 *No date.*
+  * Created a list of embedded link in an array
+    * ![[sandbox-view-for-creating-dictionary-lists-1695192439093.jpeg]]
+    * `![[B_inbox/inbox-note,ad-finem-Fiction-Writing,et-alia/list-of-uncommon-vocabulary,ad-finem-Fiction-writing.md#Chaise]]` would be the typically data entry.
+      * 💁 The goal is to see what bypasses the dataview js and allows Obsidian to process these embeds.
+    * 🤔 The dv code incredibly laggy.
 
 # ---Transient Doc Log
 
+- [[transient-doc-log-endpoint,bt.-Noteshippo-heading-api,]]
+- v0.0.7 *2025-05-08* 
+	- Refactored 
+	- Move old note information into archive.
+- v0.0.6
+	- Remove all --transient from dictionary scrape
+	- add muid to title
 * v0.0.5
   * prototype what exactly is faster. there seems to be no good way to transclude using native api. Not without sacrificing speed.
   * There's a lot of experiments here but the preview is too slow for more than 10. The markdown stuff i'm doing doesn't work. You need just in time rendering, adding a child and lifecycles.
 * v0.0.4
   * replaced dv.list with a self markdown formatted text that runs through markdownrenderer so it renders more natively
-    * why is dv.list so performance poor? Probably cuz of the dv.span calls made per line.
+    * ? why is dv.list so performance poor? Probably cuz of the dv.span calls made per line. (did you record you proof? 🔑 No. cuz i dont care enough to do so.)
 * v0.0.3
   * Replaced the textual stuff that i was outputting with dv.list
+

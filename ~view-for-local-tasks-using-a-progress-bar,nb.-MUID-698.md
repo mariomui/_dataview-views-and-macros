@@ -3,14 +3,13 @@ MUID: MUID-698
 DOC_VERSION: v1.0.4
 PARTIAL_PARAM_CONFIG:
   IS_LOGGING_SILENT: true
-CODELET_SHORTNAME: see-progress-of-local-tasks-via-ui-bar
 ---
 
 # -
 
 [[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
 * [ ] Make a common js tools i use like this logger thing.
-  * The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
+	* The PARTIAL_PARAM_CONFIG allows me to control the logger very well.
 ```dataview
 TASK WHERE file.name = this.file.name AND !completed
 ```
@@ -21,30 +20,25 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-* [x]  #_todo/50-backlog--/to-design/on-todos/regarding-the-prioritization-of-frequency ✅ 2023-12-22
-  * Some tasks are low priority but require steady chipping.
-  * Such as switching from MUID to ID.
 * [ ] Document all the Incremental IDs. #_todo/to-process/upon-noteshippo/regarding-todo-naming
-  * 🔑 [[sandbox,bt.-Noteshippo-title-level-flag,]]
-* [x] What is Plateid? ✅ 2024-03-20
-  * 🔑 [[interim--internal-guide-to-using-plateids-to-track-plates,vis-Writing,]] A plate id is way to make sure that plates are recorded an identified using incremental id but it doesn't work well since it doesn't flag like html. It lacks the ability to alert me when a [[plate,vis-Writing,]] hasn't been closed yet. #_todo/70-done--/to-muse/on-writing/regarding-plate-tracking
-* [ ] Move logger into one ring plugin #_todo/52-priority-low--/to-code
+	* 🔑 [[sandbox,uti.-self,bt.-Noteshippo-title-level-flag,]]
+* [ ] Move logger into one ring plugin #_todo/43-priority-low--/to-code
 * [ ] Devise a more contained method for logging silent.
-  * 🔑 The code in [[interim--~view-for-oldest-files-in-system,nb.-MUID-130]] includes a design and codelet showcasing [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]]
+	* 🔑 The code in [[interim--~view-for-oldest-files-in-system,nb.-MUID-130]] includes a design and codelet showcasing [[custom-transclusion-parameters,bt.-Noteshippo-terminology,]]. This allows the author to [[Lower-the-scope-of-entities-makes-coding-more-robust]]
 
-  * ~~🔑An example [[,aka-practice-note]]~~ in ~~the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that ➕ 2024-06-05~~
-    * What is an example of a [[,aka-practice-note]]?
+* ~~🔑An example [[,aka-practice-note]]~~ in ~~the [[how-does-andy-matuschaks-note-taking-system-work?]] has: "Effective system design requires insights drawn from serious contexts of use". This is usually a [[claim-note,etc]] so it may be that ➕ 2024-06-05~~
+	* What is an example of a [[,aka-practice-note]]?
 * [ ] Make the main function a module so the [[arity,vis-Coding,]] is more apparent.
-* ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs]]
+* ℹ I re-used a deleted MUID from [[~view-for-unused-MUIDs,nb.-MUID-1196]]
 * [ ] DEPRECATE PARTIAL_VERSION in current file's dvjs code.
 
 This partial view is [[,aka-transclude]]d when one needs to see a progress bar over all the tasks of the current file.
 
 * Note:
-  * The progress will show,
-    * the count for all completed tasks as the first number.
-    * the count for all tasks as the second number.
-  * The tasks will only be for the parent task node.
+	* The progress will show,
+		* the count for all completed tasks as the first number.
+			* the count for all tasks as the second number.
+		* The tasks will only be for the parent task node.
 
 
 
@@ -312,23 +306,23 @@ function manuProgressionInfo(progressionInfo = {}) {
 # ---Transient Local Archive
 
 * [ ] Use the new algorithm and update progress ➕ 2023-12-22 #_todo/42-priority-high--/to-fix/on-a-codelet/regarding-a-parsing-bug
-  * the new code in [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925]] uses a recursive mechanism that records the levels. A [[breath-first-search,vis-Coding,]] that does work as it pops off the stack should be able to check whehter or not a root node is done.
-  * ⏺ *history*
-    * 💣 Logic ➕ 2023-07-11
-      * v1.0.2 has a a bug identifying root subtasks.
-      * Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
-      * 🤔
-        * I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
-      * [ ] Create DFS
-      * [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
+	* the new code in [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925,cf.-MUID-125]] uses a recursive mechanism that records the levels. A [[breath-first-search,vis-Coding,]] that does work as it pops off the stack should be able to check whehter or not a root node is done.
+		* ⏺ *history*
+			* 💣 Logic ➕ 2023-07-11
+				* v1.0.2 has a a bug identifying root subtasks.
+					* Two tasks can have the same parent id, thereby negating the second task which should qualify as a root sub task.
+						* 🤔
+							* I rather do a BFS/DFS on the trees structure and grab the top root leaf that isn't a task.
+						* [ ] Create DFS
+						* [ ] ignoreme: This second task in ==`= this.file.name`== does not register because it has the same parent id as "Create DFS"
 ## LA--archive--old version of MUID-698
 
 * Passing context into the logger to only allow logging in the 2nd pbar
-  * 🤔doesn't work, this is shared.
-    * [[archived--~view-for-local-tasks-using-a-progress-bar-MUID-698]]
+	* 🤔doesn't work, this is shared.
+		* [[archived--~view-for-local-tasks-using-a-progress-bar-MUID-698]]
 
 # ---Transient Commit Log
 
 * v1.0.3
-  * Introduced new algorithm that only records the root node for the task.
-    * 🐛 Four tasks, only 3 are collected
+	* Introduced new algorithm that only records the root node for the task.
+		* 🐛 Four tasks, only 3 are collected

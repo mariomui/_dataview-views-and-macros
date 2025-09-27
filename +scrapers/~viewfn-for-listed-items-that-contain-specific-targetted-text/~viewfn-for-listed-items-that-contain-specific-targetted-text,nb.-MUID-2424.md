@@ -1,16 +1,18 @@
 ---
-CREATION_DATE: 2023-12-22
-DOC_VERSION: v0.0.5
-MUID: MUID-1925
-TEMPLATE_VERSION: 0.0.0
-UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
+CREATION_DATE: 2024-06-21
+DOC_VERSION: v0.0.0
+MUID: MUID-2424
+TEMPLATE_VERSION: v1.0.8
+TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
+PROJECT_PARENT: "[[π-design-custom-transclusion-parameters-codelets]]"
 aliases: 
 tags:
-  - _wip
-TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
+  - _misc/_wip
 ---
 
 # -
+
+## Meta
 
 ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
 
@@ -23,12 +25,11 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-
+Hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925,cf.-MUID-125#LR--instruction--how to use|how to use]] 
+This is primarily/tentaively used to collect elements in macro for `@`
+[[macro-for-targetting-Subject-seeds]]
 
 # =
-
-
-> [!info] hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925#LR--instruction--how to use|how to use]] 
 
 ```dataviewjs
 const { plugins, workspace, vault, metadataCache, fileManager } =
@@ -53,35 +54,25 @@ function bootstrap() {
     const pvf = vault.getAbstractFileByPath(providing_path);
     const { frontmatter: fm } = metadataCache.getFileCache(pvf);
 
-    const DOC_VERSION = fm?.DOC_VERSION || "";
-    
     const dvCurrent = dv.page(this.app.workspace.getActiveFile()?.path) || dv.current()
     const childrenTextTuples = dvCurrent.file.lists.values.map(({text, children}) => ({children, text}))
 
     const datums = [];
     const {search_term: target} = argMap;
-
-    // escape
     if (target === "") {
-      renderText(`* > ${fm.MUID} [!warning] Param search is empty ${formatDocv(DOC_VERSION)}`)
+      renderText(`* > ${fm.MUID} [!warning] Param search is empty`)
       return console.error("params are empty")
     }
-
-    // search and extract
     walk(childrenTextTuples, datums, 0, {target})
 
-    // ui
     workspace.onLayoutReady(() => {
     
-      renderText(`* ! ${fm.MUID} Render list items that are tagged with ${target} ${formatDocv(DOC_VERSION)}`);
+      renderText(`* ! ${fm.MUID} Render list items that are tagged with ` + target);
       renderList(datums)
     })
 }
 
 
-function formatDocv(doc_version) {
-  return `••• **docv:** ${doc_version}`
-}
 function renderText(text) {
   dv.paragraph(text)
 }
@@ -216,19 +207,6 @@ function extractParams(
 
 *`= this.file.name`*
 
+
 # ---Transient Commit Log
 
-- v0.0.5 *2024-06-21*
-  - Use nb instead of cf because cf means to refer to an expert, and nb is more of a catchall. The addition of MUID in the title is differentiate all the hard copy instances of the same code.
-    - having hard copies of these instances means that this code should be a plugin.
-  - Add doc version ot ui explainer text
-  - Bold docv instead because of possible encapsulation areas when targgeted text contains an openended asterisk
-    - 🔎🐛  search_text= * 
-      - This causes the italicization parser to parse the closes text and not the docv.
-- v0.0.4 *2024-06-06*
-  - Add frontmatter MUID to codelet render
-* v0.0.3 *2024-05-28*
-  * create hoverable instructions
-  * [[transient-commit-log-endpoint,bt.-Noteshippo-heading-api,]]
-* v0.0.1 
-  * Solves the problem of non uri compatitble letters liek # and !. These cannot be fed into the queryString so the solution currently is to create an if statement to manually parse them out. 

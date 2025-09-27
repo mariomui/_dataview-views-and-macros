@@ -1,12 +1,18 @@
 ---
-TEMPLATE_VERSION: v1.0.7_note-refactor-template
-MUID: MUID-1851
 CREATION_DATE: 2023-12-05
-tags: _wip 
-UMID: 
+MUID: MUID-1851
+PROJECT_PARENT: "[[+π,learn-dataview,vis-Coding]]"
+TEMPLATE_VERSION: v1.0.7_note-refactor-template
+tags:
+  - _misc/_wip
+heading: Plug-ins (Computer programs)--Development
+uri: https://id.loc.gov/authorities/subjects/sh98001621
+broader:
+  - "[[Utilities (Computer programs)]]"
 ---
 # -
 
+## 00-Meta
 ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
 
 ```dataview
@@ -17,14 +23,14 @@ task where file.name = this.file.name and !completed
 task where file.name = this.file.name and completed
 ```
 
-## About
+### 10÷About
 
 This [[,aka-experiment-specced-note]] details the experiment to mess with the dataview cache as controlled by [[indexedDb,vis-Coding,]]
 
 [[,aka-experiment-specced-note]]
 
-[[experiment-symbol-≈,bt.-Noteshippo-title-level-affix,]]
-### Reference
+[[experiment-symbol,uti.-≈,bt.-Noteshippo-title-level-affix,]]
+### 11÷Reference
 
 ![[~view-for-referencing-current-jumpid#=|nlk]]
 
@@ -33,9 +39,10 @@ This [[,aka-experiment-specced-note]] details the experiment to mess with the da
 # =
 
 
-*`= this.file.name`*
+**base_filepath-v0.0.6**: `= choice( contains(this.file.folder, this.file.name), link(this.file.path), join(["*",this.file.path,"*"], ""))` doc-`= this.DOC_VERSION` / ids: `= this.MUID`,PP:`= this.PROJECT_PARENT` / lcsh: `= link(this.heading)`
 
-dataview specific
+dataview specific 
+- This code shows how to walk the indexdb cache populated by dataview.
 ```dataviewjs
 const {
   workspace, vault, metadataCache
@@ -148,4 +155,4 @@ async function genGetAll(store) {
 
 ---
 
-# ---Transient
+# ---Transien

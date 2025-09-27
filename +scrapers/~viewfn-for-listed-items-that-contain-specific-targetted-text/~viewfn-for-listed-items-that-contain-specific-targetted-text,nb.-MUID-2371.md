@@ -1,13 +1,13 @@
 ---
-CREATION_DATE: 2024-06-21
+CREATION_DATE: 2024-06-07
 DOC_VERSION: v0.0.0
-MUID: MUID-2424
+MUID: MUID-2371
 TEMPLATE_VERSION: v1.0.8
-TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
-UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
+TEMPLATE_SOURCE: "[[10--project-note-template,nb.-MUID-192]]"
+UMID: "[[π-design-custom-transclusion-parameters-codelets]]"
 aliases: 
 tags:
-  - _wip
+  - _misc/_wip
 ---
 
 # -
@@ -25,10 +25,8 @@ TASK WHERE file.name = this.file.name AND completed
 
 ## About
 
-Hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925#LR--instruction--how to use|how to use]] 
-This is primarily/tentaively used to collect elements in macro for `@`
-[[macro-for-targetting-Subject-seeds]]
-
+Hover for [[~viewfn-for-listed-items-that-contain-specific-targetted-text,nb.-MUID-1925,cf.-MUID-125#LR--instruction--how to use|how to use]] 
+This macro is used in [[macro-for-abacus-seeds]]
 # =
 
 ```dataviewjs
@@ -110,7 +108,7 @@ function walk(list, c, level, fig = manuWalkFig()) {
   }
 }
 
-// # Extraction Code See MUID-1634 for versioning 
+// # ø-Extraction Code See ø-MUID-1634 for versioning 
 // impossible to version when inside another codelet.
 
 function manuParams() {
@@ -209,4 +207,6 @@ function extractParams(
 
 
 # ---Transient Commit Log
+
+
 

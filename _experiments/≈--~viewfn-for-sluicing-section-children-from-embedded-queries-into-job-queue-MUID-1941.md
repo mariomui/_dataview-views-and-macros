@@ -4,7 +4,7 @@ MUID: MUID-1941
 CREATION_DATE: 2023-12-26
 tags:
   - _meta
-UMID: "[[UMID-aace1b9f-40fc-472e-b6b8-596280367ac3]]"
+PROJECT_PARENT: "[[π-create-code-to-scrape-links,nb.-targetting-embedded-queries]]"
 DOC_VERSION: v0.0.1
 TEMPLATE_SOURCE: "[[20--default-meta-template]]"
 ---
@@ -12,9 +12,15 @@ TEMPLATE_SOURCE: "[[20--default-meta-template]]"
 # -
 ## About
 
-This note is derived from [[interim--~viewfn-for-sluicing-out-embedded-query-into-a-job-queue,nb.-MUID-1934]]
+- This note is derived from [[~viewfn-for-sluicing-out-embedded-query-into-a-job-queue,nb.-MUID-1934]]
 
 > [!warning] this is an example of long filenames not workin because there is now to see the seperation between sentences fo the long function names.
+
+## 20-Inlink
+
+> [!abstract]- %%  %% Automated List of Reference Inlinks (v0.0.5)
+> * ℹ Commit/design logs are located in this [[,aka-MUID-150|experiment note]]. 
+> > `= join( map( sort( map( filter(this.file.inlinks, (link) => meta(link).path != this.file.path), (x) => [ split(meta(x).path, "/")[length(split(meta(x).path, "/")) - 1], x ] ) ), (b) => "• " + choice( length(b[0]) > 28, link( b[1], truncate( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", ""), length( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", "") ) * 0.75 ) ), link(b[1], regexreplace(b[0], "\.md$", "")) ) ), "<br>" )`
 
 
 # =

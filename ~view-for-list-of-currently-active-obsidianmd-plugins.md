@@ -2,7 +2,7 @@
 TEMPLATE_VERSION: v1.0.5_note-refactor-template
 MUID: MUID-1113
 CREATION_DATE: 2023-06-14
-tags: _wip
+tags: _misc/_wip
 UMID:
 ---
 

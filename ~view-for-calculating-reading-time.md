@@ -1,6 +1,6 @@
 ---
 VERSION: v0.0.2
-tag: _wip
+tag: _misc/_wip
 ID: 
 SHORT_NAME: view-for-reading-time
 ---

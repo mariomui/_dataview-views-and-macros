@@ -7,7 +7,7 @@ TEMPLATE_SOURCE: "[[10--blank-no-api-template]]"
 UMID: 
 aliases: 
 tags:
-  - _wip
+  - _misc/_wip
 ---
 
 # -

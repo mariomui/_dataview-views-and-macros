@@ -1,30 +1,37 @@
 ---
 tags:
-  - _wip
+  - _misc/_wip
 DOC_VERSION: v0.0.4
 cssclasses:
   - cards
   - cards-cover
   - cards-2-3
   - table-max
-MUID: MUID-113
+MUID: MUID-139
 ---
 # -
 
-[[~view-for-unused-MUIDs]]
-```dataview
-task where file.name = this.file.name
-```
-## About
+[[~view-for-unused-MUIDs,nb.-MUID-1196]]
+## 00-Meta
+
+> [!info]+ Progress Bar
+> > ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
+> ```dataview
+> task where file.name = this.file.name and !completed
+> ```
+> > 
+> ```dataview
+> task where file.name = this.file.name and completed
+> ```
+
+### 10-About
 
 This [[Partial-dataview,vis-Noteshippo,]] scrapes the entire document for highlighted text and displays it with a checkbox.
 
 Its primary goal is to offer a controlled way to create outlines without depending on [[floating-toc-plugin,bt.-ObsidianMD-app,]]. 
 
 I've added a little checkbox but any mutations are not permanent, id est, a marked checkbox does not retain its mark.
-### Mocks
 
-==Testing==
 
 # =
 
@@ -35,6 +42,7 @@ I've added a little checkbox but any mutations are not permanent, id est, a mark
 
 ```dataviewjs
 const {workspace, vault, metadataCache } = this.app
+
 const { default: obs } =
   this.app.plugins.plugins["templater-obsidian"].templater
     .current_functions_object.obsidian;
@@ -93,7 +101,7 @@ function main() {
       createColumnHeaders(), 
       transposedMatrix
     );
-    await genRenderParagraph(mdt, {
+    await genRenderParagraph.call(this,mdt, {
       attr: {
         style: "width: 100%;"
       }
@@ -103,6 +111,7 @@ function main() {
 
 async function genRenderParagraph(mdt,option = {}) {
     await dv.paragraph(mdt, option)
+    console.log(this.container, "container");
 }
 
 // # helpers
@@ -118,6 +127,8 @@ async function transpose(ctx, _matrix, postFixes) {
     return String.prototype.charCodeAt.call(letterOrWord,0)
   }
   let i = 0;
+  let checkCnt = 0;
+  
   for (const [rowIdx, row] of Object.entries(matrix)) {
     for (const item of row) {
       const {
@@ -130,6 +141,7 @@ async function transpose(ctx, _matrix, postFixes) {
       const isSuffixed = item.ender === "==!\n"
       const isChecked = item.line.startsWith("^") || isSuffixed
       const checkedAffix = isChecked ? {checked: true} : {};
+		 if (isChecked) checkCnt++;
       const $box = window.createEl(
         'input', 
         {
@@ -153,7 +165,9 @@ async function transpose(ctx, _matrix, postFixes) {
       }
     }
   }
-  console.log({matrix,transposedItems})
+  
+  // console.log({matrix,transposedItems})
+  if ( (checkCnt === transposedItems.length) && (checkCnt !== 0) ) transposedItems.length = 0;
   return transposedItems;
 }
 function createColumnHeaders(
@@ -179,7 +193,7 @@ async function genParse(vf) {
   let match = ""
   const matches = [];
   while ( (match = regex.exec(input) ) !== null) {
-  console.log({match})
+  // console.log({match})
     const start = match.index + match[0].indexOf(match[1]);
     const end = start + match[1].length;
     const ender = input.slice(end, end + 4);
@@ -251,6 +265,9 @@ function createButton(button_title, clickHandler) {
 
 # ---Transient Doc Log
 
+- v0.0.4 *2025-04-18*
+	- Used [[kaleidoscope,bt.-Macos-app]] to sync with [[~view-for-listing-highlighted-text-in-current-file,nb.-MUID-113]]
+	- Reuse and assign MUID to note from muid pool
 * v0.0.3 *2024-05-28*
   * Add file base name to identify
   * Add a MUID

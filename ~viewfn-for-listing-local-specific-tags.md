@@ -2,34 +2,40 @@
 TEMPLATE_VERSION: v1.0.7_note-refactor-template
 MUID: MUID-1922
 CREATION_DATE: 2023-12-22
-tags: _wip 
+tags: _misc/_wip
 DOC_VERSION: v0.0.0
-UMID: "[[UMID-305a25a5-a286-4d38-8e86-19019c23e63c]]"
+UMID: "[[π-design-custom-transclusion-parameters-codelets]]"
 ---
 # -
+## 00-Meta
 
-![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|nlk]]
+> [!info]+ Progress Bar
+> > ![[~view-for-local-tasks-using-a-progress-bar,nb.-MUID-698#=|olk]]
+> ```dataview
+> task where file.name = this.file.name and !completed
+> ```
+> > 
+> ```dataview
+> task where file.name = this.file.name and completed
+> ```
+### 10÷About
 
-```dataview
-task where file.name = this.file.name and !completed
-```
 
-```dataview
-task where file.name = this.file.name and completed
-```
-
-## About
-
-
-There is a heavy reliance to dv.file 
-
-one day i have to excise this so that I can grab it from the indexedDb. 
-The puprose of this partial is to dynamically list the list items using a tag specified in the [[custom-transclusion-parameters,cf.-Kanzi,vis-ObisidianMD-app,]]
-### Reference
+- There is a heavy reliance to dv.file 
+- [ ] Consider replacing reliance to dv file with indexedDb. ➕ 2025-05-05 #_todo/to-muse 
+- The purpose of this partial is to dynamically list the list items using a tag specified in the [[custom-transclusion-parameters,bt.-Noteshippo-terminology,]]
+### 11÷Reference
 
 > [!info] [[~view-for-referencing-current-jumpid]]
 
 * †
+
+## 20-Inlink
+
+> [!abstract]- %%  %% Automated List of Reference Inlinks (v0.0.5)
+> * ℹ Commit/design logs are located in this [[,aka-MUID-150|experiment note]]. 
+> > `= join( map( sort( map( filter(this.file.inlinks, (link) => meta(link).path != this.file.path), (x) => [ split(meta(x).path, "/")[length(split(meta(x).path, "/")) - 1], x ] ) ), (b) => "• " + choice( length(b[0]) > 28, link( b[1], truncate( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", ""), length( regexreplace(b[0], "(-of|of|the|-the|-for|-that|https-|ee)", "") ) * 0.75 ) ), link(b[1], regexreplace(b[0], "\.md$", "")) ) ), "<br>" )`
+
 
 # =
 
